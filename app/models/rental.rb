@@ -1,6 +1,7 @@
 class Rental < ApplicationRecord
   belongs_to :user
   belongs_to :vehicle
+  has_many :reviews, dependent: :destroy
 
   VALID_STATUSES = %w[pending confirmed completed cancelled refused].freeze
 
