@@ -1,1 +1,117 @@
-<h1>Edit Profile</h1> 
+<!-- CSS for the logo positioning and animation -->
+<style>
+  #smallBeeOnButton {
+    position: absolute;
+    top: -12px;  /* Adjusted for a larger bee, fine-tune as needed */
+    right: -12px; /* Adjusted for a larger bee, fine-tune as needed */
+    height: 35px; /* <<< CHANGED: Now matches the show page's smallBeeLogo size */
+    width: auto;
+    z-index: 10; /* Ensure it's above the button */
+    transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+    pointer-events: none; /* <<< ADDED: So the bee doesn't interfere with button hover */
+  }
+
+  .flying-bee-from-button {
+    transform: translate(150px, -150px) rotate(75deg) scale(1.5); /* Fly up and right */
+    opacity: 0;
+  }
+</style>
+
+<!-- Yellow Header -->
+<div style="background-color: #FFD300; color: #000000; padding: 15px 30px; border-bottom: 3px solid #000000;">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Left: Logo + Brand Name -->
+    <div class="d-flex align-items-center">
+      <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="CARinBee Logo" style="height: 60px; margin-right: 15px;">
+      <span style="font-size: 2rem; font-weight: bold;">CARinBee</span>
+    </div>
+    <!-- Right: Page Title -->
+    <div>
+      <span style="font-size: 2rem; font-weight: bold;">Edit Profile</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="container mt-4 mb-4">
+  <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
+    <h3 class="fw-bold mb-4 pt-2">Editing Your Profile</h3>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Email (cannot be changed here):</label>
+      <p class="form-control-plaintext"><%= @user.email %></p>
+    </div>
+
+    <%= form_with(model: @user, url: user_path(@user), method: :patch, local: true) do |form| %>
+      <% if @user.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h5 class="alert-heading"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h5>
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :first_name, class: "form-label fw-semibold" %>
+          <%= form.text_field :first_name, class: "form-control" %>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <%= form.label :last_name, class: "form-label fw-semibold" %>
+          <%= form.text_field :last_name, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :age, class: "form-label fw-semibold" %>
+          <%= form.number_field :age, class: "form-control" %>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <%= form.label :address, class: "form-label fw-semibold" %>
+          <%= form.text_field :address, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="actions mt-4 d-flex justify-content-between align-items-center">
+        <div style="position: relative;"> <!-- Wrapper for the submit button and its bee logo -->
+          <%= form.submit "Update Profile", class: "btn btn-primary", id: "updateProfileSubmitButton" %>
+          <img id="smallBeeOnButton"
+               src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+               alt="Small Bee Logo">
+        </div>
+        <%= link_to "Cancel", user_path(@user), class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+
+  </div> <!-- End of card -->
+</div> <!-- End of container -->
+
+<!-- JavaScript to trigger the animation -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const updateButton = document.getElementById('updateProfileSubmitButton');
+    const beeLogoOnButton = document.getElementById('smallBeeOnButton');
+
+    if (updateButton && beeLogoOnButton) {
+      // --- MODIFIED PART ---
+      // Apply animation when mouse hovers over the button
+      updateButton.addEventListener('mouseover', function() {
+        beeLogoOnButton.classList.add('flying-bee-from-button');
+      });
+
+      // Optional: If you want the bee to return if the mouse leaves,
+      // you can add a 'mouseout' listener to remove the class.
+      // This would make it animate every time you hover.
+      // updateButton.addEventListener('mouseout', function() {
+      //   beeLogoOnButton.classList.remove('flying-bee-from-button');
+      // });
+      // --- END MODIFIED PART ---
+    }
+  });
+</script>
