@@ -79,6 +79,8 @@ test:
 #
 production:
   <<: *default
-  database: carinbee_production
-  username: carinbee
-  password: <%= ENV["CARINBEE_DATABASE_PASSWORD"] %>
+  # No need to explicitly define database, username, or password here.
+  # Heroku provides the DATABASE_URL environment variable, which Rails/pg
+  # will automatically use.
+  # If you wanted to explicitly reference it, you could use:
+  # url: <%= ENV['DATABASE_URL'] %>
