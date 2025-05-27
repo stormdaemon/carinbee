@@ -1,2 +1,46 @@
-<h1>Welcome to CarInBee</h1>
-<p>Car rental platform</p>
+  <style>
+    body {
+      overflow: hidden;
+    }
+  </style>
+  <header class="header-custom">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-auto">
+          <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="CARinBee Logo" class="brand-logo">
+        </div>
+        <div class="col-auto">
+          <span class="brand-name">CARinBee</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="row align-items-center">
+
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0 intro-text">
+          <p>Rejoignez la Ruche : Des milliers de voitures prêtes à décoller !</p>
+          <p>Sur le dernier logo de gauche, en bas et à droite : Partagez, Roulez, Économisez !</p>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4 mb-md-0 buttons-section">
+          <%= link_to "Rent a car", new_user_session_path, class: "home-btn no-underline" %>
+          <%= link_to "Rent your car", new_user_session_path, class: "home-btn no-underline" %>
+        </div>
+
+        <div class="col-lg-5 col-md-6 phone-section">
+          <div class="phone-mockup">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <video autoplay loop muted playsinline>
+                <source src="https://res.cloudinary.com/dgjsq5fnl/video/upload/v1748342577/Generated_video_1_1_n5ee41.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la balise vidéo.
+              </video>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
