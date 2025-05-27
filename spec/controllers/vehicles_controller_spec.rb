@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe VehiclesController, type: :controller do
+  render_views false
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let(:vehicle) { create(:vehicle, user: user) }

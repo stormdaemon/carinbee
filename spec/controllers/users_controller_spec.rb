@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
+  render_views false
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
 

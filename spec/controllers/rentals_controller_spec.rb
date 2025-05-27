@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RentalsController, type: :controller do
+  render_views false
   let(:user) { create(:user) }
   let(:vehicle_owner) { create(:user) }
   let(:vehicle) { create(:vehicle, user: vehicle_owner) }
