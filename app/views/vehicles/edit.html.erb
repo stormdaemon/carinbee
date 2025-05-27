@@ -1,1 +1,162 @@
-<h1>Edit Vehicle</h1> 
+<style>
+  #smallBeeOnUpdateVehicleButton {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    height: 35px;
+    width: auto;
+    z-index: 10;
+    transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+    pointer-events: none;
+  }
+  .flying-bee-from-update-vehicle-button {
+    transform: translate(150px, -150px) rotate(75deg) scale(1.5);
+    opacity: 0;
+  }
+  .vehicle-image-preview {
+    max-width: 300px;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    margin-top: 10px;
+    border: 1px solid #dee2e6;
+  }
+</style>
+
+<div style="background-color: #FFD300; color: #000000; padding: 15px 30px; border-bottom: 3px solid #000000;">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="CARinBee Logo" style="height: 60px; margin-right: 15px;">
+      <span style="font-size: 2rem; font-weight: bold;">CARinBee</span>
+    </div>
+    <div>
+      <span style="font-size: 2rem; font-weight: bold;">Edit Vehicle</span>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 mb-4">
+  <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
+    <h3 class="fw-bold mb-4 pt-2">Editing: <%= @vehicle.brand %> <%= @vehicle.model %></h3>
+
+    <% if @vehicle.try(:image_url).present? %>
+      <div class="mb-3 text-center">
+        <p class="fw-semibold">Current Image (not editable via this form):</p>
+        <%= image_tag @vehicle.image_url, class: "vehicle-image-preview", alt: "Current image of #{@vehicle.model}" %>
+      </div>
+    <% elsif @vehicle.respond_to?(:image) && @vehicle.image.attached? %>
+      <div class="mb-3 text-center">
+        <p class="fw-semibold">Current Image (not editable via this form):</p>
+        <%= image_tag @vehicle.image, class: "vehicle-image-preview", alt: "Current image of #{@vehicle.model}" %>
+      </div>
+    <% end %>
+
+    <%= form_with(model: @vehicle, url: vehicle_path(@vehicle), method: :patch, local: true) do |form| %>
+      <% if @vehicle.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h5 class="alert-heading"><%= pluralize(@vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h5>
+          <ul>
+            <% @vehicle.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :brand, class: "form-label fw-semibold" %>
+          <%= form.text_field :brand, class: "form-control" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :model, class: "form-label fw-semibold" %>
+          <%= form.text_field :model, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :category, class: "form-label fw-semibold" %>
+          <%= form.select :category, options_for_select(["Monospace", "Confort", "Eco", "Sport", "Utilitaire"], @vehicle.category), {}, class: "form-select" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :daily_price, "Daily Price (€)", class: "form-label fw-semibold" %>
+          <%= form.number_field :daily_price, class: "form-control", step: "0.01" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :number_of_places, class: "form-label fw-semibold" %>
+          <%= form.number_field :number_of_places, class: "form-control" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :fuel_type, class: "form-label fw-semibold" %>
+          <%= form.select :fuel_type, options_for_select(["Diesel", "Essence", "Électrique", "Hybride", "GPL"], @vehicle.fuel_type), {}, class: "form-select" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :kilometers, class: "form-label fw-semibold" %>
+          <%= form.number_field :kilometers, class: "form-control" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :localization, class: "form-label fw-semibold" %>
+          <%= form.text_field :localization, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :description, class: "form-label fw-semibold" %>
+        <%= form.text_area :description, class: "form-control", rows: 4 %>
+      </div>
+
+      <div class="mb-3 form-check">
+        <%= form.check_box :available, class: "form-check-input" %>
+        <%= form.label :available, "Is this vehicle currently available for rent?", class: "form-check-label" %>
+      </div>
+
+      <div class="actions mt-4 d-flex justify-content-between align-items-center">
+        <div style="position: relative;">
+          <%= form.submit "Update Vehicle", class: "btn btn-primary", id: "updateVehicleButton" %>
+          <img id="smallBeeOnUpdateVehicleButton"
+               src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+               alt="Small Bee on Update Vehicle Button">
+        </div>
+        <%= link_to "Cancel", vehicle_path(@vehicle), class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function initializeVehicleEditAnimation() {
+    const updateVehicleBtn = document.getElementById('updateVehicleButton');
+    const beeLogoOnUpdateVehicleBtn = document.getElementById('smallBeeOnUpdateVehicleButton');
+
+    if (updateVehicleBtn && beeLogoOnUpdateVehicleBtn) {
+      beeLogoOnUpdateVehicleBtn.classList.remove('flying-bee-from-update-vehicle-button');
+
+      let isHovering = false;
+      let hasFlown = false;
+
+      updateVehicleBtn.addEventListener('mouseover', function() {
+        if(!isHovering) {
+          isHovering = true;
+          hasFlown = false;
+        }
+        if(!hasFlown) {
+          beeLogoOnUpdateVehicleBtn.classList.add('flying-bee-from-update-vehicle-button');
+          hasFlown = true;
+        }
+      });
+
+      updateVehicleBtn.addEventListener('mouseout', function() {
+        isHovering = false;
+      });
+    }
+  }
+
+  document.addEventListener('turbo:load', initializeVehicleEditAnimation);
+</script>

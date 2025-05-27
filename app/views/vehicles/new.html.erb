@@ -1,1 +1,157 @@
-<h1>New Vehicle</h1> 
+<%# app/views/vehicles/new.html.erb %>
+
+<style>
+  /* Styles pour le logo abeille sur le bouton "Create Vehicle" */
+  #smallBeeOnCreateVehicleButton {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    height: 35px;
+    width: auto;
+    z-index: 10;
+    transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+    pointer-events: none;
+  }
+  .flying-bee-from-create-vehicle-button {
+    transform: translate(150px, -150px) rotate(75deg) scale(1.5);
+    opacity: 0;
+  }
+</style>
+
+<!-- Yellow Header -->
+<div style="background-color: #FFD300; color: #000000; padding: 15px 30px; border-bottom: 3px solid #000000;">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="CARinBee Logo" style="height: 60px; margin-right: 15px;">
+      <span style="font-size: 2rem; font-weight: bold;">CARinBee</span>
+    </div>
+    <div>
+      <span style="font-size: 2rem; font-weight: bold;">Add New Vehicle</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="container mt-4 mb-4">
+  <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
+
+    <h3 class="fw-bold mb-4 pt-2">Register Your Vehicle</h3>
+
+    <%= form_with(model: @vehicle, url: vehicles_path, method: :post, local: true) do |form| %>
+      <% if @vehicle.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h5 class="alert-heading"><%= pluralize(@vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h5>
+          <ul>
+            <% @vehicle.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :brand, class: "form-label fw-semibold" %>
+          <%= form.text_field :brand, class: "form-control", placeholder: "e.g., Mercedes" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :model, class: "form-label fw-semibold" %>
+          <%= form.text_field :model, class: "form-control", placeholder: "e.g., Vito" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :category, class: "form-label fw-semibold" %>
+          <%= form.select :category, options_for_select(["Monospace", "Confort", "Eco", "Sport", "Utilitaire"], @vehicle.category), { prompt: "Select Category" }, class: "form-select" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :daily_price, "Daily Price (€)", class: "form-label fw-semibold" %>
+          <%= form.number_field :daily_price, class: "form-control", step: "0.01", placeholder: "e.g., 90" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :number_of_places, class: "form-label fw-semibold" %>
+          <%= form.number_field :number_of_places, class: "form-control", placeholder: "e.g., 8" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :fuel_type, class: "form-label fw-semibold" %>
+          <%= form.select :fuel_type, options_for_select(["Diesel", "Essence", "Électrique", "Hybride", "GPL"], @vehicle.fuel_type), { prompt: "Select Fuel Type" }, class: "form-select" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :kilometers, class: "form-label fw-semibold" %>
+          <%= form.number_field :kilometers, class: "form-control", placeholder: "e.g., 80000" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :localization, class: "form-label fw-semibold" %>
+          <%= form.text_field :localization, class: "form-control", placeholder: "e.g., Paris" %>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :description, class: "form-label fw-semibold" %>
+        <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Describe your vehicle, its features, and any specific conditions..." %>
+      </div>
+
+      <%# --- CHAMP IMAGE_URL AJOUTÉ ICI --- %>
+      <div class="mb-3">
+        <%= form.label :image_url, "Image URL", class: "form-label fw-semibold" %>
+        <%= form.text_field :image_url, class: "form-control", placeholder: "https://example.com/your-vehicle-image.jpg" %>
+      </div>
+      <%# --- FIN DE L'AJOUT DU CHAMP IMAGE_URL --- %>
+
+      <div class="mb-3 form-check">
+        <%= form.check_box :available, { checked: true, class: "form-check-input" } %>
+        <%= form.label :available, "Make this vehicle available for rent immediately?", class: "form-check-label" %>
+      </div>
+
+
+      <div class="actions mt-4 d-flex justify-content-between align-items-center">
+        <div style="position: relative;">
+          <%= form.submit "Create Vehicle", class: "btn btn-primary", id: "createVehicleButton" %>
+          <img id="smallBeeOnCreateVehicleButton"
+               src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+               alt="Small Bee on Create Vehicle Button">
+        </div>
+        <%= link_to "Cancel", my_vehicles_vehicles_path, class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+
+  </div> <!-- End of card -->
+</div> <!-- End of container -->
+
+<!-- JavaScript pour l'animation du logo sur le bouton (adapté pour Turbo) -->
+<script>
+  function initializeVehicleNewAnimation() {
+    const createVehicleBtn = document.getElementById('createVehicleButton');
+    const beeLogoOnCreateVehicleBtn = document.getElementById('smallBeeOnCreateVehicleButton');
+
+    if (createVehicleBtn && beeLogoOnCreateVehicleBtn) {
+      beeLogoOnCreateVehicleBtn.classList.remove('flying-bee-from-create-vehicle-button'); // Réinitialisation pour Turbo
+
+      let isHovering = false;
+      let hasFlown = false;
+
+      createVehicleBtn.addEventListener('mouseover', function() {
+        if(!isHovering) {
+            isHovering = true;
+            hasFlown = false;
+        }
+        if(!hasFlown) {
+            beeLogoOnCreateVehicleBtn.classList.add('flying-bee-from-create-vehicle-button');
+            hasFlown = true;
+        }
+      });
+      createVehicleBtn.addEventListener('mouseout', function() {
+        isHovering = false;
+      });
+    }
+  }
+
+  document.addEventListener('turbo:load', initializeVehicleNewAnimation);
+</script>

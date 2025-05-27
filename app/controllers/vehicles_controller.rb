@@ -19,7 +19,7 @@ class VehiclesController < ApplicationController
 
   def create
     @vehicle = current_user.vehicles.build(vehicle_params)
-    
+
     if @vehicle.save
       redirect_to @vehicle, notice: 'Vehicle was successfully created.'
     else
@@ -58,7 +58,7 @@ class VehiclesController < ApplicationController
   end
 
   def vehicle_params
-    params.require(:vehicle).permit(:brand, :model, :daily_price, :localization, :number_of_places, 
-                                   :category, :fuel_type, :kilometers, :description, :available)
+    params.require(:vehicle).permit(:brand, :model, :daily_price, :localization, :number_of_places,
+                                   :category, :fuel_type, :kilometers, :description, :available, :image_url)
   end
-end 
+end

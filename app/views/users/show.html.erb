@@ -1,10 +1,12 @@
+<%# app/views/users/show.html.erb %>
+
 <style>
   /* Animation pour le logo abeille sur la carte */
-  #smallBeeLogoOnCard { /* Renommé pour clarté, anciennement smallBeeLogo */
+  #smallBeeLogoOnCard {
     transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
-    pointer-events: none; /* Empêche le logo de bloquer le survol sur les éléments derrière */
+    pointer-events: none;
   }
-  .flying-bee-from-card { /* Renommé pour clarté */
+  .flying-bee-from-card {
     transform: translate(150px, -150px) rotate(75deg) scale(1.5);
     opacity: 0;
   }
@@ -12,16 +14,16 @@
   /* Styles pour le logo abeille sur le bouton "Add Car" */
   #smallBeeOnAddCarButton {
     position: absolute;
-    top: -12px; /* Ajustez selon la taille du logo et du bouton */
-    right: -12px; /* Ajustez selon la taille du logo et du bouton */
-    height: 35px; /* Taille du logo abeille */
+    top: -12px;
+    right: -12px;
+    height: 35px;
     width: auto;
     z-index: 10;
     transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
-    pointer-events: none; /* Empêche le logo de bloquer le survol sur le bouton */
+    pointer-events: none;
   }
   .flying-bee-from-add-car-button {
-    transform: translate(150px, -150px) rotate(75deg) scale(1.5); /* Même animation de vol */
+    transform: translate(150px, -150px) rotate(75deg) scale(1.5);
     opacity: 0;
   }
 </style>
@@ -43,10 +45,8 @@
 <div class="container mt-4 mb-4">
   <div class="card shadow-sm p-4 rounded-3" style="position: relative; background-color: #FFFFFF;">
 
-    <!-- Small Bee Logo (Top Right of White Card) - S'envole au survol du bouton "Edit Profile" -->
     <img id="smallBeeLogoOnCard" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Small Bee Logo on Card" style="position: absolute; top: 20px; right: 20px; height: 35px; width: auto;">
 
-    <!-- User Information and Edit Button -->
     <div class="d-flex justify-content-between align-items-start mb-4 pt-2">
         <div>
             <h3 class="fw-bold mb-2"><%= @user.first_name %> <%= @user.last_name %></h3>
@@ -61,33 +61,12 @@
         <% end %>
     </div>
 
-    <!-- Véhicules disponibles -->
-    <div class="mb-4">
-      <h4 class="fw-bold">Mes véhicules disponibles</h4>
-      <% if @user_vehicles.any? %>
-        <div class="row">
-          <% @user_vehicles.each do |vehicle| %>
-            <div class="col-md-4 mb-3">
-              <div class="card h-100">
-                <%= image_tag vehicle.image_url || "https://via.placeholder.com/300x200?text=No+Image", class: "card-img-top", alt: vehicle.model, style: "height: 200px; object-fit: cover;" %>
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title"><%= vehicle.model %></h5>
-                  <p class="card-text mb-auto"><%= truncate(vehicle.description, length: 80) %></p>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <p class="text-muted">Aucun véhicule actuellement disponible.</p>
-      <% end %>
-    </div>
-
-    <!-- "Add Car" Button - Bas à droite de la carte principale -->
-    <% if current_user == @user %> <%# S'assurer que seul le propriétaire du profil peut ajouter une voiture %>
-      <div class="mt-4 d-flex justify-content-end"> <%# Aligne le bouton à droite %>
-        <div style="position: relative;"> <!-- Wrapper pour le bouton et son logo abeille -->
+    <% if current_user == @user %>
+      <div class="mt-4 d-flex justify-content-end">
+        <div style="position: relative;">
+          <%# --- MODIFICATION ICI --- %>
           <%= link_to "Add Car", new_vehicle_path, class: "btn btn-success", id: "addCarButton" %>
+          <%# --- FIN DE LA MODIFICATION --- %>
           <img id="smallBeeOnAddCarButton"
                src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
                alt="Small Bee on Add Car Button">
@@ -101,12 +80,11 @@
 <!-- JavaScript to trigger animations (adapté pour Turbo) -->
 <script>
   function initializeUserProfileAnimations() {
-    // Animation pour le logo sur la carte (lié au bouton "Edit Profile")
     const editButton = document.getElementById('editProfileButton');
-    const beeLogoOnCard = document.getElementById('smallBeeLogoOnCard'); // ID mis à jour
+    const beeLogoOnCard = document.getElementById('smallBeeLogoOnCard');
 
     if (editButton && beeLogoOnCard) {
-      beeLogoOnCard.classList.remove('flying-bee-from-card'); // Réinitialisation pour Turbo
+      beeLogoOnCard.classList.remove('flying-bee-from-card');
       let isHoveringEdit = false;
       let hasFlownEdit = false;
 
@@ -122,16 +100,14 @@
       });
       editButton.addEventListener('mouseout', function() {
           isHoveringEdit = false;
-          // Optionnel: beeLogoOnCard.classList.remove('flying-bee-from-card');
       });
     }
 
-    // Animation pour le logo sur le bouton "Add Car"
     const addCarButton = document.getElementById('addCarButton');
     const beeLogoOnAddCarBtn = document.getElementById('smallBeeOnAddCarButton');
 
     if (addCarButton && beeLogoOnAddCarBtn) {
-      beeLogoOnAddCarBtn.classList.remove('flying-bee-from-add-car-button'); // Réinitialisation pour Turbo
+      beeLogoOnAddCarBtn.classList.remove('flying-bee-from-add-car-button');
       let isHoveringAddCar = false;
       let hasFlownAddCar = false;
 
@@ -147,11 +123,9 @@
       });
       addCarButton.addEventListener('mouseout', function() {
           isHoveringAddCar = false;
-          // Optionnel: beeLogoOnAddCarBtn.classList.remove('flying-bee-from-add-car-button');
       });
     }
   }
 
-  // Écouter turbo:load pour initialiser les animations
   document.addEventListener('turbo:load', initializeUserProfileAnimations);
 </script>
