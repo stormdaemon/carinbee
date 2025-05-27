@@ -3,3 +3,4 @@ class AddColumnToVehicle < ActiveRecord::Migration[7.1]
     add_column :vehicles, :image_url, :string
   end
 end
+

@@ -1,6 +1,47 @@
-<h1>Vehicles</h1>
-<% @vehicles.each do |vehicle| %>
-  <div>
-    <%= vehicle.brand %> <%= vehicle.model %>
+<%# HEADER / BANNER %>
+
+<div class="d-flex justify-content-between small-banner p-2 mb-4">
+  <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="" width="150" height="150">
+  <h2 class="align-self-center pt-100">carINbee</h2>
+  <p class="align-self-center ">Login</p>
+</div>
+
+<div class="container">
+
+  <div class="search-bar mb-4">
+      <%# SEARCH BAR %>
+      <div class="col-12 d-flex justify-content-between">
+        <div class="grey-border-btn"><i class="fa-solid fa-location-dot"></i> Location</div>
+        <div class="grey-border-btn"><i class="fa-solid fa-car-side"></i> Category</div>
+        <div class="grey-border-btn"><i class="fa-solid fa-calendar-week"></i> Start Date</div>
+        <div class="grey-border-btn"><i class="fa-solid fa-calendar-week"></i> End Date</div>
+        <div class="yellow-btn"><i class="fa-solid fa-magnifying-glass"></i> Search</div>
+      </div>
   </div>
-<% end %> 
+
+
+
+    <%# VEHICLES  %>
+<div class="row justify-content-center">
+    <% @vehicles.each do |vehicle| %>
+
+      <div class="card" style="width: 18rem;">
+      <div class="img-zone">
+        <img src="<%= vehicle.image_url %>" class="card-img-top" alt="...">
+        </div>
+        <div class="card-body row">
+            <h5 class="card-title">Car title</h5>
+            <p class="card-text">Car Description.</p>
+            <p class="yellow-btn">See More</p>
+        </div>
+
+
+        </div>
+
+    <% end %>
+
+  </div>
+
+
+
+</div>
