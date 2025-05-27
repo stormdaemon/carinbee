@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #FFCC01; padding: 0rem 3rem;">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Logo" height="80">
+      <span style="margin-left: 5px; font-size: 1.5rem; font-weight: bold; color: black;">carINbee</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+            <%= link_to new_user_session_path do %>
+            <span class="text-dark">Login</span>
+            <i class="fas fa-user" style="color: black;"></i>
+            <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
