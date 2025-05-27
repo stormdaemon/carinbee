@@ -1,1 +1,145 @@
-<h1><%= @vehicle.brand %> <%= @vehicle.model %></h1> 
+<%# app/views/vehicles/show.html.erb %>
+
+<%# --------- NAVBAR --------- %>
+<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
+  <div class="container">
+    <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="logo" height="80px" style="margin-right: 10px;">
+    <%= link_to root_path, class: "navbar-brand fw-bold" do %>
+      carINbee
+    <% end %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavShowVehicle" aria-controls="navbarNavShowVehicle" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavShowVehicle">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "Mes véhicules", my_vehicles_vehicles_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Mes locations", rentals_path, class: "nav-link" %>
+          </li>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%# Vous pouvez ajouter une icône ou un avatar ici %>
+              <i class="bi bi-person-circle me-1"></i> <%# Nécessite Bootstrap Icons %>
+              <%= current_user.first_name.present? ? current_user.first_name : current_user.email %>
+            </a>
+              <li><%= link_to "Mon Profil", user_path(current_user), class: "dropdown-item" %></li>
+              <%= button_to "Déconnexion", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "S'inscrire", new_user_registration_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Connexion", new_user_session_path, class: "btn btn-outline-dark ms-2" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+<%# --------- FIN NAVBAR --------- %>
+
+<div class="container my-5">
+  <div class="row">
+    <%# --------- COLONNE GAUCHE : INFOS VÉHICULE --------- %>
+    <div class="col-lg-8">
+      <%# Titre et Kilométrage %>
+      <h1 class="mb-1 display-5 fw-bold"><%= @vehicle.brand %> <%= @vehicle.model %></h1>
+      <p class="text-muted lead mb-4"><%= number_with_delimiter(@vehicle.kilometers, delimiter: ' ') %> km</p>
+
+      <%# Image du véhicule - Utilisation du champ image_url du schéma %>
+      <div class="mb-4 vehicle-image-container shadow-sm rounded" style="max-height: 550px; overflow: hidden;">
+        <% if @vehicle.image_url.present? %>
+          <%= image_tag @vehicle.image_url, class: "img-fluid w-100", style: "object-fit: cover; max-height: 550px;", alt: "#{@vehicle.brand} #{@vehicle.model}", onerror: "this.src='https://placehold.co/800x500/E9ECEF/495057?text=#{CGI.escape(@vehicle.brand)}+#{CGI.escape(@vehicle.model)}'" %>
+        <% else %>
+          <%# Placeholder image avec marque et modèle %>
+          <img src="https://placehold.co/800x500/E9ECEF/495057?text=<%= CGI.escape(@vehicle.brand) %>+<%= CGI.escape(@vehicle.model) %>" class="img-fluid w-100" style="object-fit: cover; max-height: 550px;" alt="<%= @vehicle.brand %> <%= @vehicle.model %>">
+        <% end %>
+      </div>
+
+      <%# Description %>
+      <div class="vehicle-description mt-5">
+        <h4 class="mb-3 border-bottom pb-2">Description</h4>
+        <% if @vehicle.description.present? %>
+          <%= simple_format(@vehicle.description) %>
+        <% else %>
+          <p class="text-muted">Aucune description n'a été fournie pour ce véhicule.</p>
+        <% end %>
+      </div>
+
+      <%# Caractéristiques %>
+      <div class="vehicle-features mt-5">
+        <h4 class="mb-3 border-bottom pb-2">Caractéristiques</h4>
+        <ul class="list-unstyled row">
+          <li class="col-md-6 mb-2"><strong>Catégorie:</strong> <%= @vehicle.category.present? ? @vehicle.category.capitalize : "Non spécifié" %></li>
+          <li class="col-md-6 mb-2"><strong>Prix journalier:</strong> <%= number_to_currency(@vehicle.daily_price, unit: "€", separator: ",", delimiter: " ", format: "%n %u") %></li>
+          <li class="col-md-6 mb-2"><strong>Localisation:</strong> <%= @vehicle.localization.present? ? @vehicle.localization : "Non spécifié" %></li>
+          <li class="col-md-6 mb-2"><strong>Nombre de places:</strong> <%= @vehicle.number_of_places.present? ? @vehicle.number_of_places : "Non spécifié" %></li>
+          <li class="col-md-6 mb-2"><strong>Type de carburant:</strong> <%= @vehicle.fuel_type.present? ? @vehicle.fuel_type.capitalize : "Non spécifié" %></li>
+          <li class="col-md-6 mb-2"><strong>Disponibilité:</strong> <%= @vehicle.available? ? '<span class="badge bg-success">Disponible</span>'.html_safe : '<span class="badge bg-danger">Non disponible</span>'.html_safe %></li>
+        </ul>
+      </div>
+
+      <%# Boutons d'action pour le propriétaire %>
+      <% if user_signed_in? && current_user == @vehicle.user %>
+        <div class="mt-5 border-top pt-4">
+          <h5 class="mb-3">Actions propriétaire</h5>
+          <%= link_to 'Modifier ce véhicule', edit_vehicle_path(@vehicle), class: "btn btn-outline-secondary me-2 my-2" %>
+          <%= button_to 'Supprimer ce véhicule', vehicle_path(@vehicle), method: :delete, data: { turbo_confirm: 'Êtes-vous sûr de vouloir supprimer ce véhicule ? Cette action est irréversible.' }, class: "btn btn-outline-danger" %>
+        </div>
+      <% end %>
+    </div>
+    <%# --------- FIN COLONNE GAUCHE --------- %>
+
+    <%# --------- COLONNE DROITE : CARTE DE LOCATION --------- %>
+    <div class="col-lg-4">
+      <div class="card shadow-sm sticky-top" style="top: calc(56px + 2rem);"> <%# 56px (hauteur approx navbar) + 2rem margin %>
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center mb-3">
+            <%# Vous pourriez ajouter un avatar pour l'utilisateur ici %>
+            <div>
+              <p class="card-text text-muted mb-0">Proposé par</p>
+              <h5 class="mb-0">
+                <% if @vehicle.user.first_name.present? && @vehicle.user.last_name.present? %>
+                  <%= link_to "#{@vehicle.user.first_name} #{@vehicle.user.last_name}", user_path(@vehicle.user), class: "text-decoration-none text-dark" %>
+                <% else %>
+                  <%= link_to @vehicle.user.email, user_path(@vehicle.user), class: "text-decoration-none text-dark" %>
+                <% end %>
+              </h5>
+            </div>
+          </div>
+          <hr>
+
+          <h3 class="card-title mb-1">Total</h3>
+          <p class="h4 fw-bold text-primary mb-3">
+            <%= number_to_currency(@vehicle.daily_price, unit: "€", separator: ",", delimiter: " ", format: "%n %u") %> <span class="fs-6 fw-normal text-muted">/ jour</span>
+          </p>
+
+          <% if @vehicle.available? %>
+            <% if user_signed_in? %>
+              <% if current_user != @vehicle.user %>
+                <%# Route imbriquée : vehicle -> rental %>
+                <%= link_to "Louer", new_vehicle_rental_path(@vehicle), class: "btn btn-warning w-100 btn-lg fw-bold" %>
+              <% else %>
+                <p class="text-muted text-center">Vous ne pouvez pas louer votre propre véhicule.</p>
+              <% end %>
+            <% else %>
+              <%= link_to "Connectez-vous pour louer", new_user_session_path, class: "btn btn-warning w-100 btn-lg fw-bold" %>
+            <% end %>
+          <% else %>
+             <p class="alert alert-secondary text-center">Ce véhicule n'est pas disponible actuellement.</p>
+          <% end %>
+
+          <%# Vous pouvez ajouter d'autres infos ici plus tard, comme un calendrier de disponibilité %>
+        </div>
+      </div>
+    </div>
+    <%# --------- FIN COLONNE DROITE --------- %>
+  </div>
+</div>
+
+<%# Pour les icônes Bootstrap (si vous ne l'avez pas dans application.html.erb) %>
+<%# content_for :extra_stylesheets do %>
+  <%# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> %>
+<%# end %>
