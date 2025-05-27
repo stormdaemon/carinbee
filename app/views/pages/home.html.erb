@@ -2,6 +2,12 @@
     body {
       overflow: hidden;
     }
+    .home-btn span img {
+      transition: transform 0.3s ease-out;
+    }
+    .home-btn:hover span img {
+      transform: translateY(-20px) translateX(5px) rotate(-15deg);
+    }
   </style>
   <header class="header-custom">
     <div class="container">
@@ -22,12 +28,20 @@
 
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0 intro-text">
           <p>Rejoignez la Ruche : Des milliers de voitures prêtes à décoller !</p>
-          <p>Sur le dernier logo de gauche, en bas et à droite : Partagez, Roulez, Économisez !</p>
+          <p><span id="typed-output"></span></p>
         </div>
 
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0 buttons-section">
-          <%= link_to "Rent a car", new_user_session_path, class: "home-btn no-underline" %>
-          <%= link_to "Rent your car", new_user_session_path, class: "home-btn no-underline" %>
+          <%= link_to vehicles_path, class: "no-underline" do %>
+          <p class="home-btn">Rent a car
+          <span>
+            <img
+          src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+          alt="logo" width="30px">
+          </span
+          ></p>
+          <% end %>
+          <%= link_to "Rent your car 💸", vehicles_path, class: "home-btn no-underline" %>
         </div>
 
         <div class="col-lg-5 col-md-6 phone-section">
@@ -44,3 +58,35 @@
 
       </div>
     </div>
+
+<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const typedStrings = [
+      "Share your car, spare the Earth.",
+      "Less CO₂, more €€!",
+      "A moving car is a paying car.",
+      "Fewer costs, more trips.",
+      "Smart renting, smooth driving.",
+      "Blessed be the neighbor.",
+      "More karma, less car-ma.",
+      "CARinBee — Sweet as honey for your wallet.",
+      "Bee the change. Share your ride.",
+      "Your car can Bee more than a driveway decoration.",
+      "CARinBee — Because even cars need to socialize."
+    ];
+
+    var typed = new Typed('#typed-output', {
+      strings: typedStrings,
+      typeSpeed: 50,
+      backSpeed: 25,
+      backDelay: 2000,
+      startDelay: 500,
+      loop: true,
+      smartBackspace: true,
+      showCursor: true,
+      cursorChar: '|',
+    });
+  });
+</script>
