@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       patch :confirm
       patch :refuse
       patch :complete
+      patch :cancel
     end
     resources :reviews, except: [:index, :show]
   end

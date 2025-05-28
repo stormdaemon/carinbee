@@ -1,7 +1,8 @@
 class RentalsController < ApplicationController
-  before_action :set_rental, only: [:show, :edit, :update, :destroy, :confirm, :refuse, :complete]
-  before_action :ensure_owner_or_renter, only: [:show, :edit, :update, :destroy]
+  before_action :set_rental, only: [:show, :edit, :update, :destroy, :confirm, :refuse, :complete, :cancel]
+  before_action :ensure_owner_or_renter, only: [:show, :edit, :update, :destroy, :cancel]
   before_action :ensure_vehicle_owner, only: [:confirm, :refuse, :complete]
+  before_action :ensure_renter, only: [:cancel]
 
   def index
     @my_rentals = current_user.rentals.includes(:vehicle, :user).order(created_at: :desc)
@@ -41,7 +42,11 @@ class RentalsController < ApplicationController
 
   def update
     if @rental.update(rental_params)
-      redirect_to @rental, notice: 'Rental was successfully updated.'
+      if params[:rental][:status] == 'cancelled'
+        redirect_to vehicles_path, notice: 'Votre demande de location a été annulée.'
+      else
+        redirect_to @rental, notice: 'Rental was successfully updated.'
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -49,7 +54,7 @@ class RentalsController < ApplicationController
 
   def destroy
     @rental.destroy
-    redirect_to rentals_path, notice: 'Rental was successfully cancelled.'
+    redirect_to vehicles_path, notice: 'Rental was successfully cancelled.'
   end
 
   def confirm
@@ -65,6 +70,11 @@ class RentalsController < ApplicationController
   def complete
     @rental.update(status: 'completed')
     redirect_to rentals_path, notice: 'Rental was marked as completed.'
+  end
+
+  def cancel
+    @rental.update(status: 'cancelled')
+    redirect_to vehicles_path, notice: 'Votre demande de location a été annulée.'
   end
 
   private
@@ -85,7 +95,13 @@ class RentalsController < ApplicationController
     end
   end
 
+  def ensure_renter
+    unless @rental.user == current_user
+      redirect_to rentals_path, alert: 'You can only cancel your own rental requests.'
+    end
+  end
+
   def rental_params
-    params.require(:rental).permit(:rental_start_date, :rental_end_date)
+    params.require(:rental).permit(:rental_start_date, :rental_end_date, :status)
   end
 end

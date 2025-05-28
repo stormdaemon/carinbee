@@ -106,7 +106,7 @@
     <div class="col-lg-10">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Détails de la location</h2>
-        <%= link_to "← Retour", :back, class: "btn btn-outline-secondary" %>
+        <%= link_to "← Retour", vehicles_path, class: "btn btn-outline-secondary" %>
       </div>
 
       <div class="card shadow-sm p-4 rounded-3 rental-card" style="background-color: #FFFFFF;">
@@ -144,8 +144,14 @@
         <!-- Durée de location -->
         <div class="alert alert-info mb-4">
           <strong>⏱️ Durée :</strong>
-          <%= distance_of_time_in_words(@rental.rental_start_date, @rental.rental_end_date) %>
-          (<%= (@rental.rental_end_date - @rental.rental_start_date).to_i %> jour<%= 's' if (@rental.rental_end_date - @rental.rental_start_date).to_i > 1 %>)
+          <% days_count = (@rental.rental_end_date - @rental.rental_start_date).to_i %>
+          <% if days_count == 0 %>
+            1 jour (même jour)
+          <% elsif days_count == 1 %>
+            2 jours
+          <% else %>
+            <%= days_count + 1 %> jours
+          <% end %>
         </div>
 
         <!-- Informations sur le véhicule -->
@@ -254,18 +260,24 @@
               <% if current_user == @rental.vehicle.user %>
                 <% if @rental.status == 'pending' %>
                   <div style="position: relative;">
-                    <%= link_to "Confirmer la location", confirm_rental_path(@rental), method: :patch,
+                    <%= link_to "Confirmer la location", confirm_rental_path(@rental),
                         class: "btn btn-success action-button",
-                        data: { confirm: "Êtes-vous sûr de vouloir confirmer cette location ?" },
+                        data: { 
+                          confirm: "Êtes-vous sûr de vouloir confirmer cette location ?",
+                          turbo_method: :patch
+                        },
                         id: "confirmButton" %>
                     <img class="small-bee-on-button" id="beeOnConfirm"
                          src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
                          alt="Small Bee on Confirm Button">
                   </div>
                   <div style="position: relative;">
-                    <%= link_to "Refuser la location", refuse_rental_path(@rental), method: :patch,
+                    <%= link_to "Refuser la location", refuse_rental_path(@rental),
                         class: "btn btn-danger action-button",
-                        data: { confirm: "Êtes-vous sûr de vouloir refuser cette location ?" },
+                        data: { 
+                          confirm: "Êtes-vous sûr de vouloir refuser cette location ?",
+                          turbo_method: :patch
+                        },
                         id: "refuseButton" %>
                     <img class="small-bee-on-button" id="beeOnRefuse"
                          src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -275,9 +287,12 @@
 
                 <% if @rental.status == 'confirmed' %>
                   <div style="position: relative;">
-                    <%= link_to "Marquer comme terminée", complete_rental_path(@rental), method: :patch,
+                    <%= link_to "Marquer comme terminée", complete_rental_path(@rental),
                         class: "btn btn-primary action-button",
-                        data: { confirm: "Êtes-vous sûr que cette location est terminée ?" },
+                        data: { 
+                          confirm: "Êtes-vous sûr que cette location est terminée ?",
+                          turbo_method: :patch
+                        },
                         id: "completeButton" %>
                     <img class="small-bee-on-button" id="beeOnComplete"
                          src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -290,9 +305,12 @@
               <% if current_user == @rental.user %>
                 <% if @rental.status == 'pending' %>
                   <div style="position: relative;">
-                    <%= link_to "Annuler la demande", rental_path(@rental, rental: { status: 'cancelled' }), method: :patch,
+                    <%= link_to "Annuler la demande", cancel_rental_path(@rental),
                         class: "btn btn-warning action-button",
-                        data: { confirm: "Êtes-vous sûr de vouloir annuler cette demande ?" },
+                        data: { 
+                          confirm: "Êtes-vous sûr de vouloir annuler cette demande ?",
+                          turbo_method: :patch
+                        },
                         id: "cancelButton" %>
                     <img class="small-bee-on-button" id="beeOnCancel"
                          src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
