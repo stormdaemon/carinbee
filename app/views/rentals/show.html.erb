@@ -1,1 +1,401 @@
-<h1>Rental Details</h1> 
+<%# app/views/rentals/show.html.erb %>
+
+<style>
+  /* Animation pour le logo abeille sur la carte */
+  #smallBeeLogoOnCard {
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+    pointer-events: none;
+    transform-origin: center center;
+  }
+  .flying-bee-from-card {
+    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+    opacity: 0;
+  }
+
+  /* Styles pour le logo abeille sur les boutons d'action */
+  .small-bee-on-button {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    height: 35px;
+    width: auto;
+    z-index: 10;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+    pointer-events: none;
+    transform-origin: center center;
+  }
+  .flying-bee-from-button {
+    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+    opacity: 0;
+  }
+
+  /* Animation pour les boutons d'action */
+  .action-button {
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+  }
+
+  .action-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary.action-button:hover {
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  }
+
+  .btn-warning.action-button:hover {
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+  }
+
+  .btn-success.action-button:hover {
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);
+  }
+
+  .btn-danger.action-button:hover {
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+  }
+
+  /* Prévenir le scroll horizontal */
+  .rental-container {
+    overflow-x: hidden;
+  }
+
+  .rental-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animation de pulsation pour l'abeille au repos */
+  @keyframes beePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .bee-pulse {
+    animation: beePulse 2s ease-in-out infinite;
+  }
+
+  /* Badge de statut personnalisé */
+  .status-badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-pending { background-color: #fff3cd; color: #856404; }
+  .status-confirmed { background-color: #d1ecf1; color: #0c5460; }
+  .status-completed { background-color: #d4edda; color: #155724; }
+  .status-cancelled { background-color: #f8d7da; color: #721c24; }
+  .status-refused { background-color: #f5c6cb; color: #721c24; }
+
+  /* Style pour l'image du véhicule */
+  .vehicle-image {
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+</style>
+
+<!-- Main Content Area -->
+<div class="container mt-4 mb-4 rental-container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Détails de la location</h2>
+        <%= link_to "← Retour", :back, class: "btn btn-outline-secondary" %>
+      </div>
+
+      <div class="card shadow-sm p-4 rounded-3 rental-card" style="background-color: #FFFFFF;">
+
+        <img id="smallBeeLogoOnCard" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Small Bee Logo on Card" class="bee-pulse" style="position: absolute; top: 20px; right: 20px; height: 35px; width: auto;">
+
+        <!-- En-tête avec statut -->
+        <div class="d-flex justify-content-between align-items-start mb-4 pt-2">
+          <div>
+            <h3 class="fw-bold mb-3">Location #<%= @rental.id %></h3>
+            <span class="status-badge status-<%= @rental.status %>"><%= @rental.status.capitalize %></span>
+          </div>
+          <div class="text-end">
+            <h4 class="text-primary fw-bold mb-0"><%= number_to_currency(@rental.total_price, unit: "€", separator: ",", delimiter: " ") %></h4>
+            <small class="text-muted">Prix total</small>
+          </div>
+        </div>
+
+        <!-- Informations sur les dates -->
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded">
+              <h6 class="fw-bold text-success mb-2">📅 Date de début</h6>
+              <p class="mb-0 fs-5"><%= @rental.rental_start_date.strftime("%d/%m/%Y") %></p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded">
+              <h6 class="fw-bold text-danger mb-2">📅 Date de fin</h6>
+              <p class="mb-0 fs-5"><%= @rental.rental_end_date.strftime("%d/%m/%Y") %></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Durée de location -->
+        <div class="alert alert-info mb-4">
+          <strong>⏱️ Durée :</strong>
+          <%= distance_of_time_in_words(@rental.rental_start_date, @rental.rental_end_date) %>
+          (<%= (@rental.rental_end_date - @rental.rental_start_date).to_i %> jour<%= 's' if (@rental.rental_end_date - @rental.rental_start_date).to_i > 1 %>)
+        </div>
+
+        <!-- Informations sur le véhicule -->
+        <div class="card mb-4" style="border: 2px solid #f8f9fa;">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">🚗 Véhicule loué</h5>
+          </div>
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-md-4">
+                <% if @rental.vehicle.image_url.present? %>
+                  <%= image_tag @rental.vehicle.image_url, alt: "#{@rental.vehicle.brand} #{@rental.vehicle.model}", class: "img-fluid vehicle-image" %>
+                <% else %>
+                  <div class="bg-light d-flex align-items-center justify-content-center vehicle-image" style="height: 200px;">
+                    <span class="text-muted">🚗 Pas d'image</span>
+                  </div>
+                <% end %>
+              </div>
+              <div class="col-md-8">
+                <h4 class="fw-bold mb-3"><%= @rental.vehicle.brand %> <%= @rental.vehicle.model %></h4>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p class="mb-2"><strong>📍 Localisation:</strong> <%= @rental.vehicle.localization %></p>
+                    <p class="mb-2"><strong>👥 Places:</strong> <%= @rental.vehicle.number_of_places %></p>
+                    <p class="mb-2"><strong>🏷️ Catégorie:</strong> <%= @rental.vehicle.category %></p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p class="mb-2"><strong>⛽ Carburant:</strong> <%= @rental.vehicle.fuel_type %></p>
+                    <p class="mb-2"><strong>🛣️ Kilométrage:</strong> <%= number_with_delimiter(@rental.vehicle.kilometers) %> km</p>
+                    <p class="mb-2"><strong>💰 Prix/jour:</strong> <%= number_to_currency(@rental.vehicle.daily_price, unit: "€") %></p>
+                  </div>
+                </div>
+                <% if @rental.vehicle.description.present? %>
+                  <div class="mt-3">
+                    <strong>📝 Description:</strong>
+                    <p class="text-muted mt-1"><%= @rental.vehicle.description %></p>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Informations sur le propriétaire -->
+        <div class="card mb-4" style="border: 2px solid #f8f9fa;">
+          <div class="card-header bg-success text-white">
+            <h5 class="mb-0">👤 Propriétaire du véhicule</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="fw-bold mb-1"><%= @rental.vehicle.user.first_name %> <%= @rental.vehicle.user.last_name %></h6>
+                <p class="text-muted mb-0">📧 <%= @rental.vehicle.user.email %></p>
+                <p class="text-muted mb-0">📍 <%= @rental.vehicle.user.address %></p>
+              </div>
+              <% if current_user != @rental.vehicle.user %>
+                <%= link_to "Voir le profil", user_path(@rental.vehicle.user), class: "btn btn-outline-success btn-sm" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Informations sur le locataire -->
+        <div class="card mb-4" style="border: 2px solid #f8f9fa;">
+          <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">🤝 Locataire</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="fw-bold mb-1"><%= @rental.user.first_name %> <%= @rental.user.last_name %></h6>
+                <p class="text-muted mb-0">📧 <%= @rental.user.email %></p>
+                <p class="text-muted mb-0">📍 <%= @rental.user.address %></p>
+                <p class="text-muted mb-0">🎂 <%= @rental.user.age %> ans</p>
+              </div>
+              <% if current_user != @rental.user %>
+                <%= link_to "Voir le profil", user_path(@rental.user), class: "btn btn-outline-warning btn-sm" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dates importantes -->
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded">
+              <h6 class="fw-bold text-primary mb-2">📅 Demande créée le</h6>
+              <p class="mb-0"><%= @rental.created_at.strftime("%d/%m/%Y à %H:%M") %></p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded">
+              <h6 class="fw-bold text-secondary mb-2">🔄 Dernière modification</h6>
+              <p class="mb-0"><%= @rental.updated_at.strftime("%d/%m/%Y à %H:%M") %></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions disponibles -->
+        <% if current_user == @rental.vehicle.user || current_user == @rental.user %>
+          <div class="mt-4">
+            <h5 class="fw-bold mb-3">⚡ Actions disponibles</h5>
+            <div class="d-flex flex-wrap gap-3">
+
+              <!-- Actions pour le propriétaire du véhicule -->
+              <% if current_user == @rental.vehicle.user %>
+                <% if @rental.status == 'pending' %>
+                  <div style="position: relative;">
+                    <%= link_to "Confirmer la location", confirm_rental_path(@rental), method: :patch,
+                        class: "btn btn-success action-button",
+                        data: { confirm: "Êtes-vous sûr de vouloir confirmer cette location ?" },
+                        id: "confirmButton" %>
+                    <img class="small-bee-on-button" id="beeOnConfirm"
+                         src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+                         alt="Small Bee on Confirm Button">
+                  </div>
+                  <div style="position: relative;">
+                    <%= link_to "Refuser la location", refuse_rental_path(@rental), method: :patch,
+                        class: "btn btn-danger action-button",
+                        data: { confirm: "Êtes-vous sûr de vouloir refuser cette location ?" },
+                        id: "refuseButton" %>
+                    <img class="small-bee-on-button" id="beeOnRefuse"
+                         src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+                         alt="Small Bee on Refuse Button">
+                  </div>
+                <% end %>
+
+                <% if @rental.status == 'confirmed' %>
+                  <div style="position: relative;">
+                    <%= link_to "Marquer comme terminée", complete_rental_path(@rental), method: :patch,
+                        class: "btn btn-primary action-button",
+                        data: { confirm: "Êtes-vous sûr que cette location est terminée ?" },
+                        id: "completeButton" %>
+                    <img class="small-bee-on-button" id="beeOnComplete"
+                         src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+                         alt="Small Bee on Complete Button">
+                  </div>
+                <% end %>
+              <% end %>
+
+              <!-- Actions pour le locataire -->
+              <% if current_user == @rental.user %>
+                <% if @rental.status == 'pending' %>
+                  <div style="position: relative;">
+                    <%= link_to "Annuler la demande", rental_path(@rental, rental: { status: 'cancelled' }), method: :patch,
+                        class: "btn btn-warning action-button",
+                        data: { confirm: "Êtes-vous sûr de vouloir annuler cette demande ?" },
+                        id: "cancelButton" %>
+                    <img class="small-bee-on-button" id="beeOnCancel"
+                         src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+                         alt="Small Bee on Cancel Button">
+                  </div>
+                <% end %>
+
+                <% if @rental.status == 'completed' && @rental.reviews.empty? %>
+                  <div style="position: relative;">
+                    <%= link_to "Laisser un avis", new_rental_review_path(@rental),
+                        class: "btn btn-info action-button",
+                        id: "reviewButton" %>
+                    <img class="small-bee-on-button" id="beeOnReview"
+                         src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+                         alt="Small Bee on Review Button">
+                  </div>
+                <% end %>
+              <% end %>
+
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Avis client (si disponible) -->
+        <% if @rental.reviews.any? %>
+          <div class="mt-4">
+            <h5 class="fw-bold mb-3">⭐ Avis client</h5>
+            <% @rental.reviews.each do |review| %>
+              <div class="card border-info">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                      <span class="text-warning fs-5">
+                        <% review.rating.times do %>⭐<% end %>
+                        <% (5 - review.rating).times do %>☆<% end %>
+                      </span>
+                      <span class="text-muted ms-2">(<%= review.rating %>/5)</span>
+                    </div>
+                    <small class="text-muted"><%= review.created_at.strftime("%d/%m/%Y") %></small>
+                  </div>
+                  <% if review.content.present? %>
+                    <p class="mb-0"><%= review.content %></p>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+      </div> <!-- End of card -->
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript to trigger animations -->
+<script>
+  function initializeRentalAnimations() {
+    const beeLogoOnCard = document.getElementById('smallBeeLogoOnCard');
+
+    // Animation générique pour tous les boutons avec des abeilles
+    function initButtonAnimation(buttonId, beeId) {
+      const button = document.getElementById(buttonId);
+      const bee = document.getElementById(beeId);
+
+      if (button && bee) {
+        bee.classList.remove('flying-bee-from-button');
+        let isHovering = false;
+        let hasFlown = false;
+
+        button.addEventListener('mouseenter', function() {
+          if (!isHovering) {
+            isHovering = true;
+            hasFlown = false;
+            // Arrêter l'animation de pulsation de l'abeille principale
+            if (beeLogoOnCard) beeLogoOnCard.classList.remove('bee-pulse');
+          }
+          if (!hasFlown) {
+            bee.classList.add('flying-bee-from-button');
+            hasFlown = true;
+          }
+        });
+
+        button.addEventListener('mouseleave', function() {
+          isHovering = false;
+          setTimeout(() => {
+            if (!isHovering) {
+              bee.classList.remove('flying-bee-from-button');
+              // Redémarrer l'animation de pulsation
+              if (beeLogoOnCard) beeLogoOnCard.classList.add('bee-pulse');
+              hasFlown = false;
+            }
+          }, 1000);
+        });
+      }
+    }
+
+    // Initialiser les animations pour tous les boutons
+    initButtonAnimation('confirmButton', 'beeOnConfirm');
+    initButtonAnimation('refuseButton', 'beeOnRefuse');
+    initButtonAnimation('completeButton', 'beeOnComplete');
+    initButtonAnimation('cancelButton', 'beeOnCancel');
+    initButtonAnimation('reviewButton', 'beeOnReview');
+  }
+
+  document.addEventListener('turbo:load', initializeRentalAnimations);
+</script>
