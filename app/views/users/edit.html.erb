@@ -1,51 +1,63 @@
 <!-- CSS for the logo positioning and animation -->
 <style>
-  #smallBeeOnButton {
-    position: absolute;
-    top: -12px;  /* Adjusted for a larger bee, fine-tune as needed */
-    right: -12px; /* Adjusted for a larger bee, fine-tune as needed */
-    height: 35px; /* <<< CHANGED: Now matches the show page's smallBeeLogo size */
-    width: auto;
-    z-index: 10; /* Ensure it's above the button */
-    transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
-    pointer-events: none; /* <<< ADDED: So the bee doesn't interfere with button hover */
+  /* Animation pour l'abeille sur le bouton "Modifier le profil" */
+  #updateProfileSubmitButton {
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
   }
-
-  .flying-bee-from-button {
-    transform: translate(150px, -150px) rotate(75deg) scale(1.5); /* Fly up and right */
+  
+  #updateProfileSubmitButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+  }
+  
+  #smallBeeOnUpdateProfileButton {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    height: 30px;
+    width: auto;
+    z-index: 10;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+    pointer-events: none;
+    transform-origin: center center;
+  }
+  
+  .flying-bee-update-profile {
+    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
     opacity: 0;
   }
+  
+  /* Animation de pulsation pour l'abeille au repos */
+  @keyframes beePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  
+  .bee-pulse {
+    animation: beePulse 2s ease-in-out infinite;
+  }
 </style>
-
-<!-- Yellow Header -->
-<div style="background-color: #FFD300; color: #000000; padding: 15px 30px; border-bottom: 3px solid #000000;">
-  <div class="d-flex justify-content-between align-items-center">
-    <!-- Left: Logo + Brand Name -->
-    <div class="d-flex align-items-center">
-      <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="CARinBee Logo" style="height: 60px; margin-right: 15px;">
-      <span style="font-size: 2rem; font-weight: bold;">CARinBee</span>
-    </div>
-    <!-- Right: Page Title -->
-    <div>
-      <span style="font-size: 2rem; font-weight: bold;">Edit Profile</span>
-    </div>
-  </div>
-</div>
 
 <!-- Main Content Area -->
 <div class="container mt-4 mb-4">
   <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
-    <h3 class="fw-bold mb-4 pt-2">Editing Your Profile</h3>
+    <h3 class="fw-bold mb-4 pt-2">Modification de votre profil</h3>
 
     <div class="mb-3">
-      <label class="form-label fw-semibold">Email (cannot be changed here):</label>
+      <label class="form-label fw-semibold">Email (ne peut pas être modifié ici) :</label>
       <p class="form-control-plaintext"><%= @user.email %></p>
     </div>
 
     <%= form_with(model: @user, url: user_path(@user), method: :patch, local: true) do |form| %>
       <% if @user.errors.any? %>
         <div id="error_explanation" class="alert alert-danger">
-          <h5 class="alert-heading"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h5>
+          <h5 class="alert-heading">
+            <%= pluralize(@user.errors.count, "erreur") %> 
+            <%= @user.errors.count == 1 ? "a empêché" : "ont empêché" %> 
+            l'enregistrement de cet utilisateur :
+          </h5>
           <ul>
             <% @user.errors.full_messages.each do |message| %>
               <li><%= message %></li>
@@ -56,36 +68,37 @@
 
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= form.label :first_name, class: "form-label fw-semibold" %>
+          <%= form.label :first_name, "Prénom", class: "form-label fw-semibold" %>
           <%= form.text_field :first_name, class: "form-control" %>
         </div>
 
         <div class="col-md-6 mb-3">
-          <%= form.label :last_name, class: "form-label fw-semibold" %>
+          <%= form.label :last_name, "Nom", class: "form-label fw-semibold" %>
           <%= form.text_field :last_name, class: "form-control" %>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= form.label :age, class: "form-label fw-semibold" %>
+          <%= form.label :age, "Âge", class: "form-label fw-semibold" %>
           <%= form.number_field :age, class: "form-control" %>
         </div>
 
         <div class="col-md-6 mb-3">
-          <%= form.label :address, class: "form-label fw-semibold" %>
+          <%= form.label :address, "Adresse", class: "form-label fw-semibold" %>
           <%= form.text_field :address, class: "form-control" %>
         </div>
       </div>
 
       <div class="actions mt-4 d-flex justify-content-between align-items-center">
         <div style="position: relative;"> <!-- Wrapper for the submit button and its bee logo -->
-          <%= form.submit "Update Profile", class: "btn btn-primary", id: "updateProfileSubmitButton" %>
-          <img id="smallBeeOnButton"
+          <%= form.submit "Modifier le profil", class: "btn btn-primary", id: "updateProfileSubmitButton" %>
+          <img id="smallBeeOnUpdateProfileButton"
                src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
-               alt="Small Bee Logo">
+               alt="Small Bee on Update Profile Button"
+               class="bee-pulse">
         </div>
-        <%= link_to "Cancel", user_path(@user), class: "btn btn-outline-secondary" %>
+        <%= link_to "Annuler", user_path(@user), class: "btn btn-outline-secondary" %>
       </div>
     <% end %>
 
@@ -94,24 +107,42 @@
 
 <!-- JavaScript to trigger the animation -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  function initializeUpdateProfileAnimation() {
     const updateButton = document.getElementById('updateProfileSubmitButton');
-    const beeLogoOnButton = document.getElementById('smallBeeOnButton');
+    const beeIcon = document.getElementById('smallBeeOnUpdateProfileButton');
 
-    if (updateButton && beeLogoOnButton) {
-      // --- MODIFIED PART ---
-      // Apply animation when mouse hovers over the button
-      updateButton.addEventListener('mouseover', function() {
-        beeLogoOnButton.classList.add('flying-bee-from-button');
+    if (updateButton && beeIcon) {
+      beeIcon.classList.remove('flying-bee-update-profile');
+      let isHovering = false;
+      let hasFlown = false;
+
+      updateButton.addEventListener('mouseenter', function() {
+        if (!isHovering) {
+          isHovering = true;
+          hasFlown = false;
+          // Arrêter l'animation de pulsation
+          beeIcon.classList.remove('bee-pulse');
+        }
+        if (!hasFlown) {
+          beeIcon.classList.add('flying-bee-update-profile');
+          hasFlown = true;
+        }
       });
-
-      // Optional: If you want the bee to return if the mouse leaves,
-      // you can add a 'mouseout' listener to remove the class.
-      // This would make it animate every time you hover.
-      // updateButton.addEventListener('mouseout', function() {
-      //   beeLogoOnButton.classList.remove('flying-bee-from-button');
-      // });
-      // --- END MODIFIED PART ---
+      
+      updateButton.addEventListener('mouseleave', function() {
+        isHovering = false;
+        // Redémarrer l'animation de pulsation après un délai
+        setTimeout(() => {
+          if (!isHovering) {
+            beeIcon.classList.remove('flying-bee-update-profile');
+            beeIcon.classList.add('bee-pulse');
+            hasFlown = false;
+          }
+        }, 1000);
+      });
     }
-  });
+  }
+
+  document.addEventListener('turbo:load', initializeUpdateProfileAnimation);
+  document.addEventListener('DOMContentLoaded', initializeUpdateProfileAnimation);
 </script>

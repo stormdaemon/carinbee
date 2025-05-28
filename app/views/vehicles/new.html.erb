@@ -26,7 +26,7 @@
       <span style="font-size: 2rem; font-weight: bold;">CARinBee</span>
     </div>
     <div>
-      <span style="font-size: 2rem; font-weight: bold;">Add New Vehicle</span>
+      <span style="font-size: 2rem; font-weight: bold;">Ajouter un nouveau véhicule</span>
     </div>
   </div>
 </div>
@@ -35,12 +35,16 @@
 <div class="container mt-4 mb-4">
   <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
 
-    <h3 class="fw-bold mb-4 pt-2">Register Your Vehicle</h3>
+    <h3 class="fw-bold mb-4 pt-2">Enregistrer votre véhicule</h3>
 
     <%= form_with(model: @vehicle, url: vehicles_path, method: :post, local: true) do |form| %>
       <% if @vehicle.errors.any? %>
         <div id="error_explanation" class="alert alert-danger">
-          <h5 class="alert-heading"><%= pluralize(@vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h5>
+          <h5 class="alert-heading">
+            <%= pluralize(@vehicle.errors.count, "erreur") %> 
+            <%= @vehicle.errors.count == 1 ? "a empêché" : "ont empêché" %> 
+            l'enregistrement de ce véhicule :
+          </h5>
           <ul>
             <% @vehicle.errors.full_messages.each do |message| %>
               <li><%= message %></li>
@@ -63,10 +67,10 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <%= form.label :category, class: "form-label fw-semibold" %>
-          <%= form.select :category, options_for_select(["Monospace", "Confort", "Eco", "Sport", "Utilitaire"], @vehicle.category), { prompt: "Select Category" }, class: "form-select" %>
+          <%= form.select :category, options_for_select(["Monospace", "Confort", "Eco", "Sport", "Utilitaire"], @vehicle.category), { prompt: "Sélectionner une catégorie" }, class: "form-select" %>
         </div>
         <div class="col-md-6 mb-3">
-          <%= form.label :daily_price, "Daily Price (€)", class: "form-label fw-semibold" %>
+          <%= form.label :daily_price, "Prix par jour (€)", class: "form-label fw-semibold" %>
           <%= form.number_field :daily_price, class: "form-control", step: "0.01", placeholder: "e.g., 90" %>
         </div>
       </div>
@@ -78,7 +82,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :fuel_type, class: "form-label fw-semibold" %>
-          <%= form.select :fuel_type, options_for_select(["Diesel", "Essence", "Électrique", "Hybride", "GPL"], @vehicle.fuel_type), { prompt: "Select Fuel Type" }, class: "form-select" %>
+          <%= form.select :fuel_type, options_for_select(["Diesel", "Essence", "Électrique", "Hybride", "GPL"], @vehicle.fuel_type), { prompt: "Sélectionner un type de carburant" }, class: "form-select" %>
         </div>
       </div>
 
@@ -107,18 +111,18 @@
 
       <div class="mb-3 form-check">
         <%= form.check_box :available, { checked: true, class: "form-check-input" } %>
-        <%= form.label :available, "Make this vehicle available for rent immediately?", class: "form-check-label" %>
+        <%= form.label :available, "Rendre ce véhicule disponible à la location immédiatement ?", class: "form-check-label" %>
       </div>
 
 
-      <div class="actions mt-4 d-flex justify-content-between align-items-center">
-        <div style="position: relative;">
-          <%= form.submit "Create Vehicle", class: "btn btn-primary", id: "createVehicleButton" %>
+      <div class="text-center mt-4">
+        <div style="position: relative; display: inline-block;">
+          <%= form.submit "Créer le véhicule", class: "btn btn-primary", id: "createVehicleButton" %>
           <img id="smallBeeOnCreateVehicleButton"
                src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
                alt="Small Bee on Create Vehicle Button">
         </div>
-        <%= link_to "Cancel", my_vehicles_vehicles_path, class: "btn btn-outline-secondary" %>
+        <%= link_to "Annuler", my_vehicles_vehicles_path, class: "btn btn-outline-secondary" %>
       </div>
     <% end %>
 

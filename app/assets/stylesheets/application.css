@@ -15,24 +15,140 @@
  */
 
  @import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Cal+Sans&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Global Styles */
 body {
-  background-color: white;
-  font-family: 'roboto', sans-serif;
-    font-size: 24px;
+  background-color: #fafafa;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  overflow-x: hidden; /* Prévenir le scroll horizontal global */
 }
 
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Prévenir le scroll horizontal global */
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFCC01;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e6b800;
+}
+
+/* Container improvements */
+.container {
+  max-width: 1200px;
+  overflow-x: hidden; /* Prévenir le scroll horizontal dans les containers */
+}
+
+/* Card improvements */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden; /* Prévenir le débordement dans les cartes */
+}
+
+.card:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Button improvements */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-warning {
+  background-color: #FFCC01;
+  border-color: #FFCC01;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background-color: #e6b800;
+  border-color: #e6b800;
+  color: #333;
+  transform: translateY(-1px);
+}
+
+.btn-outline-warning {
+  border-color: #FFCC01;
+  color: #FFCC01;
+}
+
+.btn-outline-warning:hover {
+  background-color: #FFCC01;
+  border-color: #FFCC01;
+  color: #333;
+}
+
+/* Form improvements */
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #FFCC01;
+  box-shadow: 0 0 0 0.2rem rgba(255, 204, 1, 0.25);
+}
+
+/* Alert improvements */
+.alert {
+  border-radius: 10px;
+  border: none;
+}
+
+/* Badge improvements */
+.badge {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* Animations sécurisées pour éviter le scroll horizontal */
+.safe-animation {
+  overflow: hidden;
+  position: relative;
+}
+
+.safe-animation * {
+  max-width: 100%;
+}
+
+/* HOME PAGE STYLES */
 .header-custom {
-  background-color: #FFCC01; /* Jaune de la maquette */
+  background-color: #FFCC01;
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 .brand-logo {
-  height: 120px; /* Ajustez si nécessaire */
+  height: 120px;
 }
+
 .brand-name {
-  font-size: 2.8rem; /* Ajustez si nécessaire */
+  font-size: 2.8rem;
   font-weight: bold;
-  color: #333; /* Un peu plus foncé pour le contraste */
+  color: #333;
   margin-left: 15px;
 }
 
@@ -40,62 +156,65 @@ body {
   text-decoration: none;
 }
 
-
 .home-btn {
   background-color: #FFCC01;
   border-color: #FFCC01;
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 8px;
-  width: 100%; /* Pour que les boutons prennent toute la largeur de leur colonne */
-  max-width: 250px; /* Limite la largeur max des boutons */
-  margin: 0 auto 15px auto; /* Centrer et espacer */
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto 15px auto;
   display: block;
-  color: #F4F4F4;
+  color: #333;
   transition-duration: 0.3s;
   text-align: center;
 }
+
 .home-btn:hover {
   background-color: #f0c040;
   border-color: #f0c040;
   color: #333;
   cursor: pointer;
+  transform: translateY(-2px);
 }
+
 .main-content {
   padding-top: 5px;
   padding-bottom: 40px;
 }
+
 .intro-text p {
   font-size: 1.1rem;
   color: #555;
 }
 
-/* Styles pour le mockup de téléphone */
+/* Phone mockup styles */
 .phone-mockup {
   position: relative;
-  max-width: 180px; /* Ajustez la largeur du téléphone */
-  margin: 0 auto; /* Pour centrer le téléphone dans sa colonne */
-  border: 12px solid #111; /* Bordure épaisse noire */
-  border-radius: 40px; /* Coins arrondis */
+  max-width: 180px;
+  margin: 0 auto;
+  border: 12px solid #111;
+  border-radius: 40px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  background-color: #111; /* Fond pour la bordure */
-  aspect-ratio: 9 / 19.5; /* Ratio typique d'un smartphone moderne */
-  overflow: hidden; /* Pour s'assurer que la vidéo ne dépasse pas */
+  background-color: #111;
+  aspect-ratio: 9 / 19.5;
+  overflow: hidden;
 }
 
 .phone-screen {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: #fff; /* Fond blanc pour l'écran */
-  border-radius: 28px; /* Coins internes légèrement moins arrondis */
-  overflow: hidden; /* Important pour que la vidéo s'adapte */
+  background-color: #fff;
+  border-radius: 28px;
+  overflow: hidden;
 }
 
 .phone-screen video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* S'assure que la vidéo couvre l'écran sans distorsion */
+  object-fit: cover;
   display: block;
 }
 
@@ -104,48 +223,37 @@ body {
   top: 0px;
   left: 50%;
   transform: translateX(-50%);
-  width: 40%; /* Largeur de l'encoche */
-  height: 20px; /* Hauteur de l'encoche */
-  background-color: #111; /* Couleur de la bordure */
+  width: 40%;
+  height: 20px;
+  background-color: #111;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  z-index: 10; /* Au-dessus de la vidéo */
+  z-index: 10;
 }
 
-/* Ajustements pour les petits écrans */
-@media (max-width: 767.98px) {
-  .brand-name {
-    font-size: 2rem;
-  }
-  .intro-text, .buttons-section, .phone-section {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  .phone-mockup {
-    max-width: 250px; /* Plus petit sur mobile */
-  }
-}
-
-
-.small-paragraph {
-  font-size: 16px;
-}
-
+/* Typography */
 h1 {
-  font-size: 64px;
+  font-size: 2.5rem;
   font-weight: bold;
+  color: #333;
 }
 
 h2 {
- font-size: 48px;
- font-weight: bold;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
 }
 
 h3 {
-  font-size: 40px;
-  font-weight: medium;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #333;
 }
 
+/* Legacy styles for compatibility */
+.small-paragraph {
+  font-size: 16px;
+}
 
 .home-banner {
   background-color: #FFCC01;
@@ -164,32 +272,74 @@ h3 {
   border: 4px solid #FFCC01;
   color: #1B1C1C;
   background-color: #ffffff;
-
   margin: 4px;
   padding: 4px 16px;
 }
 
-
 .grey-border-btn {
   border-radius: 8px;
   border: 4px solid #D9D9D9;
-
   color: #1B1C1C;
   background-color: #ffffff;
-
   margin: 8px 2px;
   padding: 8px 48px;
 }
 
-.yellow-btn{
+.yellow-btn {
   background-color: #FFCC01;
   border-radius: 8px;
   border: 4px solid #FFCC01;
-
   margin: 8px 2px;
   padding: 8px 48px;
 }
 
 .img-zone {
   min-height: 230px;
+}
+
+/* Responsive design */
+@media (max-width: 767.98px) {
+  .brand-name {
+    font-size: 2rem;
+  }
+  
+  .intro-text, .buttons-section, .phone-section {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .phone-mockup {
+    max-width: 250px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Loading animation */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Utility classes */
+.text-warning {
+  color: #FFCC01 !important;
+}
+
+.bg-warning {
+  background-color: #FFCC01 !important;
+}
+
+.border-warning {
+  border-color: #FFCC01 !important;
 }

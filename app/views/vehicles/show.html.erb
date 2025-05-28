@@ -1,45 +1,5 @@
 <%# app/views/vehicles/show.html.erb %>
 
-<%# --------- NAVBAR --------- %>
-<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
-  <div class="container">
-    <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="logo" height="80px" style="margin-right: 10px;">
-    <%= link_to root_path, class: "navbar-brand fw-bold" do %>
-      carINbee
-    <% end %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavShowVehicle" aria-controls="navbarNavShowVehicle" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavShowVehicle">
-      <ul class="navbar-nav ms-auto align-items-center">
-        <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= link_to "Mes véhicules", my_vehicles_vehicles_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Mes locations", rentals_path, class: "nav-link" %>
-          </li>
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <%# Vous pouvez ajouter une icône ou un avatar ici %>
-              <i class="bi bi-person-circle me-1"></i> <%# Nécessite Bootstrap Icons %>
-              <%= current_user.first_name.present? ? current_user.first_name : current_user.email %>
-            </a>
-              <li><%= link_to "Mon Profil", user_path(current_user), class: "dropdown-item" %></li>
-              <%= button_to "Déconnexion", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "S'inscrire", new_user_registration_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Connexion", new_user_session_path, class: "btn btn-outline-dark ms-2" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-</nav>
-<%# --------- FIN NAVBAR --------- %>
-
 <div class="container my-5">
   <div class="row">
     <%# --------- COLONNE GAUCHE : INFOS VÉHICULE --------- %>
@@ -94,7 +54,7 @@
 
     <%# --------- COLONNE DROITE : CARTE DE LOCATION --------- %>
     <div class="col-lg-4">
-      <div class="card shadow-sm sticky-top" style="top: calc(56px + 2rem);"> <%# 56px (hauteur approx navbar) + 2rem margin %>
+      <div class="card shadow-sm sticky-top" style="top: calc(80px + 2rem);"> <%# Ajusté pour la nouvelle navbar %>
         <div class="card-body p-4">
           <div class="d-flex align-items-center mb-3">
             <%# Vous pourriez ajouter un avatar pour l'utilisateur ici %>
