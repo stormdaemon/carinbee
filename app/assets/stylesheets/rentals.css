@@ -1,0 +1,281 @@
+/* RENTALS STYLES */
+
+/* Rentals Index Page */
+.page-title {
+  font-family: 'Goblin One', serif;
+  color: var(--primary-black);
+  font-size: 2.5rem;
+  margin-bottom: 0;
+}
+
+.rentals-section {
+  background: var(--pure-white);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px var(--shadow-light);
+  height: 100%;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--primary-white);
+}
+
+.section-title {
+  font-family: 'Goblin One', serif;
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--primary-black);
+}
+
+.rentals-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rental-card {
+  background: var(--pure-white);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px var(--shadow-light);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--light-gray);
+}
+
+.rental-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+.rental-image-container {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.rental-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.rental-card:hover .rental-image {
+  transform: scale(1.05);
+}
+
+.rental-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-white) 0%, var(--light-gray) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rental-status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.rental-content {
+  padding: 1.25rem;
+}
+
+.rental-title {
+  font-family: 'Goblin One', serif;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--primary-black);
+}
+
+.rental-details {
+  margin-bottom: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.detail-item i {
+  width: 16px;
+  margin-right: 0.5rem;
+  color: var(--primary-yellow);
+}
+
+.rental-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.rental-price {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-amount {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--primary-yellow);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--medium-gray);
+}
+
+/* Rentals Show Page */
+.rental-container {
+  overflow-x: hidden;
+}
+
+.rental-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animation pour le logo abeille sur la carte */
+.bee-card {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+  pointer-events: none;
+  transform-origin: center center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 35px;
+  width: auto;
+}
+
+.flying-bee-from-card {
+  transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+  opacity: 0;
+}
+
+/* Styles pour le logo abeille sur les boutons d'action */
+.small-bee-on-button {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  height: 35px;
+  width: auto;
+  z-index: 10;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.flying-bee-from-button {
+  transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+  opacity: 0;
+}
+
+/* Animation pour les boutons d'action */
+.action-button {
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary.action-button:hover {
+  box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+.btn-warning.action-button:hover {
+  box-shadow: 0 4px 15px var(--yellow-light);
+}
+
+.btn-success.action-button:hover {
+  box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+.btn-danger.action-button:hover {
+  box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+/* Animation de pulsation pour l'abeille au repos */
+@keyframes beePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.bee-pulse {
+  animation: beePulse 2s ease-in-out infinite;
+}
+
+/* Badge de statut personnalisé */
+.status-badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Style pour l'image du véhicule */
+.vehicle-image {
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px var(--shadow-light);
+}
+
+/* Responsive pour les rentals */
+@media (max-width: 991.98px) {
+  .rentals-section {
+    margin-bottom: 2rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .rental-image-container {
+    height: 150px;
+  }
+  
+  .rental-content {
+    padding: 1rem;
+  }
+  
+  .rental-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+} 

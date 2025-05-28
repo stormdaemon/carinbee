@@ -1,50 +1,9 @@
-<style>
-  /* Animation pour l'abeille sur le bouton "Mettre à jour" */
-  #updateProfileButton {
-    position: relative;
-    overflow: visible;
-    transition: all 0.3s ease;
-  }
-  
-  #updateProfileButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 204, 1, 0.3);
-  }
-  
-  #updateBeeIcon {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    height: 30px;
-    width: auto;
-    z-index: 10;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
-    pointer-events: none;
-    transform-origin: center center;
-  }
-  
-  .flying-bee-update {
-    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
-    opacity: 0;
-  }
-  
-  /* Animation de pulsation pour l'abeille au repos */
-  @keyframes beePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-  
-  .bee-pulse {
-    animation: beePulse 2s ease-in-out infinite;
-  }
-</style>
-
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card shadow-sm">
-        <div class="card-body" style="background-color: #F4F4F4;">
-          <h2 class="card-title text-center mb-4" style="color: #1B1C1C;">Modifier mon profil</h2>
+        <div class="card-body devise-card">
+          <h2 class="card-title text-center mb-4 devise-title">Modifier mon profil</h2>
 
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
             <%= render "devise/shared/error_messages", resource: resource %>
@@ -113,12 +72,13 @@
             </div>
 
             <div class="text-center mt-4">
-              <div style="position: relative; display: inline-block;">
-                <%= f.submit "Mettre à jour", class: "btn btn-warning px-4 me-3", id: "updateProfileButton" %>
+              <div data-controller="bee-animation" data-bee-animation-type-value="update">
+                <%= f.submit "Mettre à jour", class: "btn btn-warning px-4 me-3", id: "updateProfileButton", data: { bee_animation_target: "button" } %>
                 <img id="updateBeeIcon" 
                      src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" 
                      alt="Bee Icon" 
-                     class="bee-pulse">
+                     class="bee-pulse"
+                     data-bee-animation-target="beeIcon">
               </div>
               <%= link_to "Retour", :back, class: "btn btn-outline-secondary px-4" %>
             </div>
@@ -141,43 +101,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  function initializeUpdateProfileAnimation() {
-    const updateButton = document.getElementById('updateProfileButton');
-    const beeIcon = document.getElementById('updateBeeIcon');
-
-    if (updateButton && beeIcon) {
-      beeIcon.classList.remove('flying-bee-update');
-      let isHovering = false;
-      let hasFlown = false;
-
-      updateButton.addEventListener('mouseenter', function() {
-        if (!isHovering) {
-          isHovering = true;
-          hasFlown = false;
-          // Arrêter l'animation de pulsation
-          beeIcon.classList.remove('bee-pulse');
-        }
-        if (!hasFlown) {
-          beeIcon.classList.add('flying-bee-update');
-          hasFlown = true;
-        }
-      });
-      
-      updateButton.addEventListener('mouseleave', function() {
-        isHovering = false;
-        // Redémarrer l'animation de pulsation après un délai
-        setTimeout(() => {
-          if (!isHovering) {
-            beeIcon.classList.remove('flying-bee-update');
-            beeIcon.classList.add('bee-pulse');
-            hasFlown = false;
-          }
-        }, 1000);
-      });
-    }
-  }
-
-  document.addEventListener('turbo:load', initializeUpdateProfileAnimation);
-</script>

@@ -1,40 +1,89 @@
 <div class="container-fluid mt-4 mb-5">
   <%# SEARCH AND FILTERS SECTION %>
   <div class="search-section mb-5">
-    <div class="row">
-      <div class="col-12">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8">
         <h2 class="text-center mb-4">Trouvez votre véhicule idéal</h2>
         
-        <%= form_with url: vehicles_path, method: :get, local: true, class: "d-flex flex-wrap gap-3 justify-content-center align-items-end" do |form| %>
-          <div class="form-group">
-            <label for="search" class="form-label"><i class="fa-solid fa-magnifying-glass"></i> Recherche</label>
-            <%= form.text_field :search, placeholder: "Marque ou modèle...", value: params[:search], class: "form-control" %>
-          </div>
+        <%= form_with url: vehicles_path, method: :get, local: true, 
+            class: "search-form",
+            data: { 
+              controller: "search",
+              turbo_frame: "vehicles_results",
+              turbo_action: "advance"
+            } do |form| %>
           
-          <div class="form-group">
-            <label for="city" class="form-label">
-              <i class="fa-solid fa-map-marker-alt"></i> Ville
-            </label>
-            <%= form.text_field :city, placeholder: "Paris, Lyon, Marseille...", value: params[:city], class: "form-control", name: "city", id: "city-filter" %>
-          </div>
-          
-          <div class="form-group">
-            <label for="category" class="form-label"><i class="fa-solid fa-car-side"></i> Catégorie</label>
-            <%= form.select :category, options_for_select([
-              ['Toutes catégories', ''],
-              ['Monospace', 'Monospace'],
-              ['Confort', 'Confort'],
-              ['Eco', 'Eco']
-            ], params[:category]), {}, { class: "form-select" } %>
-          </div>
-          
-          <div class="form-group">
-            <label for="max_price" class="form-label"><i class="fa-solid fa-euro-sign"></i> Prix max/jour</label>
-            <%= form.number_field :max_price, placeholder: "Prix maximum", value: params[:max_price], class: "form-control", min: 0 %>
-          </div>
-          
-          <div class="form-group">
-            <%= form.submit "Rechercher", class: "btn btn-warning btn-lg" %>
+          <div class="row g-3">
+            <div class="col-md-6 col-lg-3">
+              <div class="search-field">
+                <label for="search" class="form-label">
+                  <i class="fa-solid fa-magnifying-glass me-2"></i>Recherche
+                </label>
+                <%= form.text_field :search, 
+                    placeholder: "Marque ou modèle...", 
+                    value: params[:search], 
+                    class: "form-control search-input",
+                    data: { 
+                      action: "input->search#submit",
+                      search_target: "field"
+                    } %>
+              </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+              <div class="search-field">
+                <label for="city" class="form-label">
+                  <i class="fa-solid fa-map-marker-alt me-2"></i>Ville
+                </label>
+                <%= form.text_field :city, 
+                    placeholder: "Paris, Lyon, Marseille...", 
+                    value: params[:city], 
+                    class: "form-control search-input", 
+                    name: "city", 
+                    id: "city-filter",
+                    data: { 
+                      action: "input->search#submit",
+                      search_target: "field"
+                    } %>
+              </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+              <div class="search-field">
+                <label for="category" class="form-label">
+                  <i class="fa-solid fa-car-side me-2"></i>Catégorie
+                </label>
+                <%= form.select :category, options_for_select([
+                  ['Toutes catégories', ''],
+                  ['Monospace', 'Monospace'],
+                  ['Confort', 'Confort'],
+                  ['Eco', 'Eco']
+                ], params[:category]), {}, { 
+                  class: "form-select search-select",
+                  data: { 
+                    action: "change->search#submit",
+                    search_target: "field"
+                  }
+                } %>
+              </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+              <div class="search-field">
+                <label for="max_price" class="form-label">
+                  <i class="fa-solid fa-euro-sign me-2"></i>Prix max/jour
+                </label>
+                <%= form.number_field :max_price, 
+                    placeholder: "Prix maximum", 
+                    value: params[:max_price], 
+                    class: "form-control search-input", 
+                    min: 0,
+                    data: { 
+                      action: "input->search#submit",
+                      search_target: "field"
+                    } %>
+              </div>
+            </div>
           </div>
         <% end %>
       </div>
@@ -43,88 +92,13 @@
 
   <%# MAIN CONTENT SECTION WITH VEHICLES AND MAP %>
   <div class="main-content-wrapper">
-    <div class="vehicles-section">
-      <div class="results-section">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3><%= @vehicles.count %> véhicule<%= 's' if @vehicles.count > 1 %> disponible<%= 's' if @vehicles.count > 1 %></h3>
-          <% if user_signed_in? %>
-            <%= link_to "Ajouter mon véhicule", new_vehicle_path, class: "btn btn-success" %>
-          <% end %>
-        </div>
-
-        <%# VEHICLES GRID - 2 COLUMNS %>
-        <div class="row g-4">
-          <% if @vehicles.any? %>
-            <% @vehicles.each do |vehicle| %>
-              <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="card h-100 shadow-sm vehicle-card">
-                  <div class="position-relative">
-                    <% if vehicle.image_url.present? %>
-                      <img src="<%= vehicle.image_url %>" class="card-img-top vehicle-image" alt="<%= vehicle.brand %> <%= vehicle.model %>">
-                    <% else %>
-                      <div class="card-img-top vehicle-image-placeholder d-flex align-items-center justify-content-center bg-light">
-                        <i class="fa-solid fa-car fa-3x text-muted"></i>
-                      </div>
-                    <% end %>
-                    <div class="position-absolute top-0 end-0 m-2">
-                      <span class="badge bg-warning text-dark"><%= vehicle.category.capitalize if vehicle.category %></span>
-                    </div>
-                  </div>
-                  
-                  <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><%= vehicle.brand %> <%= vehicle.model %></h5>
-                    
-                    <div class="vehicle-details mb-3">
-                      <p class="card-text text-muted mb-1">
-                        <i class="fa-solid fa-location-dot"></i> <%= vehicle.localization %>
-                      </p>
-                      <p class="card-text text-muted mb-1">
-                        <i class="fa-solid fa-users"></i> <%= vehicle.number_of_places %> places
-                      </p>
-                      <p class="card-text text-muted mb-1">
-                        <i class="fa-solid fa-gas-pump"></i> <%= vehicle.fuel_type.capitalize if vehicle.fuel_type %>
-                      </p>
-                      <p class="card-text text-muted mb-1">
-                        <i class="fa-solid fa-road"></i> <%= number_with_delimiter(vehicle.kilometers) %> km
-                      </p>
-                    </div>
-                    
-                    <% if vehicle.description.present? %>
-                      <p class="card-text flex-grow-1"><%= truncate(vehicle.description, length: 80) %></p>
-                    <% end %>
-                    
-                    <div class="mt-auto">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="price">
-                          <span class="h5 text-warning"><%= vehicle.daily_price %>€</span>
-                          <small class="text-muted">/jour</small>
-                        </div>
-                        <%= link_to "Voir détails", vehicle_path(vehicle), class: "btn btn-outline-warning btn-sm" %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          <% else %>
-            <div class="col-12">
-              <div class="text-center py-5">
-                <i class="fa-solid fa-car fa-4x text-muted mb-3"></i>
-                <h4 class="text-muted">Aucun véhicule trouvé</h4>
-                <p class="text-muted">Essayez de modifier vos critères de recherche</p>
-                <% if user_signed_in? %>
-                  <%= link_to "Ajouter le premier véhicule", new_vehicle_path, class: "btn btn-warning" %>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= turbo_frame_tag "vehicles_results", data: { action: "turbo:frame-load->map-sticky#reinitialize" } do %>
+      <%= render 'results' %>
+    <% end %>
 
     <%# MAP SECTION - RIGHT SIDE %>
-    <div class="map-section">
-      <div class="map-container">
+    <div class="map-section" data-controller="map-sticky">
+      <div class="map-container" data-map-sticky-target="map">
         <h4 class="mb-3 text-center">Localisation des véhicules</h4>
         <div class="map-wrapper"
           data-controller="map"
@@ -135,281 +109,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .vehicle-card {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  }
-  
-  .vehicle-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
-  }
-  
-  .vehicle-image {
-    height: 180px;
-    object-fit: cover;
-  }
-  
-  .vehicle-image-placeholder {
-    height: 180px;
-  }
-  
-  .search-section {
-    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-  }
-  
-  .form-group {
-    min-width: 200px;
-  }
-  
-  .vehicle-details p {
-    font-size: 0.85rem;
-  }
-  
-  .price {
-    font-weight: bold;
-  }
-
-  .main-content-wrapper {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-  }
-
-  .vehicles-section {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .map-section {
-    flex: 0 0 400px;
-    width: 400px;
-    position: relative;
-  }
-
-  .map-container {
-    z-index: 100;
-    height: fit-content;
-    max-height: calc(100vh - 300px);
-  }
-
-  .map-wrapper {
-    width: 100%;
-    height: min(600px, calc(100vh - 200px));
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border: 2px solid #ffeaa7;
-  }
-
-  @media (max-width: 991.98px) {
-    .main-content-wrapper {
-      flex-direction: column;
-    }
-    
-    .map-section {
-      flex: none;
-      width: 100%;
-      order: 2;
-    }
-    
-    .map-container {
-      position: static !important;
-      margin-top: 2rem;
-    }
-    
-    .map-wrapper {
-      height: 400px;
-    }
-  }
-
-  @media (max-width: 767.98px) {
-    .vehicle-image,
-    .vehicle-image-placeholder {
-      height: 200px;
-    }
-    
-    .vehicle-details p {
-      font-size: 0.9rem;
-    }
-  }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const mapContainer = document.querySelector('.map-container');
-  const mapSection = document.querySelector('.map-section');
-  
-  if (mapContainer && mapSection && window.innerWidth > 991) {
-    let isSticky = false;
-    
-    // Obtenir la position initiale après le chargement complet
-    setTimeout(() => {
-      const originalTop = mapContainer.getBoundingClientRect().top + window.pageYOffset;
-      
-      function handleScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const windowHeight = window.innerHeight;
-        const mapHeight = mapContainer.offsetHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-        
-        // Position où la carte doit devenir sticky
-        const stickyStartPosition = originalTop - 20;
-        
-        // Vérifier si la carte dépasserait en bas
-        const wouldOverflow = (scrollTop + 20 + mapHeight) > documentHeight;
-        
-        if (scrollTop >= stickyStartPosition && !wouldOverflow) {
-          // Zone sticky
-          if (!isSticky) {
-            // Calculer la hauteur maximale disponible
-            const maxAvailableHeight = windowHeight - 40; // 20px top + 20px bottom margin
-            const mapWrapper = mapContainer.querySelector('.map-wrapper');
-            if (mapWrapper) {
-              const currentHeight = parseInt(window.getComputedStyle(mapWrapper).height);
-              const newHeight = Math.min(600, maxAvailableHeight - 60); // 60px pour le titre et marges
-              mapWrapper.style.height = newHeight + 'px';
-            }
-            
-            mapContainer.style.position = 'fixed';
-            mapContainer.style.top = '20px';
-            mapContainer.style.width = mapSection.offsetWidth + 'px';
-            mapContainer.style.zIndex = '1000';
-            isSticky = true;
-          }
-        } else {
-          // Position normale ou gestion du dépassement
-          if (isSticky) {
-            // Restaurer la hauteur originale
-            const mapWrapper = mapContainer.querySelector('.map-wrapper');
-            if (mapWrapper) {
-              mapWrapper.style.height = 'min(600px, calc(100vh - 200px))';
-            }
-            
-            if (wouldOverflow) {
-              // Coller en bas
-              const bottomPosition = documentHeight - mapHeight - 40;
-              mapContainer.style.position = 'absolute';
-              mapContainer.style.top = bottomPosition + 'px';
-              mapContainer.style.width = mapSection.offsetWidth + 'px';
-              mapContainer.style.zIndex = '1000';
-            } else {
-              // Retour normal
-              mapContainer.style.position = 'static';
-              mapContainer.style.top = 'auto';
-              mapContainer.style.width = 'auto';
-              mapContainer.style.zIndex = 'auto';
-            }
-            isSticky = false;
-          }
-        }
-      }
-      
-      window.addEventListener('scroll', handleScroll);
-      handleScroll(); // Appel initial
-      
-    }, 100); // Délai pour s'assurer que tout est chargé
-    
-    window.addEventListener('resize', function() {
-      if (window.innerWidth <= 991) {
-        mapContainer.style.position = 'static';
-        mapContainer.style.top = 'auto';
-        mapContainer.style.width = 'auto';
-        mapContainer.style.zIndex = 'auto';
-        isSticky = false;
-      }
-    });
-  }
-});
-</script>
-
-<script>
-// Filtrage des véhicules par ville côté client
-document.addEventListener('DOMContentLoaded', function() {
-  const cityInput = document.getElementById('city-filter');
-  const vehicleCards = document.querySelectorAll('.vehicle-card');
-  const resultsCount = document.querySelector('h3');
-  
-  function filterVehiclesByCity(cityValue) {
-    let visibleCount = 0;
-    
-    vehicleCards.forEach(card => {
-      const locationElement = card.querySelector('.fa-location-dot').parentElement;
-      const vehicleLocation = locationElement.textContent.trim();
-      
-      if (!cityValue || cityValue === '') {
-        // Aucun filtre - afficher tous les véhicules
-        card.closest('.col-lg-6').style.display = 'block';
-        visibleCount++;
-      } else {
-        // Vérifier si la localisation contient la ville recherchée
-        const normalizedLocation = vehicleLocation.toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const normalizedCity = cityValue.toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        
-        if (normalizedLocation.includes(normalizedCity)) {
-          card.closest('.col-lg-6').style.display = 'block';
-          visibleCount++;
-        } else {
-          card.closest('.col-lg-6').style.display = 'none';
-        }
-      }
-    });
-    
-    // Mettre à jour le compteur
-    if (resultsCount) {
-      resultsCount.textContent = `${visibleCount} véhicule${visibleCount > 1 ? 's' : ''} disponible${visibleCount > 1 ? 's' : ''}`;
-    }
-    
-    // Afficher un message si aucun véhicule trouvé
-    const noResultsDiv = document.querySelector('.no-results-message');
-    if (visibleCount === 0 && cityValue) {
-      if (!noResultsDiv) {
-        const message = document.createElement('div');
-        message.className = 'col-12 no-results-message';
-        message.innerHTML = `
-          <div class="text-center py-5">
-            <i class="fa-solid fa-map-location-dot fa-4x text-muted mb-3"></i>
-            <h4 class="text-muted">Aucun véhicule trouvé à ${cityValue}</h4>
-            <p class="text-muted">Essayez une autre ville ou supprimez le filtre</p>
-          </div>
-        `;
-        document.querySelector('.row.g-4').appendChild(message);
-      }
-    } else if (noResultsDiv) {
-      noResultsDiv.remove();
-    }
-  }
-  
-  // Filtrage en temps réel pendant la frappe
-  if (cityInput) {
-    cityInput.addEventListener('input', function(e) {
-      clearTimeout(this.filterTimeout);
-      this.filterTimeout = setTimeout(() => {
-        filterVehiclesByCity(e.target.value);
-      }, 300);
-    });
-    
-    // Filtrage initial si il y a déjà une valeur
-    const initialCity = new URLSearchParams(window.location.search).get('city');
-    if (initialCity) {
-      filterVehiclesByCity(initialCity);
-    }
-  }
-  
-  // Réinitialiser le filtre quand le formulaire est soumis
-  const searchForm = document.querySelector('form[action*="vehicles"]');
-  if (searchForm) {
-    searchForm.addEventListener('submit', function() {
-      // Le filtrage se fera après le rechargement de la page
-    });
-  }
-});
-</script>

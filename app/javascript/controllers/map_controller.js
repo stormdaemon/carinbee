@@ -29,14 +29,25 @@ export default class extends Controller {
   }
 
   connect() {
+    // Vérifier que le CSS Mapbox est chargé
+    this.#checkMapboxCSS()
+    
+    console.log('Map controller connected')
+    console.log('Markers data:', this.markersValue)
+    
     mapboxgl.accessToken = this.apiKeyValue
 
     this.map = new mapboxgl.Map({
       container: this.element,
       style: "mapbox://styles/mapbox/streets-v10",
       center: [2.3522, 46.6034], // Centre de la France
-      zoom: 5
+      zoom: 5,
+      // Forcer la projection mercator pour éviter les problèmes avec la projection globe
+      projection: { name: "mercator" }
     })
+
+    // Stocker l'instance pour que sticky controller puisse y accéder
+    this.element.mapboxInstance = this.map
 
     this.map.on('load', () => {
       this.#addMarkersToMap()
@@ -46,33 +57,127 @@ export default class extends Controller {
 
     // Ajouter le contrôle de navigation
     this.map.addControl(new mapboxgl.NavigationControl())
+    
+    // Écouter les événements de resize pour recalculer les positions
+    this.map.on('resize', () => {
+      setTimeout(() => {
+        if (this.currentMarkers) {
+          this.#updateMarkersPosition()
+        }
+      }, 100)
+    })
+  }
+
+  #checkMapboxCSS() {
+    // Vérifier si le CSS Mapbox est chargé
+    const testEl = document.createElement('div')
+    testEl.className = 'mapboxgl-marker'
+    testEl.style.display = 'none'
+    document.body.appendChild(testEl)
+    
+    const computedStyle = window.getComputedStyle(testEl)
+    const hasCSS = computedStyle.position === 'absolute'
+    
+    document.body.removeChild(testEl)
+    
+    if (!hasCSS) {
+      console.warn('Mapbox GL CSS semble être manquant. Les markers pourraient ne pas s\'afficher correctement.')
+    }
   }
 
   #addMarkersToMap() {
     this.currentMarkers = []
     
     this.markersValue.forEach((marker) => {
-      const popup = new mapboxgl.Popup({
-        closeButton: true,
-        closeOnClick: false,
-        maxWidth: '320px'
-      }).setHTML(marker.info_window_html)
-  
-      // Create a HTML element for your custom marker
+      // Vérifier que les coordonnées sont valides
+      if (!marker.lat || !marker.lng) {
+        console.warn('Marker sans coordonnées:', marker)
+        return
+      }
+      
+      // Debug: vérifier le contenu de la popup
+      console.log('Popup HTML:', marker.info_window_html)
+      
+      // Créer un élément HTML pour le marker personnalisé
       const customMarker = document.createElement("div")
       customMarker.innerHTML = marker.marker_html
-  
-      // Pass the element as an argument to the new marker
-      const mapboxMarker = new mapboxgl.Marker(customMarker)
+      // Styles essentiels pour le positionnement
+      customMarker.style.position = 'absolute'
+      customMarker.style.width = '30px'
+      customMarker.style.height = '30px'
+      customMarker.style.cursor = 'pointer'
+      
+      // Créer le marker SANS popup attachée
+      const mapboxMarker = new mapboxgl.Marker({
+        element: customMarker,
+        anchor: 'center', // Centrer le marker sur sa position
+        offset: [0, 0] // Pas de décalage
+      })
         .setLngLat([marker.lng, marker.lat])
-        .setPopup(popup)
         .addTo(this.map)
+      
+      // Gérer le clic sur le marker pour afficher la popup au centre
+      customMarker.addEventListener('click', () => {
+        // Fermer toute popup existante
+        const existingPopup = this.element.querySelector('.vehicle-popup-overlay')
+        if (existingPopup) {
+          existingPopup.remove()
+        }
+        
+        // Créer une overlay pour la popup dans le container de la carte
+        const overlay = document.createElement('div')
+        overlay.className = 'vehicle-popup-overlay'
+        overlay.innerHTML = `
+          <div class="vehicle-popup-container">
+            <button class="vehicle-popup-close">&times;</button>
+            ${marker.info_window_html}
+          </div>
+        `
+        
+        // Ajouter au container de la carte (pas au body)
+        this.element.appendChild(overlay)
+        
+        // Fermer au clic sur l'overlay
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            overlay.remove()
+          }
+        })
+        
+        // Fermer au clic sur le bouton
+        overlay.querySelector('.vehicle-popup-close').addEventListener('click', () => {
+          overlay.remove()
+        })
+      })
       
       // Stocker le marker avec ses données
       this.currentMarkers.push({
         marker: mapboxMarker,
         data: marker
       })
+    })
+    
+    // Ajuster la vue si il y a des markers
+    if (this.markersValue.length > 0) {
+      const bounds = new mapboxgl.LngLatBounds()
+      this.markersValue.forEach(marker => {
+        if (marker.lat && marker.lng) {
+          bounds.extend([marker.lng, marker.lat])
+        }
+      })
+      
+      this.map.fitBounds(bounds, { 
+        padding: { top: 50, bottom: 50, left: 50, right: 50 }, 
+        maxZoom: 15
+      })
+    }
+  }
+
+  #updateMarkersPosition() {
+    // Forcer la mise à jour de la position des markers
+    this.currentMarkers.forEach(item => {
+      const lngLat = item.marker.getLngLat()
+      item.marker.setLngLat(lngLat)
     })
   }
 

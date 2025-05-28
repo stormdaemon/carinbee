@@ -1,0 +1,94 @@
+/* Styles pour les vues utilisateur (edit et show) */
+
+/* Animation pour l'abeille sur le bouton "Modifier le profil" */
+#updateProfileSubmitButton {
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
+#updateProfileSubmitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+#smallBeeOnUpdateProfileButton {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  height: 30px;
+  width: auto;
+  z-index: 10;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.flying-bee-update-profile {
+  transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+  opacity: 0;
+}
+
+/* Animation pour le logo abeille sur la carte */
+#smallBeeLogoOnCard {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.flying-bee-from-card {
+  transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+  opacity: 0;
+}
+
+/* Styles pour le logo abeille sur le bouton "Add Car" */
+#smallBeeOnAddCarButton {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  height: 35px;
+  width: auto;
+  z-index: 10;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.flying-bee-from-add-car-button {
+  transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+  opacity: 0;
+}
+
+/* Animation pour le bouton "Modifier le profil" */
+#editProfileButton {
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
+#editProfileButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 204, 1, 0.3);
+}
+
+/* Animation pour le bouton "Ajouter un véhicule" */
+#addCarButton {
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
+#addCarButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+/* Prévenir le scroll horizontal */
+.profile-container {
+  overflow-x: hidden;
+}
+
+.profile-card {
+  position: relative;
+  overflow: hidden;
+} 

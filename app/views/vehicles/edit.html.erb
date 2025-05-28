@@ -1,53 +1,3 @@
-<style>
-  /* Animation pour l'abeille sur le bouton "Modifier le véhicule" */
-  #updateVehicleButton {
-    position: relative;
-    overflow: visible;
-    transition: all 0.3s ease;
-  }
-  
-  #updateVehicleButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-  }
-  
-  #smallBeeOnUpdateVehicleButton {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    height: 30px;
-    width: auto;
-    z-index: 10;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
-    pointer-events: none;
-    transform-origin: center center;
-  }
-  
-  .flying-bee-update-vehicle {
-    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
-    opacity: 0;
-  }
-  
-  /* Animation de pulsation pour l'abeille au repos */
-  @keyframes beePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-  
-  .bee-pulse {
-    animation: beePulse 2s ease-in-out infinite;
-  }
-  
-  .vehicle-image-preview {
-    max-width: 300px;
-    max-height: 200px;
-    object-fit: cover;
-    border-radius: 0.25rem;
-    margin-top: 10px;
-    border: 1px solid #dee2e6;
-  }
-</style>
-
 <div class="container mt-4 mb-4">
   <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
     <h3 class="fw-bold mb-4 pt-2">Modification : <%= @vehicle.brand %> <%= @vehicle.model %></h3>
@@ -55,12 +5,12 @@
     <% if @vehicle.try(:image_url).present? %>
       <div class="mb-3 text-center">
         <p class="fw-semibold">Image actuelle (non modifiable via ce formulaire) :</p>
-        <%= image_tag @vehicle.image_url, class: "vehicle-image-preview", alt: "Image actuelle de #{@vehicle.model}" %>
+        <%= image_tag @vehicle.image_url, class: "vehicle-image-preview", alt: "Image actuelle de #{@vehicle.model}", style: "max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 0.25rem; margin-top: 10px; border: 1px solid #dee2e6;" %>
       </div>
     <% elsif @vehicle.respond_to?(:image) && @vehicle.image.attached? %>
       <div class="mb-3 text-center">
         <p class="fw-semibold">Image actuelle (non modifiable via ce formulaire) :</p>
-        <%= image_tag @vehicle.image, class: "vehicle-image-preview", alt: "Image actuelle de #{@vehicle.model}" %>
+        <%= image_tag @vehicle.image, class: "vehicle-image-preview", alt: "Image actuelle de #{@vehicle.model}", style: "max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 0.25rem; margin-top: 10px; border: 1px solid #dee2e6;" %>
       </div>
     <% end %>
 
@@ -134,56 +84,22 @@
         <%= form.label :available, "Ce véhicule est-il actuellement disponible à la location ?", class: "form-check-label" %>
       </div>
 
-      <div class="text-center mt-4">
+      <div class="text-center mt-4" data-controller="vehicle-edit">
         <div style="position: relative; display: inline-block;">
-          <%= form.submit "Modifier le véhicule", class: "btn btn-primary", id: "updateVehicleButton" %>
-          <img id="smallBeeOnUpdateVehicleButton"
+          <%= form.submit "Modifier le véhicule", 
+              class: "btn btn-warning", 
+              data: {
+                vehicle_edit_target: "updateButton",
+                action: "mouseenter->vehicle-edit#mouseEnter mouseleave->vehicle-edit#mouseLeave"
+              } %>
+          <img data-vehicle-edit-target="beeIcon"
                src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
                alt="Small Bee on Update Vehicle Button"
-               class="bee-pulse">
+               class="bee-pulse"
+               style="position: absolute; top: -12px; right: -12px; height: 30px; width: auto; z-index: 10; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out; pointer-events: none; transform-origin: center center;">
         </div>
         <%= link_to "Annuler", vehicle_path(@vehicle), class: "btn btn-outline-secondary" %>
       </div>
     <% end %>
   </div>
 </div>
-
-<script>
-  function initializeVehicleEditAnimation() {
-    const updateVehicleBtn = document.getElementById('updateVehicleButton');
-    const beeLogoOnUpdateVehicleBtn = document.getElementById('smallBeeOnUpdateVehicleButton');
-
-    if (updateVehicleBtn && beeLogoOnUpdateVehicleBtn) {
-      beeLogoOnUpdateVehicleBtn.classList.remove('flying-bee-update-vehicle');
-      let isHovering = false;
-      let hasFlown = false;
-
-      updateVehicleBtn.addEventListener('mouseenter', function() {
-        if (!isHovering) {
-          isHovering = true;
-          hasFlown = false;
-          // Arrêter l'animation de pulsation
-          beeLogoOnUpdateVehicleBtn.classList.remove('bee-pulse');
-        }
-        if (!hasFlown) {
-          beeLogoOnUpdateVehicleBtn.classList.add('flying-bee-update-vehicle');
-          hasFlown = true;
-        }
-      });
-
-      updateVehicleBtn.addEventListener('mouseleave', function() {
-        isHovering = false;
-        // Redémarrer l'animation de pulsation après un délai
-        setTimeout(() => {
-          if (!isHovering) {
-            beeLogoOnUpdateVehicleBtn.classList.remove('flying-bee-update-vehicle');
-            beeLogoOnUpdateVehicleBtn.classList.add('bee-pulse');
-            hasFlown = false;
-          }
-        }, 1000);
-      });
-    }
-  }
-
-  document.addEventListener('turbo:load', initializeVehicleEditAnimation);
-</script>

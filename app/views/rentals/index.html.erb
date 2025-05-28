@@ -1,80 +1,168 @@
-<div class='container mt-3'>
+<div class="container mt-4 mb-4" data-controller="rentals-index">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <h1 class="page-title">Mes Locations</h1>
+    <%= link_to "← Retour", vehicles_path, class: "btn btn-outline-secondary" %>
+  </div>
 
-  <%# H1 SECTION %>
-
-  <%# <div class='d-flex justify-content-between align-items-center mb-4'> %>
-  <h1>My Rentals</h1>
-  <%# </div> %>
-
-
-  <%# RESULTS/INDEX SECTION %>
-  <div class='row justify-content-evenly'>
-
-    <%# PAST RENTALS %>
-    <div class='mb-4 col-3'>
-      <h2>Mes locations</h2>
-        <% @my_rentals.each do |r| %>
-
-        <%# CARD IMG %>
-        <div class="card" style="width: 20rem;">
-          <img src="<%= r.vehicle.image_url%>" class="card-img-top" alt="<%=r.vehicle.model%>">
-
-          <%# CARD BODY %>
-          <div class="card-body">
-            <h5 class="card-title"><%=r.vehicle.model%></h5>
-
-            <p class="card-text"><%=r.vehicle.brand%></p>
-            <p class="card-text"><%=r.vehicle.kilometers%> km</p>
-            <p class="card-text"><%=r.vehicle.daily_price%> €/ jour</p>
-
-            <a href="#" class="btn btn-info">Voir véhicule</a>
-          </div>
+  <!-- Main Content -->
+  <div class="row g-4">
+    
+    <!-- Mes Locations (en tant que locataire) -->
+    <div class="col-lg-6">
+      <div class="rentals-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-car text-primary me-2"></i>
+            Mes locations
+          </h2>
+          <span class="badge bg-warning text-dark rounded-pill"><%= @my_rentals.count %></span>
         </div>
-
-        <% end %>
+        
+        <div class="rentals-grid">
+          <% if @my_rentals.any? %>
+            <% @my_rentals.each do |rental| %>
+              <div class="rental-card">
+                <div class="rental-image-container">
+                  <% if rental.vehicle.image_url.present? %>
+                    <img src="<%= rental.vehicle.image_url %>" class="rental-image" alt="<%= rental.vehicle.brand %> <%= rental.vehicle.model %>">
+                  <% else %>
+                    <div class="rental-image-placeholder">
+                      <i class="fa-solid fa-car fa-2x text-muted"></i>
+                    </div>
+                  <% end %>
+                  <div class="rental-status-badge">
+                    <span class="badge status-<%= rental.status %>"><%= rental.status.capitalize %></span>
+                  </div>
+                </div>
+                
+                <div class="rental-content">
+                  <h5 class="rental-title"><%= rental.vehicle.brand %> <%= rental.vehicle.model %></h5>
+                  
+                  <div class="rental-details">
+                    <div class="detail-item">
+                      <i class="fa-solid fa-location-dot text-muted"></i>
+                      <span><%= rental.vehicle.localization %></span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fa-solid fa-road text-muted"></i>
+                      <span><%= number_with_delimiter(rental.vehicle.kilometers) %> km</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fa-solid fa-calendar text-muted"></i>
+                      <span><%= rental.rental_start_date.strftime("%d/%m/%Y") %> - <%= rental.rental_end_date.strftime("%d/%m/%Y") %></span>
+                    </div>
+                  </div>
+                  
+                  <div class="rental-footer">
+                    <div class="rental-price">
+                      <span class="price-amount"><%= rental.total_price %>€</span>
+                      <small class="text-muted">total</small>
+                    </div>
+                    <%= link_to "Voir détails", rental_path(rental), class: "btn btn-outline-warning btn-sm" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="empty-state">
+              <i class="fa-solid fa-car fa-3x text-muted mb-3"></i>
+              <h4 class="text-muted">Aucune location</h4>
+              <p class="text-muted">Vous n'avez pas encore loué de véhicule</p>
+              <%= link_to "Parcourir les véhicules", vehicles_path, class: "btn btn-warning" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
 
-
-
-
-    <div class='mb-4 col-3'>
-    <%# ACTUAL RENTALS %>
-    <h2 class="text-nowrap">Demandes de location</h2>
-
-      <% @vehicle_rentals.each do |r| %>
-
-      <%# CARD IMG %>
-      <div class="card" style="width: 20rem;">
-      <img src="<%= r.vehicle.image_url%>" class="card-img-top" alt="<%=r.vehicle.model%>">
-
-      <%# CARD BODY %>
-      <div class="card-body">
-        <h5 class="card-title"><%=r.vehicle.model%></h5>
-
-        <p class="card-text"><%=r.vehicle.brand%></p>
-        <p class="card-text"><%=r.vehicle.kilometers%> km</p>
-        <p class="card-text"><%=r.vehicle.daily_price%> €/ jour</p>
-
-        <%= link_to confirm_rental_path(r.id),
-            method: :patch,
-            class: "btn btn-primary btn-lg",
-            data: {
-              confirm: "Confirmer la location de ce véhicule ?\n\nCette action est irréversible.",
-              turbo_method: :patch,
-              turbo_confirm: "Confirmer la location ?"
-            } do %>
-          <i class="fas fa-check-circle me-2"></i>
-          Confirmer la location
-        <% end %>
-
-</div>
-
-      <% end %>
+    <!-- Demandes de Location (en tant que propriétaire) -->
+    <div class="col-lg-6">
+      <div class="rentals-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-handshake text-warning me-2"></i>
+            Demandes de location
+          </h2>
+          <span class="badge bg-warning text-dark rounded-pill"><%= @vehicle_rentals.count %></span>
+        </div>
+        
+        <div class="rentals-grid">
+          <% if @vehicle_rentals.any? %>
+            <% @vehicle_rentals.each do |rental| %>
+              <div class="rental-card">
+                <div class="rental-image-container">
+                  <% if rental.vehicle.image_url.present? %>
+                    <img src="<%= rental.vehicle.image_url %>" class="rental-image" alt="<%= rental.vehicle.brand %> <%= rental.vehicle.model %>">
+                  <% else %>
+                    <div class="rental-image-placeholder">
+                      <i class="fa-solid fa-car fa-2x text-muted"></i>
+                    </div>
+                  <% end %>
+                  <div class="rental-status-badge">
+                    <span class="badge status-<%= rental.status %>"><%= rental.status.capitalize %></span>
+                  </div>
+                </div>
+                
+                <div class="rental-content">
+                  <h5 class="rental-title"><%= rental.vehicle.brand %> <%= rental.vehicle.model %></h5>
+                  
+                  <div class="rental-details">
+                    <div class="detail-item">
+                      <i class="fa-solid fa-user text-muted"></i>
+                      <span><%= rental.user.first_name %> <%= rental.user.last_name %></span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fa-solid fa-calendar text-muted"></i>
+                      <span><%= rental.rental_start_date.strftime("%d/%m/%Y") %> - <%= rental.rental_end_date.strftime("%d/%m/%Y") %></span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fa-solid fa-euro-sign text-muted"></i>
+                      <span><%= rental.total_price %>€ total</span>
+                    </div>
+                  </div>
+                  
+                  <div class="rental-footer">
+                    <% if rental.status == 'en_attente' %>
+                      <div class="action-buttons">
+                        <%= link_to confirm_rental_path(rental.id),
+                            method: :patch,
+                            class: "btn btn-success btn-sm",
+                            data: {
+                              confirm: "Confirmer la location de ce véhicule ?",
+                              turbo_method: :patch
+                            } do %>
+                          <i class="fas fa-check me-1"></i>
+                          Confirmer
+                        <% end %>
+                        <%= link_to refuse_rental_path(rental.id),
+                            method: :patch,
+                            class: "btn btn-outline-danger btn-sm",
+                            data: {
+                              confirm: "Refuser cette demande ?",
+                              turbo_method: :patch
+                            } do %>
+                          <i class="fas fa-times me-1"></i>
+                          Refuser
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <%= link_to "Voir détails", rental_path(rental), class: "btn btn-outline-warning btn-sm" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="empty-state">
+              <i class="fa-solid fa-handshake fa-3x text-muted mb-3"></i>
+              <h4 class="text-muted">Aucune demande</h4>
+              <p class="text-muted">Vous n'avez pas encore reçu de demande de location</p>
+              <%= link_to "Ajouter un véhicule", new_vehicle_path, class: "btn btn-warning" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-
-    </div>
-
-
-
   </div>
 </div>

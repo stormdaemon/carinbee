@@ -1,49 +1,9 @@
 <%# app/views/vehicles/my_vehicles.html.erb %>
 
-<style>
-  .vehicle-card-actions a {
-    margin-right: 5px;
-  }
-  .vehicle-card-actions form { /* Pour le bouton Delete */
-    display: inline;
-  }
-  .vehicle-image-list {
-    width: 100%;
-    height: 200px; /* Hauteur fixe pour les images dans la liste */
-    object-fit: cover; /* S'assure que l'image couvre la zone sans se déformer */
-  }
-
-  /* Styles pour le logo abeille sur le bouton "Add New Vehicle" en bas de page */
-  #smallBeeOnAddNewVehiclePageButton {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    height: 35px;
-    width: auto;
-    z-index: 10;
-    transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
-    pointer-events: none;
-  }
-  .flying-bee-from-add-new-vehicle-page-button {
-    transform: translate(150px, -150px) rotate(75deg) scale(1.5);
-    opacity: 0;
-  }
-</style>
-
 <!-- Main Content Area -->
 <div class="container mt-4 mb-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-bold mb-0">Mes véhicules</h2>
-    <%# Bouton pour ajouter un nouveau véhicule en haut de la liste (optionnel) %>
-    <%# Si vous le préférez uniquement en bas, supprimez cette section %>
-    <div style="position: relative;">
-        <%= link_to "Ajouter un véhicule", new_vehicle_path, class: "btn btn-success", id: "addNewVehicleTopButton" %>
-        <%# On peut réutiliser la même animation/classe si le style du logo est identique %>
-        <img id="smallBeeOnAddNewVehicleTopButton"
-             src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
-             alt="Small Bee on Add New Vehicle Button"
-             style="position: absolute; top: -12px; right: -12px; height: 35px; width: auto; z-index: 10; transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out; pointer-events: none;">
-    </div>
   </div>
 
   <% if @vehicles.any? %>
@@ -81,73 +41,7 @@
   <% else %>
     <div class="card shadow-sm p-4 rounded-3">
       <p class="text-center text-muted fs-5">Vous n'avez pas encore enregistré de véhicules.</p>
-      <p class="text-center">
-        <div style="position: relative; display: inline-block;"> <!-- Pour centrer le bouton et son logo -->
-          <%= link_to "Ajouter votre premier véhicule", new_vehicle_path, class: "btn btn-lg btn-success", id: "addFirstVehicleButton" %>
-          <img id="smallBeeOnAddFirstVehicleButton"
-               src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
-               alt="Small Bee on Add First Vehicle Button"
-               style="position: absolute; top: -12px; right: -12px; height: 35px; width: auto; z-index: 10; transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out; pointer-events: none;">
-        </div>
-      </p>
-    </div>
-  <% end %>
-
-  <%# Bouton pour ajouter un nouveau véhicule en bas de la page si la liste n'est pas vide %>
-  <% if @vehicles.any? %>
-    <div class="mt-5 d-flex justify-content-center">
-      <div style="position: relative;">
-        <%= link_to "Ajouter un autre véhicule", new_vehicle_path, class: "btn btn-lg btn-success", id: "addNewVehicleBottomButton" %>
-        <img id="smallBeeOnAddNewVehiclePageButton" <%# ID unique pour ce logo si nécessaire, sinon on peut réutiliser les classes CSS %>
-             src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
-             alt="Small Bee on Add New Vehicle Button">
-      </div>
     </div>
   <% end %>
 
 </div>
-
-<!-- JavaScript pour l'animation des logos sur les boutons (adapté pour Turbo) -->
-<script>
-  function initializeMyVehiclesAnimations() {
-    // Fonction générique pour animer un logo sur un bouton au survol
-    function setupButtonHoverAnimation(buttonId, logoId, animationClass) {
-      const button = document.getElementById(buttonId);
-      const logo = document.getElementById(logoId);
-
-      if (button && logo) {
-        logo.classList.remove(animationClass); // Réinitialisation pour Turbo
-
-        let isHovering = false;
-        let hasFlown = false;
-
-        button.addEventListener('mouseover', function() {
-          if(!isHovering) {
-              isHovering = true;
-              hasFlown = false;
-          }
-          if(!hasFlown) {
-              logo.classList.add(animationClass);
-              hasFlown = true;
-          }
-        });
-        button.addEventListener('mouseout', function() {
-          isHovering = false;
-          // Optionnel: logo.classList.remove(animationClass);
-        });
-      }
-    }
-
-    // Animation pour le bouton "Add New Vehicle" en haut (si présent)
-    setupButtonHoverAnimation('addNewVehicleTopButton', 'smallBeeOnAddNewVehicleTopButton', 'flying-bee-from-add-new-vehicle-page-button');
-
-    // Animation pour le bouton "Add Your First Vehicle" (si la liste est vide)
-    setupButtonHoverAnimation('addFirstVehicleButton', 'smallBeeOnAddFirstVehicleButton', 'flying-bee-from-add-new-vehicle-page-button');
-
-    // Animation pour le bouton "Add Another Vehicle" en bas (si la liste n'est pas vide)
-    setupButtonHoverAnimation('addNewVehicleBottomButton', 'smallBeeOnAddNewVehiclePageButton', 'flying-bee-from-add-new-vehicle-page-button');
-  }
-
-  // Écouter turbo:load pour initialiser les animations
-  document.addEventListener('turbo:load', initializeMyVehiclesAnimations);
-</script>

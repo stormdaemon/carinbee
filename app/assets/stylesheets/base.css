@@ -1,0 +1,97 @@
+/* BASE STYLES - Variables et styles globaux */
+
+:root {
+  --primary-yellow: #FFCC01;
+  --primary-black: #333333;
+  --primary-white: #F4F4F4;
+  --pure-white: #FFFFFF;
+  --light-gray: #f8f9fa;
+  --medium-gray: #6c757d;
+  --dark-gray: #495057;
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.12);
+  --shadow-heavy: rgba(0, 0, 0, 0.2);
+  --yellow-hover: #e6b800;
+  --yellow-light: rgba(255, 204, 1, 0.1);
+  --yellow-border: rgba(255, 204, 1, 0.2);
+}
+
+/* Global Styles */
+body {
+  background-color: var(--primary-white);
+  font-family: 'Young Serif', serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--primary-black);
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Goblin One', serif;
+  font-weight: bold;
+  color: var(--primary-black);
+}
+
+.brand-text {
+  font-family: 'Goblin One', serif;
+  font-weight: bold;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-yellow);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--yellow-hover);
+}
+
+/* Container improvements */
+.container {
+  max-width: 1200px;
+  overflow-x: hidden;
+}
+
+/* Utility classes */
+.text-primary {
+  color: var(--primary-yellow) !important;
+}
+
+.text-dark {
+  color: var(--primary-black) !important;
+}
+
+.text-light {
+  color: var(--medium-gray) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-yellow) !important;
+}
+
+.bg-dark {
+  background-color: var(--primary-black) !important;
+}
+
+.bg-light {
+  background-color: var(--primary-white) !important;
+}
+
+.border-primary {
+  border-color: var(--primary-yellow) !important;
+} 

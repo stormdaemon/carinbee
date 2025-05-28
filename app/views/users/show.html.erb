@@ -1,88 +1,14 @@
 <%# app/views/users/show.html.erb %>
 
-<style>
-  /* Animation pour le logo abeille sur la carte */
-  #smallBeeLogoOnCard {
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
-    pointer-events: none;
-    transform-origin: center center;
-  }
-  .flying-bee-from-card {
-    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
-    opacity: 0;
-  }
-
-  /* Styles pour le logo abeille sur le bouton "Add Car" */
-  #smallBeeOnAddCarButton {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    height: 35px;
-    width: auto;
-    z-index: 10;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
-    pointer-events: none;
-    transform-origin: center center;
-  }
-  .flying-bee-from-add-car-button {
-    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
-    opacity: 0;
-  }
-  
-  /* Animation pour le bouton "Modifier le profil" */
-  #editProfileButton {
-    position: relative;
-    overflow: visible;
-    transition: all 0.3s ease;
-  }
-  
-  #editProfileButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 204, 1, 0.3);
-  }
-  
-  /* Animation pour le bouton "Ajouter un véhicule" */
-  #addCarButton {
-    position: relative;
-    overflow: visible;
-    transition: all 0.3s ease;
-  }
-  
-  #addCarButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-  }
-  
-  /* Prévenir le scroll horizontal */
-  .profile-container {
-    overflow-x: hidden;
-  }
-  
-  .profile-card {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* Animation de pulsation pour l'abeille au repos */
-  @keyframes beePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-  
-  .bee-pulse {
-    animation: beePulse 2s ease-in-out infinite;
-  }
-</style>
-
 <!-- Main Content Area -->
 <div class="container mt-4 mb-4 profile-container">
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <h2 class="mb-4">Profil utilisateur</h2>
       
-      <div class="card shadow-sm p-4 rounded-3 profile-card" style="background-color: #FFFFFF;">
+      <div class="card shadow-sm p-4 rounded-3 profile-card" style="background-color: #FFFFFF;" data-controller="bee-animation" data-bee-animation-type-value="update">
 
-        <img id="smallBeeLogoOnCard" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Small Bee Logo on Card" class="bee-pulse" style="position: absolute; top: 20px; right: 20px; height: 35px; width: auto;">
+        <img id="smallBeeLogoOnCard" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Small Bee Logo on Card" class="bee-pulse" style="position: absolute; top: 20px; right: 20px; height: 35px; width: auto;" data-bee-animation-target="beeIcon">
 
         <div class="d-flex justify-content-between align-items-start mb-4 pt-2">
             <div>
@@ -93,18 +19,19 @@
             </div>
             <% if current_user == @user %>
                 <div style="margin-top: 5px;">
-                    <%= link_to "Modifier le profil", edit_user_path(@user), class: "btn btn-outline-warning", id: "editProfileButton" %>
+                    <%= link_to "Modifier le profil", edit_user_path(@user), class: "btn btn-outline-warning", id: "editProfileButton", data: { bee_animation_target: "button" } %>
                 </div>
             <% end %>
         </div>
 
         <% if current_user == @user %>
           <div class="mt-4 d-flex justify-content-end">
-            <div style="position: relative;">
-              <%= link_to "Ajouter un véhicule", new_vehicle_path, class: "btn btn-success", id: "addCarButton" %>
+            <div data-controller="bee-animation" data-bee-animation-type-value="update" style="position: relative;">
+              <%= link_to "Ajouter un véhicule", new_vehicle_path, class: "btn btn-success", id: "addCarButton", data: { bee_animation_target: "button" } %>
               <img id="smallBeeOnAddCarButton"
                    src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
-                   alt="Small Bee on Add Car Button">
+                   alt="Small Bee on Add Car Button"
+                   data-bee-animation-target="beeIcon">
             </div>
           </div>
         <% end %>
@@ -113,75 +40,3 @@
     </div>
   </div>
 </div>
-
-<!-- JavaScript to trigger animations (adapté pour Turbo) -->
-<script>
-  function initializeUserProfileAnimations() {
-    const editButton = document.getElementById('editProfileButton');
-    const beeLogoOnCard = document.getElementById('smallBeeLogoOnCard');
-
-    if (editButton && beeLogoOnCard) {
-      beeLogoOnCard.classList.remove('flying-bee-from-card');
-      let isHoveringEdit = false;
-      let hasFlownEdit = false;
-
-      editButton.addEventListener('mouseenter', function() {
-        if (!isHoveringEdit) {
-            isHoveringEdit = true;
-            hasFlownEdit = false;
-            // Arrêter l'animation de pulsation
-            beeLogoOnCard.classList.remove('bee-pulse');
-        }
-        if (!hasFlownEdit) {
-            beeLogoOnCard.classList.add('flying-bee-from-card');
-            hasFlownEdit = true;
-        }
-      });
-      
-      editButton.addEventListener('mouseleave', function() {
-          isHoveringEdit = false;
-          // Redémarrer l'animation de pulsation après un délai
-          setTimeout(() => {
-            if (!isHoveringEdit) {
-              beeLogoOnCard.classList.remove('flying-bee-from-card');
-              beeLogoOnCard.classList.add('bee-pulse');
-              hasFlownEdit = false;
-            }
-          }, 1000);
-      });
-    }
-
-    const addCarButton = document.getElementById('addCarButton');
-    const beeLogoOnAddCarBtn = document.getElementById('smallBeeOnAddCarButton');
-
-    if (addCarButton && beeLogoOnAddCarBtn) {
-      beeLogoOnAddCarBtn.classList.remove('flying-bee-from-add-car-button');
-      let isHoveringAddCar = false;
-      let hasFlownAddCar = false;
-
-      addCarButton.addEventListener('mouseenter', function() {
-        if(!isHoveringAddCar) {
-            isHoveringAddCar = true;
-            hasFlownAddCar = false;
-        }
-        if(!hasFlownAddCar) {
-            beeLogoOnAddCarBtn.classList.add('flying-bee-from-add-car-button');
-            hasFlownAddCar = true;
-        }
-      });
-      
-      addCarButton.addEventListener('mouseleave', function() {
-          isHoveringAddCar = false;
-          // Réinitialiser l'animation après un délai
-          setTimeout(() => {
-            if (!isHoveringAddCar) {
-              beeLogoOnAddCarBtn.classList.remove('flying-bee-from-add-car-button');
-              hasFlownAddCar = false;
-            }
-          }, 1000);
-      });
-    }
-  }
-
-  document.addEventListener('turbo:load', initializeUserProfileAnimations);
-</script>

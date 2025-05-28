@@ -5,6 +5,7 @@ class VehiclesController < ApplicationController
   def index
     @vehicles = Vehicle.where(available: true).includes(:user)
     @vehicles = @vehicles.where("brand ILIKE ? OR model ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if params[:search].present?
+    @vehicles = @vehicles.where("localization ILIKE ?", "%#{params[:city]}%") if params[:city].present?
     @vehicles = @vehicles.where(category: params[:category]) if params[:category].present?
     @vehicles = @vehicles.where("daily_price <= ?", params[:max_price]) if params[:max_price].present?
     @vehicles_for_markers = Vehicle.all
@@ -16,6 +17,11 @@ class VehiclesController < ApplicationController
         info_window_html: render_to_string(partial: "info_window", locals: {vehicle: vehicle}),
         marker_html: render_to_string(partial: "marker")
       }
+    end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("vehicles_results", partial: "results") }
     end
   end
 

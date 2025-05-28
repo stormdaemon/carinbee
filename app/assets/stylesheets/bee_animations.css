@@ -1,0 +1,328 @@
+/* Animations pour l'abeille sur le bouton "Mettre à jour" */
+#updateProfileButton {
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
+#updateProfileButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 204, 1, 0.3);
+}
+
+#updateBeeIcon {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  height: 30px;
+  width: auto;
+  z-index: 10;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.flying-bee-update {
+  transform: translate(120px, -120px) rotate(360deg) scale(1.3);
+  opacity: 0;
+}
+
+/* Animation de pulsation pour l'abeille au repos */
+@keyframes beePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.bee-pulse {
+  animation: beePulse 2s ease-in-out infinite;
+}
+
+/* Animation pour l'abeille du header */
+.brand-logo {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+  z-index: 1001;
+}
+
+.brand-logo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+}
+
+/* Animation complète de l'abeille avec battement d'ailes */
+@keyframes beeEscape {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)) hue-rotate(0deg);
+  }
+  5% {
+    transform: translateX(-20px) translateY(-10px) rotate(-5deg) scale(1.1);
+    opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5)) hue-rotate(10deg);
+  }
+  10% {
+    transform: translateX(-50px) translateY(0) rotate(-10deg) scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7)) hue-rotate(20deg);
+  }
+  15% {
+    transform: translateX(-100px) translateY(-30px) rotate(-15deg) scale(0.9);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 25px rgba(255, 165, 0, 0.8)) hue-rotate(30deg);
+  }
+  25% {
+    transform: translateX(-200px) translateY(-20px) rotate(-20deg) scale(0.8);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.9)) hue-rotate(45deg);
+  }
+  35% {
+    transform: translateX(-350px) translateY(-60px) rotate(-25deg) scale(0.7);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 35px rgba(255, 100, 0, 1)) hue-rotate(60deg);
+  }
+  45% {
+    transform: translateX(-500px) translateY(-40px) rotate(-30deg) scale(0.6);
+    opacity: 0.7;
+    filter: drop-shadow(0 0 40px rgba(255, 69, 0, 1)) hue-rotate(90deg);
+  }
+  50% {
+    transform: translateX(-1000px) translateY(-100px) rotate(-35deg) scale(0.4);
+    opacity: 0;
+    filter: drop-shadow(0 0 50px rgba(255, 0, 0, 1)) hue-rotate(120deg);
+  }
+  51% {
+    transform: translateX(calc(100vw + 200px)) translateY(calc(-100vh - 100px)) rotate(145deg) scale(0.3);
+    opacity: 0;
+    filter: drop-shadow(0 0 60px rgba(138, 43, 226, 1)) hue-rotate(180deg);
+  }
+  55% {
+    transform: translateX(calc(90vw)) translateY(calc(-90vh)) rotate(160deg) scale(0.4);
+    opacity: 0.2;
+    filter: drop-shadow(0 0 50px rgba(75, 0, 130, 1)) hue-rotate(200deg);
+  }
+  65% {
+    transform: translateX(calc(70vw)) translateY(calc(-70vh)) rotate(180deg) scale(0.5);
+    opacity: 0.4;
+    filter: drop-shadow(0 0 40px rgba(0, 0, 255, 1)) hue-rotate(240deg);
+  }
+  75% {
+    transform: translateX(calc(40vw)) translateY(calc(-40vh)) rotate(220deg) scale(0.7);
+    opacity: 0.6;
+    filter: drop-shadow(0 0 35px rgba(0, 100, 255, 1)) hue-rotate(280deg);
+  }
+  85% {
+    transform: translateX(100px) translateY(-20px) rotate(300deg) scale(0.9);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 30px rgba(0, 191, 255, 1)) hue-rotate(320deg);
+  }
+  90% {
+    transform: translateX(50px) translateY(-15px) rotate(330deg) scale(0.95);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 25px rgba(0, 255, 255, 0.8)) hue-rotate(340deg);
+  }
+  95% {
+    transform: translateX(20px) translateY(-5px) rotate(350deg) scale(1);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 20px rgba(127, 255, 212, 0.6)) hue-rotate(350deg);
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotate(360deg) scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)) hue-rotate(360deg);
+  }
+}
+
+/* Battement d'ailes pendant le vol */
+@keyframes wingFlutter {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  25% { transform: scaleX(1.3) scaleY(0.7); }
+  50% { transform: scaleX(0.7) scaleY(1.3); }
+  75% { transform: scaleX(1.2) scaleY(0.8); }
+}
+
+.bee-flutter {
+  animation: wingFlutter 0.1s ease-in-out infinite;
+}
+
+.bee-flying {
+  animation: beeEscape 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Effet de paillettes scintillantes */
+@keyframes glitterEffect {
+  0% {
+    opacity: 0;
+    transform: translateX(0) translateY(0) scale(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+  20% {
+    opacity: 0.9;
+    transform: scale(1.5) rotate(90deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2) rotate(135deg);
+  }
+  40% {
+    opacity: 0.8;
+    transform: scale(1.8) rotate(180deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4) rotate(225deg);
+  }
+  60% {
+    opacity: 0.7;
+    transform: scale(2) rotate(270deg);
+  }
+  70% {
+    opacity: 0.9;
+    transform: scale(1.1) rotate(315deg);
+  }
+  80% {
+    opacity: 0.5;
+    transform: scale(1.6) rotate(360deg);
+  }
+  90% {
+    opacity: 0.3;
+    transform: scale(0.8) rotate(405deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(450deg);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    background: radial-gradient(circle, rgba(255, 215, 0, 1) 0%, rgba(255, 235, 59, 0.8) 50%, transparent 100%);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  }
+  50% { 
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 215, 0, 0.9) 50%, transparent 100%);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+  }
+}
+
+.glitter-trail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.glitter-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 1) 0%, rgba(255, 235, 59, 0.8) 50%, transparent 100%);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  pointer-events: none;
+  width: 6px;
+  height: 6px;
+  animation: sparkle 1.2s ease-in-out infinite alternate;
+  z-index: 15;
+}
+
+/* Paillettes colorées */
+.glitter-particle:nth-child(2n) {
+  background: linear-gradient(45deg, #ff6b6b, #ff8a80, #ffcdd2, #ff6b6b);
+  box-shadow: 
+    0 0 8px #ff6b6b,
+    0 0 16px #ff8a80,
+    0 0 24px rgba(255, 107, 107, 0.4);
+  animation-delay: 0.3s;
+  width: 4px;
+  height: 4px;
+}
+
+.glitter-particle:nth-child(3n) {
+  background: linear-gradient(45deg, #4fc3f7, #81d4fa, #b3e5fc, #4fc3f7);
+  box-shadow: 
+    0 0 8px #4fc3f7,
+    0 0 16px #81d4fa,
+    0 0 24px rgba(79, 195, 247, 0.4);
+  animation-delay: 0.6s;
+  width: 7px;
+  height: 7px;
+}
+
+.glitter-particle:nth-child(4n) {
+  background: linear-gradient(45deg, #ba68c8, #ce93d8, #e1bee7, #ba68c8);
+  box-shadow: 
+    0 0 8px #ba68c8,
+    0 0 16px #ce93d8,
+    0 0 24px rgba(186, 104, 200, 0.4);
+  animation-delay: 0.9s;
+  width: 5px;
+  height: 5px;
+}
+
+.glitter-particle:nth-child(5n) {
+  background: linear-gradient(45deg, #66bb6a, #81c784, #a5d6a7, #66bb6a);
+  box-shadow: 
+    0 0 8px #66bb6a,
+    0 0 16px #81c784,
+    0 0 24px rgba(102, 187, 106, 0.4);
+  animation-delay: 0.15s;
+  width: 6.5px;
+  height: 6.5px;
+}
+
+/* Traînée de miel */
+@keyframes honeyTrail {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.8) 0%, rgba(255, 235, 59, 0.6) 50%, transparent 100%);
+  }
+  20% {
+    opacity: 0.8;
+    transform: scale(1);
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.9) 0%, rgba(255, 235, 59, 0.7) 50%, rgba(255, 248, 225, 0.3) 100%);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+    background: radial-gradient(circle, rgba(255, 193, 7, 1) 0%, rgba(255, 235, 59, 0.8) 40%, rgba(255, 248, 225, 0.4) 80%, transparent 100%);
+  }
+  80% {
+    opacity: 0.6;
+    transform: scale(1.2);
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.7) 0%, rgba(255, 235, 59, 0.5) 50%, transparent 100%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+    background: radial-gradient(circle, transparent 0%);
+  }
+}
+
+.honey-trail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* Effet de zoom sur la page */
+@keyframes pageZoom {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.page-zoom {
+  animation: pageZoom 4.5s ease-in-out;
+  transform-origin: center center;
+} 

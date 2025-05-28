@@ -1,45 +1,3 @@
-<!-- CSS for the logo positioning and animation -->
-<style>
-  /* Animation pour l'abeille sur le bouton "Modifier le profil" */
-  #updateProfileSubmitButton {
-    position: relative;
-    overflow: visible;
-    transition: all 0.3s ease;
-  }
-  
-  #updateProfileSubmitButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-  }
-  
-  #smallBeeOnUpdateProfileButton {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    height: 30px;
-    width: auto;
-    z-index: 10;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
-    pointer-events: none;
-    transform-origin: center center;
-  }
-  
-  .flying-bee-update-profile {
-    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
-    opacity: 0;
-  }
-  
-  /* Animation de pulsation pour l'abeille au repos */
-  @keyframes beePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-  
-  .bee-pulse {
-    animation: beePulse 2s ease-in-out infinite;
-  }
-</style>
-
 <!-- Main Content Area -->
 <div class="container mt-4 mb-4">
   <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
@@ -91,12 +49,13 @@
       </div>
 
       <div class="actions mt-4 d-flex justify-content-between align-items-center">
-        <div style="position: relative;"> <!-- Wrapper for the submit button and its bee logo -->
-          <%= form.submit "Modifier le profil", class: "btn btn-primary", id: "updateProfileSubmitButton" %>
+        <div data-controller="bee-animation" data-bee-animation-type-value="update" style="position: relative;">
+          <%= form.submit "Modifier le profil", class: "btn btn-warning", id: "updateProfileSubmitButton", data: { bee_animation_target: "button" } %>
           <img id="smallBeeOnUpdateProfileButton"
                src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
                alt="Small Bee on Update Profile Button"
-               class="bee-pulse">
+               class="bee-pulse"
+               data-bee-animation-target="beeIcon">
         </div>
         <%= link_to "Annuler", user_path(@user), class: "btn btn-outline-secondary" %>
       </div>
@@ -104,45 +63,3 @@
 
   </div> <!-- End of card -->
 </div> <!-- End of container -->
-
-<!-- JavaScript to trigger the animation -->
-<script>
-  function initializeUpdateProfileAnimation() {
-    const updateButton = document.getElementById('updateProfileSubmitButton');
-    const beeIcon = document.getElementById('smallBeeOnUpdateProfileButton');
-
-    if (updateButton && beeIcon) {
-      beeIcon.classList.remove('flying-bee-update-profile');
-      let isHovering = false;
-      let hasFlown = false;
-
-      updateButton.addEventListener('mouseenter', function() {
-        if (!isHovering) {
-          isHovering = true;
-          hasFlown = false;
-          // Arrêter l'animation de pulsation
-          beeIcon.classList.remove('bee-pulse');
-        }
-        if (!hasFlown) {
-          beeIcon.classList.add('flying-bee-update-profile');
-          hasFlown = true;
-        }
-      });
-      
-      updateButton.addEventListener('mouseleave', function() {
-        isHovering = false;
-        // Redémarrer l'animation de pulsation après un délai
-        setTimeout(() => {
-          if (!isHovering) {
-            beeIcon.classList.remove('flying-bee-update-profile');
-            beeIcon.classList.add('bee-pulse');
-            hasFlown = false;
-          }
-        }, 1000);
-      });
-    }
-  }
-
-  document.addEventListener('turbo:load', initializeUpdateProfileAnimation);
-  document.addEventListener('DOMContentLoaded', initializeUpdateProfileAnimation);
-</script>
