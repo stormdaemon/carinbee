@@ -1,0 +1,52 @@
+fr:
+  errors:
+    messages:
+      not_saved:
+        one: "1 erreur a empêché l'enregistrement de ce %{resource} :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce %{resource} :"
+  
+  activerecord:
+    errors:
+      models:
+        vehicle:
+          attributes:
+            brand:
+              blank: "La marque ne peut pas être vide"
+            model:
+              blank: "Le modèle ne peut pas être vide"
+            year:
+              blank: "L'année ne peut pas être vide"
+              not_a_number: "L'année doit être un nombre"
+            price_per_day:
+              blank: "Le prix par jour ne peut pas être vide"
+              not_a_number: "Le prix par jour doit être un nombre"
+            category:
+              blank: "La catégorie ne peut pas être vide"
+            description:
+              blank: "La description ne peut pas être vide"
+        user:
+          attributes:
+            first_name:
+              blank: "Le prénom ne peut pas être vide"
+            last_name:
+              blank: "Le nom ne peut pas être vide"
+            email:
+              blank: "L'email ne peut pas être vide"
+              invalid: "L'email n'est pas valide"
+            password:
+              blank: "Le mot de passe ne peut pas être vide"
+              too_short: "Le mot de passe est trop court (minimum %{count} caractères)"
+            age:
+              blank: "L'âge ne peut pas être vide"
+              not_a_number: "L'âge doit être un nombre"
+            address:
+              blank: "L'adresse ne peut pas être vide"
+  
+  helpers:
+    submit:
+      vehicle:
+        create: "Créer le véhicule"
+        update: "Modifier le véhicule"
+      user:
+        create: "Créer le profil"
+        update: "Modifier le profil" 

@@ -1,21 +1,210 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #FFCC01; padding: 0rem 3rem;">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #FFCC01; padding: 0.5rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="/">
-      <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Logo" height="80">
-      <span style="margin-left: 5px; font-size: 1.5rem; font-weight: bold; color: black;">carINbee</span>
-    </a>
+    <!-- Brand -->
+    <%= link_to root_path, class: "navbar-brand d-flex align-items-center text-decoration-none" do %>
+      <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="CARinBee Logo" height="60" class="me-2">
+      <span class="brand-text">CARinBee</span>
+    <% end %>
+
+    <!-- Mobile toggle button -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- Navigation items -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-            <%= link_to new_user_session_path do %>
-            <span class="text-dark">Login</span>
-            <i class="fas fa-user" style="color: black;"></i>
-            <% end %>
+          <%= link_to "Véhicules", vehicles_path, class: "nav-link #{'active' if current_page?(vehicles_path)}" %>
         </li>
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "Mes véhicules", my_vehicles_vehicles_path, class: "nav-link #{'active' if current_page?(my_vehicles_vehicles_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Mes locations", rentals_path, class: "nav-link #{'active' if current_page?(rentals_path)}" %>
+          </li>
+        <% end %>
+      </ul>
+
+      <!-- Right side navigation -->
+      <ul class="navbar-nav">
+        <% if user_signed_in? %>
+          <!-- Add vehicle button -->
+          <li class="nav-item me-3">
+            <%= link_to new_vehicle_path, class: "btn btn-success btn-sm" do %>
+              <i class="fas fa-plus me-1"></i>Ajouter un véhicule
+            <% end %>
+          </li>
+          
+          <!-- User dropdown -->
+          <li class="nav-item dropdown position-relative">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-user-circle me-2" style="font-size: 1.5rem;"></i>
+              <span class="d-none d-md-inline">
+                <% if current_user.first_name.present? %>
+                  <%= current_user.first_name.capitalize %>
+                <% else %>
+                  <%= current_user.email.split('@').first.capitalize %>
+                <% end %>
+              </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end position-absolute" aria-labelledby="navbarDropdown" style="right: 0; left: auto;">
+              <li>
+                <%= link_to user_path(current_user), class: "dropdown-item" do %>
+                  <i class="fas fa-user me-2"></i>Mon profil
+                <% end %>
+              </li>
+              <li>
+                <%= link_to my_vehicles_vehicles_path, class: "dropdown-item" do %>
+                  <i class="fas fa-car me-2"></i>Mes véhicules
+                <% end %>
+              </li>
+              <li>
+                <%= link_to rentals_path, class: "dropdown-item" do %>
+                  <i class="fas fa-calendar-alt me-2"></i>Mes locations
+                <% end %>
+              </li>
+              <li>
+                <%= link_to reviews_path, class: "dropdown-item" do %>
+                  <i class="fas fa-star me-2"></i>Mes avis
+                <% end %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item text-danger border-0 bg-transparent text-start w-100", style: "padding: 0.5rem 1.5rem;" do %>
+                  <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                <% end %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <!-- Login/Register buttons for non-authenticated users -->
+          <li class="nav-item me-2">
+            <%= link_to "Connexion", new_user_session_path, class: "btn btn-outline-dark btn-sm" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Inscription", new_user_registration_path, class: "btn btn-dark btn-sm" %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </div>
 </nav>
+
+<style>
+  .navbar {
+    transition: all 0.3s ease;
+  }
+  
+  .brand-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+  
+  .nav-link {
+    color: #333 !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  
+  .nav-link:hover {
+    color: #000 !important;
+  }
+  
+  .nav-link.active {
+    color: #000 !important;
+    font-weight: 600;
+  }
+  
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+  }
+  
+  .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    max-width: 250px;
+    z-index: 1050;
+  }
+  
+  .dropdown-menu-end {
+    --bs-position: end;
+  }
+  
+  .dropdown-item {
+    padding: 0.5rem 1.5rem;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .btn {
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  
+  /* Correction pour éviter le débordement du dropdown */
+  .navbar-nav .dropdown {
+    position: static;
+  }
+  
+  @media (min-width: 992px) {
+    .navbar-nav .dropdown {
+      position: relative;
+    }
+    
+    .dropdown-menu {
+      position: absolute !important;
+      right: 0 !important;
+      left: auto !important;
+      transform: none !important;
+    }
+  }
+  
+  @media (max-width: 991px) {
+    .navbar-nav {
+      text-align: center;
+    }
+    
+    .nav-item {
+      margin: 0.25rem 0;
+    }
+    
+    .dropdown-menu {
+      position: static !important;
+      float: none;
+      width: auto;
+      margin-top: 0;
+      background-color: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+    
+    .dropdown-item {
+      color: #333;
+      text-align: center;
+    }
+  }
+</style>
