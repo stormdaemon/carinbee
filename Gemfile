@@ -38,6 +38,10 @@ gem "bootstrap", "~> 5.3.3"
 
 gem "sassc-rails"
 
+#faker
+
+gem "faker"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
