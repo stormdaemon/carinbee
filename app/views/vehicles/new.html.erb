@@ -136,9 +136,9 @@
           <%= form.label :kilometers, "Kilométrage", class: "form-label fw-semibold" %>
           <%= form.number_field :kilometers, class: "form-control", placeholder: "ex: 80000" %>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
           <%= form.label :localization, "Localisation", class: "form-label fw-semibold" %>
-          <%= form.text_field :localization, class: "form-control", placeholder: "ex: Paris", id: "localization-input" %>
+          <%= form.text_field :localization, class: "form-control", placeholder: "ex: Paris", id: "localization-input", data: {address_autocomplete_target: "address"}, class: "d-none form-control" %>
         </div>
       </div>
 
@@ -213,74 +213,3 @@
   document.addEventListener('turbo:load', initializeVehicleNewAnimation);
 </script>
 
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
-
-<script>
-  function initializeMapboxGeocoder() {
-    const localizationInput = document.getElementById('localization-input');
-    
-    if (localizationInput && typeof MapboxGeocoder !== 'undefined') {
-      // Créer le geocoder
-      const geocoder = new MapboxGeocoder({
-        accessToken: '<%= ENV["MAPBOX_API_KEY"] %>',
-        types: 'country,region,place,postcode,locality,neighborhood',
-        countries: 'fr', // Limiter à la France
-        language: 'fr',
-        placeholder: 'Tapez une ville ou adresse...',
-        bbox: [-5.142, 41.333, 9.662, 51.124] // Bbox de la France
-      });
-
-      // Remplacer l'input par le geocoder
-      const container = localizationInput.parentNode;
-      const geocoderContainer = document.createElement('div');
-      geocoderContainer.id = 'geocoder-container';
-      
-      // Insérer le container du geocoder
-      container.insertBefore(geocoderContainer, localizationInput);
-      
-      // Ajouter le geocoder au container
-      geocoder.addTo('#geocoder-container');
-      
-      // Masquer l'input original
-      localizationInput.style.display = 'none';
-      
-      // Synchroniser les valeurs
-      geocoder.on('result', function(e) {
-        localizationInput.value = e.result.place_name;
-      });
-      
-      // Si l'input a déjà une valeur, l'afficher dans le geocoder
-      if (localizationInput.value) {
-        geocoder.setInput(localizationInput.value);
-      }
-      
-      // Styliser le geocoder pour qu'il ressemble à nos autres inputs
-      setTimeout(() => {
-        const geocoderInput = geocoderContainer.querySelector('.mapboxgl-ctrl-geocoder--input');
-        const geocoderControl = geocoderContainer.querySelector('.mapboxgl-ctrl-geocoder');
-        
-        if (geocoderControl) {
-          // Faire en sorte que le geocoder prenne toute la largeur
-          geocoderControl.style.width = '100%';
-          geocoderControl.style.maxWidth = 'none';
-        }
-        
-        if (geocoderInput) {
-          geocoderInput.classList.add('form-control');
-          geocoderInput.style.border = '1px solid #ced4da';
-          geocoderInput.style.borderRadius = '0.375rem';
-          geocoderInput.style.fontSize = '1rem';
-          geocoderInput.style.padding = '0.375rem 0.75rem';
-          geocoderInput.style.width = '100%';
-          geocoderInput.style.boxSizing = 'border-box';
-        }
-      }, 100);
-    }
-  }
-
-  document.addEventListener('turbo:load', function() {
-    initializeVehicleNewAnimation();
-    initializeMapboxGeocoder();
-  });
-</script>
