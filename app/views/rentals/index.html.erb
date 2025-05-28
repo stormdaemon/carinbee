@@ -1,1 +1,80 @@
-<h1>Rentals</h1> 
+<div class='container mt-3'>
+
+  <%# H1 SECTION %>
+
+  <%# <div class='d-flex justify-content-between align-items-center mb-4'> %>
+  <h1>My Rentals</h1>
+  <%# </div> %>
+
+
+  <%# RESULTS/INDEX SECTION %>
+  <div class='row justify-content-evenly'>
+
+    <%# PAST RENTALS %>
+    <div class='mb-4 col-3'>
+      <h2>Mes locations</h2>
+        <% @my_rentals.each do |r| %>
+
+        <%# CARD IMG %>
+        <div class="card" style="width: 20rem;">
+          <img src="<%= r.vehicle.image_url%>" class="card-img-top" alt="<%=r.vehicle.model%>">
+
+          <%# CARD BODY %>
+          <div class="card-body">
+            <h5 class="card-title"><%=r.vehicle.model%></h5>
+
+            <p class="card-text"><%=r.vehicle.brand%></p>
+            <p class="card-text"><%=r.vehicle.kilometers%> km</p>
+            <p class="card-text"><%=r.vehicle.daily_price%> €/ jour</p>
+
+            <a href="#" class="btn btn-info">Voir véhicule</a>
+          </div>
+        </div>
+
+        <% end %>
+    </div>
+
+
+
+
+    <div class='mb-4 col-3'>
+    <%# ACTUAL RENTALS %>
+    <h2 class="text-nowrap">Demandes de location</h2>
+
+      <% @vehicle_rentals.each do |r| %>
+
+      <%# CARD IMG %>
+      <div class="card" style="width: 20rem;">
+      <img src="<%= r.vehicle.image_url%>" class="card-img-top" alt="<%=r.vehicle.model%>">
+
+      <%# CARD BODY %>
+      <div class="card-body">
+        <h5 class="card-title"><%=r.vehicle.model%></h5>
+
+        <p class="card-text"><%=r.vehicle.brand%></p>
+        <p class="card-text"><%=r.vehicle.kilometers%> km</p>
+        <p class="card-text"><%=r.vehicle.daily_price%> €/ jour</p>
+
+        <%= link_to confirm_rental_path(r.id),
+            method: :patch,
+            class: "btn btn-primary btn-lg",
+            data: {
+              confirm: "Confirmer la location de ce véhicule ?\n\nCette action est irréversible.",
+              turbo_method: :patch,
+              turbo_confirm: "Confirmer la location ?"
+            } do %>
+          <i class="fas fa-check-circle me-2"></i>
+          Confirmer la location
+        <% end %>
+
+</div>
+
+      <% end %>
+    </div>
+
+    </div>
+
+
+
+  </div>
+</div>
