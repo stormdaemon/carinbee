@@ -1,0 +1,129 @@
+<div class="info-window">
+  <div class="info-header">
+    <h4 class="vehicle-title"><%= vehicle.brand %> <%= vehicle.model %></h4>
+    <span class="badge bg-warning text-dark"><%= vehicle.category.capitalize if vehicle.category %></span>
+  </div>
+  
+  <div class="info-body">
+    <div class="info-item">
+      <i class="fa-solid fa-location-dot text-primary"></i>
+      <span><%= vehicle.localization %></span>
+    </div>
+    
+    <div class="info-item">
+      <i class="fa-solid fa-users text-info"></i>
+      <span><%= vehicle.number_of_places %> places</span>
+    </div>
+    
+    <div class="info-item">
+      <i class="fa-solid fa-gas-pump text-success"></i>
+      <span><%= vehicle.fuel_type.capitalize if vehicle.fuel_type %></span>
+    </div>
+    
+    <div class="info-item">
+      <i class="fa-solid fa-road text-secondary"></i>
+      <span><%= number_with_delimiter(vehicle.kilometers) %> km</span>
+    </div>
+  </div>
+  
+  <div class="info-footer">
+    <div class="price-section">
+      <span class="price"><%= vehicle.daily_price %>€</span>
+      <small class="text-muted">/jour</small>
+    </div>
+    <a href="<%= vehicle_path(vehicle) %>" class="btn btn-warning btn-xs">
+      <i class="fa-solid fa-eye"></i> Voir
+    </a>
+  </div>
+</div>
+
+<style>
+  .info-window {
+    min-width: 260px;
+    max-width: 280px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
+    gap: 8px;
+  }
+  
+  .vehicle-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+    flex: 1;
+  }
+  
+  .info-body {
+    margin-bottom: 12px;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+  }
+  
+  .info-item i {
+    width: 14px;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+  
+  .info-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid #e9ecef;
+    gap: 8px;
+  }
+  
+  .price-section {
+    display: flex;
+    align-items: baseline;
+    flex: 1;
+  }
+  
+  .price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffc107;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+    text-decoration: none;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .btn-warning:hover {
+    background-color: #ffb300;
+    border-color: #ffb300;
+    transform: translateY(-1px);
+  }
+  
+  .badge {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+</style>

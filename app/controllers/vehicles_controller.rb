@@ -7,6 +7,16 @@ class VehiclesController < ApplicationController
     @vehicles = @vehicles.where("brand ILIKE ? OR model ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if params[:search].present?
     @vehicles = @vehicles.where(category: params[:category]) if params[:category].present?
     @vehicles = @vehicles.where("daily_price <= ?", params[:max_price]) if params[:max_price].present?
+    @vehicles_for_markers = Vehicle.all
+    # The `geocoded` scope filters only flats with coordinates
+    @markers = @vehicles_for_markers.geocoded.map do |vehicle|
+      {
+        lat: vehicle.latitude,
+        lng: vehicle.longitude,
+        info_window_html: render_to_string(partial: "info_window", locals: {vehicle: vehicle}),
+        marker_html: render_to_string(partial: "marker")
+      }
+    end
   end
 
   def show
