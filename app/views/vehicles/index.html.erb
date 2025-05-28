@@ -15,13 +15,11 @@
             <label for="category" class="form-label"><i class="fa-solid fa-car-side"></i> Catégorie</label>
             <%= form.select :category, options_for_select([
               ['Toutes catégories', ''],
-              ['Citadine', 'citadine'],
-              ['Berline', 'berline'],
-              ['SUV', 'suv'],
-              ['Break', 'break'],
-              ['Coupé', 'coupe'],
-              ['Cabriolet', 'cabriolet'],
-              ['Utilitaire', 'utilitaire']
+              ['Monospace', 'Monospace'],
+              ['Confort', 'Confort'],
+              ['Eco', 'Eco'],
+              ['Sport', 'Sport'],
+              ['Utilitaire', 'Utilitaire']
             ], params[:category]), {}, { class: "form-select" } %>
           </div>
           
