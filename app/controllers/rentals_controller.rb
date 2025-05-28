@@ -22,13 +22,13 @@ class RentalsController < ApplicationController
     @rental = current_user.rentals.build(rental_params)
     @rental.vehicle = @vehicle
     @rental.status = 'pending'
-    
+
     # Calculate total price
     if @rental.rental_start_date && @rental.rental_end_date
       days = (@rental.rental_end_date - @rental.rental_start_date).to_i + 1
       @rental.total_price = days * @vehicle.daily_price
     end
-    
+
     if @rental.save
       redirect_to @rental, notice: 'Rental request was successfully created.'
     else
@@ -88,4 +88,4 @@ class RentalsController < ApplicationController
   def rental_params
     params.require(:rental).permit(:rental_start_date, :rental_end_date)
   end
-end 
+end
