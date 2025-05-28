@@ -3,6 +3,328 @@
       overflow: hidden;
     }
     
+    /* Fix pour éviter les traces blanches */
+    .header-custom {
+      position: relative;
+      overflow: hidden;
+      z-index: 1000;
+    }
+    
+    .header-custom .container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Animation pour l'abeille du header */
+    .brand-logo {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+      z-index: 1001;
+    }
+    
+    .brand-logo:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+    }
+    
+    /* Animation complète de l'abeille avec battement d'ailes */
+    @keyframes beeEscape {
+      0% {
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)) hue-rotate(0deg);
+      }
+      5% {
+        transform: translateX(-20px) translateY(-10px) rotate(-5deg) scale(1.1);
+        opacity: 1;
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5)) hue-rotate(10deg);
+      }
+      10% {
+        transform: translateX(-50px) translateY(0) rotate(-10deg) scale(1);
+        opacity: 1;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7)) hue-rotate(20deg);
+      }
+      15% {
+        transform: translateX(-100px) translateY(-30px) rotate(-15deg) scale(0.9);
+        opacity: 0.95;
+        filter: drop-shadow(0 0 25px rgba(255, 165, 0, 0.8)) hue-rotate(30deg);
+      }
+      25% {
+        transform: translateX(-200px) translateY(-20px) rotate(-20deg) scale(0.8);
+        opacity: 0.9;
+        filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.9)) hue-rotate(45deg);
+      }
+      35% {
+        transform: translateX(-350px) translateY(-60px) rotate(-25deg) scale(0.7);
+        opacity: 0.8;
+        filter: drop-shadow(0 0 35px rgba(255, 100, 0, 1)) hue-rotate(60deg);
+      }
+      45% {
+        transform: translateX(-500px) translateY(-40px) rotate(-30deg) scale(0.6);
+        opacity: 0.7;
+        filter: drop-shadow(0 0 40px rgba(255, 69, 0, 1)) hue-rotate(90deg);
+      }
+      50% {
+        transform: translateX(-1000px) translateY(-100px) rotate(-35deg) scale(0.4);
+        opacity: 0;
+        filter: drop-shadow(0 0 50px rgba(255, 0, 0, 1)) hue-rotate(120deg);
+      }
+      51% {
+        transform: translateX(calc(100vw + 200px)) translateY(calc(-100vh - 100px)) rotate(145deg) scale(0.3);
+        opacity: 0;
+        filter: drop-shadow(0 0 60px rgba(138, 43, 226, 1)) hue-rotate(180deg);
+      }
+      55% {
+        transform: translateX(calc(90vw)) translateY(calc(-90vh)) rotate(160deg) scale(0.4);
+        opacity: 0.2;
+        filter: drop-shadow(0 0 50px rgba(75, 0, 130, 1)) hue-rotate(200deg);
+      }
+      65% {
+        transform: translateX(calc(70vw)) translateY(calc(-70vh)) rotate(180deg) scale(0.5);
+        opacity: 0.4;
+        filter: drop-shadow(0 0 40px rgba(0, 0, 255, 1)) hue-rotate(240deg);
+      }
+      75% {
+        transform: translateX(calc(40vw)) translateY(calc(-40vh)) rotate(220deg) scale(0.7);
+        opacity: 0.6;
+        filter: drop-shadow(0 0 35px rgba(0, 100, 255, 1)) hue-rotate(280deg);
+      }
+      85% {
+        transform: translateX(100px) translateY(-20px) rotate(300deg) scale(0.9);
+        opacity: 0.8;
+        filter: drop-shadow(0 0 30px rgba(0, 191, 255, 1)) hue-rotate(320deg);
+      }
+      90% {
+        transform: translateX(50px) translateY(-15px) rotate(330deg) scale(0.95);
+        opacity: 0.9;
+        filter: drop-shadow(0 0 25px rgba(0, 255, 255, 0.8)) hue-rotate(340deg);
+      }
+      95% {
+        transform: translateX(20px) translateY(-5px) rotate(350deg) scale(1);
+        opacity: 0.95;
+        filter: drop-shadow(0 0 20px rgba(127, 255, 212, 0.6)) hue-rotate(350deg);
+      }
+      100% {
+        transform: translateX(0) translateY(0) rotate(360deg) scale(1);
+        opacity: 1;
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)) hue-rotate(360deg);
+      }
+    }
+
+    /* Battement d'ailes pendant le vol */
+    @keyframes wingFlutter {
+      0%, 100% { transform: scaleX(1) scaleY(1); }
+      25% { transform: scaleX(1.3) scaleY(0.7); }
+      50% { transform: scaleX(0.7) scaleY(1.3); }
+      75% { transform: scaleX(1.2) scaleY(0.8); }
+    }
+    
+    /* Effet de paillettes scintillantes amélioré */
+    @keyframes glitterEffect {
+      0% {
+        opacity: 0;
+        transform: translateX(0) translateY(0) scale(0) rotate(0deg);
+      }
+      10% {
+        opacity: 1;
+        transform: scale(1) rotate(45deg);
+      }
+      20% {
+        opacity: 0.9;
+        transform: scale(1.5) rotate(90deg);
+      }
+      30% {
+        opacity: 1;
+        transform: scale(1.2) rotate(135deg);
+      }
+      40% {
+        opacity: 0.8;
+        transform: scale(1.8) rotate(180deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.4) rotate(225deg);
+      }
+      60% {
+        opacity: 0.7;
+        transform: scale(2) rotate(270deg);
+      }
+      70% {
+        opacity: 0.9;
+        transform: scale(1.1) rotate(315deg);
+      }
+      80% {
+        opacity: 0.5;
+        transform: scale(1.6) rotate(360deg);
+      }
+      90% {
+        opacity: 0.3;
+        transform: scale(0.8) rotate(405deg);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.2) rotate(450deg);
+      }
+    }
+
+    /* Traînée de miel */
+    @keyframes honeyTrail {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+        background: radial-gradient(circle, rgba(255, 193, 7, 0.8) 0%, rgba(255, 235, 59, 0.6) 50%, transparent 100%);
+      }
+      20% {
+        opacity: 0.8;
+        transform: scale(1);
+        background: radial-gradient(circle, rgba(255, 193, 7, 0.9) 0%, rgba(255, 235, 59, 0.7) 50%, rgba(255, 248, 225, 0.3) 100%);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.5);
+        background: radial-gradient(circle, rgba(255, 193, 7, 1) 0%, rgba(255, 235, 59, 0.8) 40%, rgba(255, 248, 225, 0.4) 80%, transparent 100%);
+      }
+      80% {
+        opacity: 0.6;
+        transform: scale(1.2);
+        background: radial-gradient(circle, rgba(255, 193, 7, 0.7) 0%, rgba(255, 235, 59, 0.5) 50%, transparent 100%);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+        background: radial-gradient(circle, transparent 0%);
+      }
+    }
+
+    /* Paillette individuelle améliorée */
+    .glitter-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: linear-gradient(45deg, #ffd700, #ffed4e, #fff59d, #ffd700);
+      border-radius: 50%;
+      box-shadow: 
+        0 0 8px #ffd700,
+        0 0 16px #ffed4e,
+        0 0 24px rgba(255, 215, 0, 0.4);
+      animation: sparkle 1.2s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .glitter-particle:nth-child(2n) {
+      background: linear-gradient(45deg, #ff6b6b, #ff8a80, #ffcdd2, #ff6b6b);
+      box-shadow: 
+        0 0 8px #ff6b6b,
+        0 0 16px #ff8a80,
+        0 0 24px rgba(255, 107, 107, 0.4);
+      animation-delay: 0.3s;
+      width: 4px;
+      height: 4px;
+    }
+
+    .glitter-particle:nth-child(3n) {
+      background: linear-gradient(45deg, #4fc3f7, #81d4fa, #b3e5fc, #4fc3f7);
+      box-shadow: 
+        0 0 8px #4fc3f7,
+        0 0 16px #81d4fa,
+        0 0 24px rgba(79, 195, 247, 0.4);
+      animation-delay: 0.6s;
+      width: 7px;
+      height: 7px;
+    }
+
+    .glitter-particle:nth-child(4n) {
+      background: linear-gradient(45deg, #ba68c8, #ce93d8, #e1bee7, #ba68c8);
+      box-shadow: 
+        0 0 8px #ba68c8,
+        0 0 16px #ce93d8,
+        0 0 24px rgba(186, 104, 200, 0.4);
+      animation-delay: 0.9s;
+      width: 5px;
+      height: 5px;
+    }
+
+    .glitter-particle:nth-child(5n) {
+      background: linear-gradient(45deg, #66bb6a, #81c784, #a5d6a7, #66bb6a);
+      box-shadow: 
+        0 0 8px #66bb6a,
+        0 0 16px #81c784,
+        0 0 24px rgba(102, 187, 106, 0.4);
+      animation-delay: 0.15s;
+      width: 6.5px;
+      height: 6.5px;
+    }
+
+    @keyframes sparkle {
+      0% {
+        transform: scale(0.6) rotate(0deg);
+        opacity: 0.5;
+        filter: brightness(0.8);
+      }
+      25% {
+        transform: scale(1.4) rotate(90deg);
+        opacity: 1;
+        filter: brightness(1.5);
+      }
+      50% {
+        transform: scale(1) rotate(180deg);
+        opacity: 0.8;
+        filter: brightness(1.2);
+      }
+      75% {
+        transform: scale(1.6) rotate(270deg);
+        opacity: 1;
+        filter: brightness(1.8);
+      }
+      100% {
+        transform: scale(0.6) rotate(360deg);
+        opacity: 0.5;
+        filter: brightness(0.8);
+      }
+    }
+
+    /* Traînée de miel */
+    .honey-trail {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 12;
+      overflow: hidden;
+    }
+    
+    /* Classes pour déclencher les animations */
+    .bee-flying {
+      animation: beeEscape 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      z-index: 1002;
+    }
+
+    .bee-flutter {
+      animation: wingFlutter 0.1s ease-in-out infinite;
+    }
+    
+    .glitter-trail {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 10;
+      overflow: visible;
+      background: transparent;
+      transform: translate(-50%, -50%);
+    }
+    
+    .glitter-active {
+      opacity: 1;
+    }
+
     /* Animation améliorée pour l'abeille */
     .home-btn {
       position: relative;
@@ -25,12 +347,29 @@
     
     /* Animation de pulsation pour l'abeille au repos */
     @keyframes beePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+      }
+      50% { 
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+      }
     }
     
     .bee-pulse {
-      animation: beePulse 2s ease-in-out infinite;
+      animation: beePulse 3s ease-in-out infinite;
+    }
+
+    /* Effet de zoom sur la page */
+    @keyframes pageZoom {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .page-zoom {
+      animation: pageZoom 4s ease-in-out;
     }
   </style>
   <header class="header-custom">
@@ -57,7 +396,7 @@
 
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0 buttons-section">
           <%= link_to vehicles_path, class: "no-underline" do %>
-          <p class="home-btn">Louer une voiture
+          <p class="home-btn">Rejoindre la Ruche
           <span>
             <img
           src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -87,17 +426,20 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const typedStrings = [
-      "Share your car, spare the Earth.",
-      "Less CO₂, more €€!",
-      "A moving car is a paying car.",
-      "Fewer costs, more trips.",
-      "Smart renting, smooth driving.",
-      "Blessed be the neighbor.",
-      "More karma, less car-ma.",
-      "CARinBee — Sweet as honey for your wallet.",
-      "Bee the change. Share your ride.",
-      "Your car can Bee more than a driveway decoration.",
-      "CARinBee — Because even cars need to socialize."
+      "Ta voiture butine dans ton garage ? Fais-la voler ! 🐝",
+      "Arrête de faire la reine fainéante, fais bosser tes ouvrières ! 🚗",
+      "Ta caisse fait du miel pendant que tu dors 🍯💰",
+      "Dans la ruche CARinBee, même les bourdons rapportent !",
+      "Ta voiture : de drone de garage à abeille rentable 🐝💸",
+      "Ton essaim de voitures peut nourrir toute la ruche !",
+      "Bzzzz... C'est le bruit de ton compte en banque qui monte ! 💰",
+      "Ta bagnole butine les euros dans tout le quartier 🐝€",
+      "Fais danser ta voiture comme une abeille qui a trouvé le jackpot !",
+      "CARinBee : où tes 4 roues deviennent 4 ailes ! 🚗✈️",
+      "Ta caisse produit plus de miel que tes placements ! 🍯📈",
+      "Rejoins la ruche ou reste un bourdon de parking ! 🐝🅿️",
+      "Ta voiture : de chenille de garage à papillon rentable ! 🦋💸",
+      "Bzzzz-ness is buzzing ! Ta caisse fait le buzz ET le biz ! 🐝💼"
     ];
 
     var typed = new Typed('#typed-output', {
@@ -110,6 +452,208 @@
       smartBackspace: true,
       showCursor: true,
       cursorChar: '<img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" style="height: 2em; vertical-align: middle;">',
+    });
+
+    // Animation de l'abeille du header
+    const beeLogo = document.querySelector('.brand-logo');
+    let isAnimating = false;
+
+    function createGlitterEffect(parentElement, duration = 3000) {
+      const glitterTrail = document.createElement('div');
+      glitterTrail.className = 'glitter-trail';
+      parentElement.style.position = 'relative';
+      parentElement.appendChild(glitterTrail);
+      
+      // Créer des paillettes tout autour de l'abeille en cercle
+      for (let i = 0; i < 20; i++) {
+        const glitterParticle = document.createElement('div');
+        glitterParticle.className = 'glitter-particle';
+        
+        // Position en cercle autour de l'abeille (plus proche)
+        const angle = (i / 20) * 2 * Math.PI; // Répartir sur 360 degrés
+        const radius = 15 + Math.random() * 25; // Rayon entre 15px et 40px (plus proche)
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        
+        // Positionner au centre du conteneur glitter-trail
+        glitterParticle.style.left = `calc(50% + ${x}px)`;
+        glitterParticle.style.top = `calc(50% + ${y}px)`;
+        glitterParticle.style.transform = 'translate(-50%, -50%)';
+        
+        // Taille aléatoire
+        const size = 4 + Math.random() * 6; // 4px à 10px
+        glitterParticle.style.width = `${size}px`;
+        glitterParticle.style.height = `${size}px`;
+        
+        // Animation avec délai aléatoire
+        glitterParticle.style.animationDelay = `${Math.random() * 0.8}s`;
+        glitterParticle.style.animation = `glitterEffect ${2 + Math.random() * 2}s ease-out forwards, sparkle ${1 + Math.random()}s ease-in-out infinite alternate`;
+        
+        glitterTrail.appendChild(glitterParticle);
+      }
+      
+      glitterTrail.classList.add('glitter-active');
+      
+      // Nettoyer les paillettes après la durée spécifiée
+      setTimeout(() => {
+        glitterTrail.remove();
+      }, duration);
+      
+      return glitterTrail;
+    }
+
+    function createHoneyTrail(parentElement) {
+      const honeyTrail = document.createElement('div');
+      honeyTrail.className = 'honey-trail';
+      parentElement.appendChild(honeyTrail);
+      
+      // Créer plusieurs gouttes de miel
+      for (let i = 0; i < 15; i++) {
+        const honeyDrop = document.createElement('div');
+        honeyDrop.style.position = 'absolute';
+        honeyDrop.style.width = `${4 + Math.random() * 6}px`;
+        honeyDrop.style.height = `${4 + Math.random() * 6}px`;
+        honeyDrop.style.borderRadius = '50%';
+        honeyDrop.style.left = `${45 + Math.random() * 10}%`;
+        honeyDrop.style.top = `${45 + Math.random() * 10}%`;
+        honeyDrop.style.animation = `honeyTrail ${1.5 + Math.random()}s ease-out forwards`;
+        honeyDrop.style.animationDelay = `${i * 0.1}s`;
+        honeyDrop.style.zIndex = '11';
+        
+        honeyTrail.appendChild(honeyDrop);
+      }
+      
+      // Nettoyer après 3 secondes
+      setTimeout(() => {
+        honeyTrail.remove();
+      }, 3000);
+      
+      return honeyTrail;
+    }
+
+    function createMultipleBees(parentElement) {
+      const beeCount = 3;
+      const bees = [];
+      
+      for (let i = 0; i < beeCount; i++) {
+        const bee = document.createElement('img');
+        bee.src = 'https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png';
+        bee.style.position = 'absolute';
+        bee.style.width = '35px';
+        bee.style.height = '35px';
+        bee.style.top = '50%';
+        bee.style.left = '50%';
+        bee.style.transform = 'translate(-50%, -50%)';
+        bee.style.opacity = '0.7';
+        bee.style.zIndex = '20';
+        bee.style.pointerEvents = 'none';
+        
+        // Animation décalée pour chaque abeille
+        bee.style.animation = `beeEscape ${4 + i * 0.5}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+        bee.style.animationDelay = `${i * 0.3}s`;
+        
+        parentElement.appendChild(bee);
+        bees.push(bee);
+        
+        // Nettoyer après l'animation
+        setTimeout(() => {
+          bee.remove();
+        }, (4 + i * 0.5 + i * 0.3) * 1000);
+      }
+      
+      return bees;
+    }
+
+    function playBeeSound() {
+      // Créer un son de bourdonnement synthétique
+      if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Oscillateur principal pour le bourdonnement
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(180, audioContext.currentTime + 0.5);
+        oscillator.frequency.exponentialRampToValueAtTime(250, audioContext.currentTime + 1);
+        oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 2);
+        
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+        gainNode.gain.exponentialRampToValueAtTime(0.05, audioContext.currentTime + 2);
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2.5);
+        
+        oscillator.type = 'sawtooth';
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 2.5);
+      }
+    }
+
+    function triggerBeeAnimation() {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      // Effet de zoom sur la page
+      document.body.classList.add('page-zoom');
+
+      // Son de l'abeille
+      playBeeSound();
+
+      // Ajouter l'effet de battement d'ailes
+      beeLogo.classList.add('bee-flutter');
+
+      // Créer l'effet de paillettes scintillantes au départ (plus spectaculaire)
+      createGlitterEffect(beeLogo.parentElement, 1000);
+      
+      // Créer la traînée de miel
+      setTimeout(() => {
+        createHoneyTrail(beeLogo.parentElement);
+      }, 200);
+      
+      // Créer des abeilles supplémentaires qui suivent
+      setTimeout(() => {
+        createMultipleBees(beeLogo.parentElement);
+      }, 500);
+      
+      // Déclencher l'animation de l'abeille principale
+      setTimeout(() => {
+        beeLogo.classList.add('bee-flying');
+      }, 100);
+
+      // Créer l'effet de paillettes scintillantes à l'arrivée (encore plus spectaculaire)
+      setTimeout(() => {
+        createGlitterEffect(beeLogo.parentElement, 2500);
+      }, 3800); // Apparaît quand l'abeille atterrit
+
+      // Créer une explosion de miel à l'atterrissage
+      setTimeout(() => {
+        createHoneyTrail(beeLogo.parentElement);
+        // Créer un deuxième effet de paillettes pour l'explosion finale
+        setTimeout(() => {
+          createGlitterEffect(beeLogo.parentElement, 1500);
+        }, 200);
+      }, 3900);
+
+      // Nettoyer et réinitialiser après l'animation complète
+      setTimeout(() => {
+        beeLogo.classList.remove('bee-flying', 'bee-flutter');
+        document.body.classList.remove('page-zoom');
+        isAnimating = false;
+      }, 4500);
+    }
+
+    // Déclencher l'animation automatiquement au chargement de la page
+    setTimeout(() => {
+      triggerBeeAnimation();
+    }, 1000); // Délai de 1 seconde après le chargement
+
+    // Garder la possibilité de cliquer pour relancer l'animation
+    beeLogo.addEventListener('click', function(e) {
+      e.preventDefault();
+      triggerBeeAnimation();
     });
   });
 </script>
