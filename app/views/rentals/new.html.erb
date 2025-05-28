@@ -1,139 +1,5 @@
 <%# app/views/rentals/new.html.erb %>
 
-<style>
-  /* Animation pour le logo abeille sur la carte */
-  #smallBeeLogoOnCard {
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
-    pointer-events: none;
-    transform-origin: center center;
-  }
-  .flying-bee-from-card {
-    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
-    opacity: 0;
-  }
-
-  /* Styles pour le logo abeille sur les boutons d'action */
-  .small-bee-on-button {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    height: 35px;
-    width: auto;
-    z-index: 10;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
-    pointer-events: none;
-    transform-origin: center center;
-  }
-  .flying-bee-from-button {
-    transform: translate(120px, -120px) rotate(360deg) scale(1.3);
-    opacity: 0;
-  }
-
-  /* Animation pour les boutons d'action */
-  .action-button {
-    position: relative;
-    overflow: visible;
-    transition: all 0.3s ease;
-  }
-
-  .action-button:hover {
-    transform: translateY(-2px);
-  }
-
-  .btn-success.action-button:hover {
-    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);
-  }
-
-  .btn-outline-secondary.action-button:hover {
-    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
-  }
-
-  /* Prévenir le scroll horizontal */
-  .rental-container {
-    overflow-x: hidden;
-  }
-
-  .rental-card {
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Animation de pulsation pour l'abeille au repos */
-  @keyframes beePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-
-  .bee-pulse {
-    animation: beePulse 2s ease-in-out infinite;
-  }
-
-  /* Style pour l'image du véhicule */
-  .vehicle-image {
-    border-radius: 10px;
-    object-fit: cover;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    max-height: 250px;
-  }
-
-  /* Styles pour le formulaire */
-  .form-floating {
-    margin-bottom: 1rem;
-  }
-
-  .form-control:focus {
-    border-color: #ffc107;
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
-  }
-
-  .form-label {
-    font-weight: 600;
-    color: #495057;
-  }
-
-  /* Style pour le résumé de la réservation */
-  .booking-summary {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border: 2px solid #dee2e6;
-    border-radius: 15px;
-    padding: 1.5rem;
-  }
-
-  .price-calculation {
-    background-color: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 10px;
-    padding: 1rem;
-  }
-
-  /* Animation pour les champs de date */
-  .date-input-group {
-    transition: all 0.3s ease;
-  }
-
-  .date-input-group:hover {
-    transform: translateY(-2px);
-  }
-
-  /* Style pour les messages d'erreur */
-  .field_with_errors {
-    display: contents;
-  }
-
-  .field_with_errors .form-control {
-    border-color: #dc3545;
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-  }
-
-  .invalid-feedback {
-    display: block;
-    font-size: 0.875rem;
-    color: #dc3545;
-    margin-top: 0.25rem;
-  }
-</style>
-
-<!-- Main Content Area -->
 <div class="container mt-4 mb-4 rental-container">
   <div class="row justify-content-center">
     <div class="col-lg-10">
@@ -143,17 +9,15 @@
       </div>
 
       <div class="row">
-        <!-- Colonne du formulaire -->
         <div class="col-lg-7">
-          <div class="card shadow-sm p-4 rounded-3 rental-card" style="background-color: #FFFFFF;">
+          <div class="card shadow-sm p-4 rounded-3 rental-card" style="background-color: #FFFFFF;" data-controller="bee-animation rental-form" data-bee-animation-type-value="update" data-rental-form-daily-price-value="<%= @vehicle.daily_price %>">
 
-            <img id="smallBeeLogoOnCard" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Small Bee Logo on Card" class="bee-pulse" style="position: absolute; top: 20px; right: 20px; height: 35px; width: auto;">
+            <img id="smallBeeLogoOnCard" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Small Bee Logo on Card" class="bee-pulse" style="position: absolute; top: 20px; right: 20px; height: 35px; width: auto;" data-bee-animation-target="beeIcon">
 
             <h4 class="fw-bold mb-4 pt-2">📝 Informations de réservation</h4>
 
-            <%= form_with(model: [@vehicle, @rental], local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+            <%= form_with(model: [@vehicle, @rental], local: true, html: { class: "needs-validation", novalidate: true, data: { rental_form_target: "form" } }) do |form| %>
 
-              <!-- Gestion des erreurs -->
               <% if @rental.errors.any? %>
                 <div class="alert alert-danger mb-4">
                   <h6 class="fw-bold mb-2">⚠️ Erreurs détectées :</h6>
@@ -165,14 +29,14 @@
                 </div>
               <% end %>
 
-              <!-- Date de début -->
               <div class="date-input-group">
                 <div class="form-floating">
                   <%= form.date_field :rental_start_date,
                       class: "form-control #{'is-invalid' if @rental.errors[:rental_start_date].any?}",
                       id: "rental_start_date",
                       min: Date.current,
-                      required: true %>
+                      required: true,
+                      data: { rental_form_target: "startDate" } %>
                   <%= form.label :rental_start_date, "📅 Date de début", class: "form-label" %>
                   <% if @rental.errors[:rental_start_date].any? %>
                     <div class="invalid-feedback">
@@ -182,14 +46,14 @@
                 </div>
               </div>
 
-              <!-- Date de fin -->
               <div class="date-input-group">
                 <div class="form-floating">
                   <%= form.date_field :rental_end_date,
                       class: "form-control #{'is-invalid' if @rental.errors[:rental_end_date].any?}",
                       id: "rental_end_date",
                       min: Date.current + 1.day,
-                      required: true %>
+                      required: true,
+                      data: { rental_form_target: "endDate" } %>
                   <%= form.label :rental_end_date, "📅 Date de fin", class: "form-label" %>
                   <% if @rental.errors[:rental_end_date].any? %>
                     <div class="invalid-feedback">
@@ -199,125 +63,72 @@
                 </div>
               </div>
 
-              <!-- Message optionnel au propriétaire -->
               <div class="form-floating">
-                <%# This assumes @rental has an attribute like :message. Change :message if your attribute is named differently. %>
-                <%# Keeping id="message" and explicit for="message" to avoid breaking CSS/JS if they rely on this specific ID. %>
                 <%= form.text_area :message,
-                    class: "form-control",
-                    id: "message",
+                    class: "form-control #{'is-invalid' if @rental.errors[:message].any?}",
+                    id: "rental_message",
                     style: "height: 120px;",
-                    placeholder: "Message optionnel au propriétaire..." %>
-                <%= form.label :message, "💬 Message au propriétaire (optionnel)", class: "form-label", for: "message" %>
-                <small class="text-muted">Présentez-vous et expliquez pourquoi vous souhaitez louer ce véhicule.</small>
+                    placeholder: "Décrivez votre demande..." %>
+                <%= form.label :rental_message, "💬 Message au propriétaire (optionnel)", class: "form-label" %>
+                <% if @rental.errors[:message].any? %>
+                  <div class="invalid-feedback">
+                    <%= @rental.errors[:message].first %>
+                  </div>
+                <% end %>
               </div>
 
-              <!-- Champs cachés -->
-              <%= form.hidden_field :status, value: 'pending' %>
-
-              <!-- Boutons d'action -->
-              <div class="mt-4 d-flex justify-content-end gap-3">
-                <div style="position: relative;">
-                  <%= link_to "Annuler", vehicle_path(@vehicle), class: "btn btn-outline-secondary action-button", id: "cancelButton" %>
-                  <img class="small-bee-on-button" id="beeOnCancel"
-                       src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
-                       alt="Small Bee on Cancel Button">
+              <div class="d-flex gap-3 mt-4">
+                <div data-controller="bee-animation" data-bee-animation-type-value="update">
+                  <%= form.submit "🚀 Envoyer la demande", class: "btn btn-success flex-fill action-button", id: "submitButton", data: { bee_animation_target: "button" } %>
+                  <img id="beeOnSubmit" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Bee on Submit" class="small-bee-on-button bee-pulse" data-bee-animation-target="beeIcon">
                 </div>
-                <div style="position: relative;">
-                  <%= form.submit "Envoyer la demande", class: "btn btn-success action-button", id: "submitButton" %>
-                  <img class="small-bee-on-button" id="beeOnSubmit"
-                       src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
-                       alt="Small Bee on Submit Button">
+                <div data-controller="bee-animation" data-bee-animation-type-value="update">
+                  <%= link_to "❌ Annuler", vehicle_path(@vehicle), class: "btn btn-outline-secondary flex-fill action-button", id: "cancelButton", data: { bee_animation_target: "button" } %>
+                  <img id="beeOnCancel" src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="Bee on Cancel" class="small-bee-on-button bee-pulse" data-bee-animation-target="beeIcon">
                 </div>
               </div>
-
             <% end %>
-
-          </div> <!-- End of form card -->
+          </div>
         </div>
 
-        <!-- Colonne du résumé -->
         <div class="col-lg-5">
-          <!-- Informations sur le véhicule -->
-          <div class="card shadow-sm mb-4" style="border: 2px solid #f8f9fa;">
-            <div class="card-header bg-primary text-white">
-              <h5 class="mb-0">🚗 Véhicule sélectionné</h5>
-            </div>
-            <div class="card-body">
-              <% if @vehicle.image_url.present? %>
-                <%= image_tag @vehicle.image_url, alt: "#{@vehicle.brand} #{@vehicle.model}", class: "img-fluid vehicle-image mb-3" %>
-              <% else %>
-                <div class="bg-light d-flex align-items-center justify-content-center vehicle-image mb-3" style="height: 200px;">
-                  <span class="text-muted fs-4">🚗</span>
-                </div>
-              <% end %>
+          <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
+            <h4 class="fw-bold mb-4">🚗 Véhicule sélectionné</h4>
 
-              <h5 class="fw-bold mb-3"><%= @vehicle.brand %> <%= @vehicle.model %></h5>
-
-              <div class="row mb-3">
-                <div class="col-6">
-                  <small class="text-muted">📍 Localisation</small>
-                  <p class="mb-1 fw-semibold"><%= @vehicle.localization %></p>
-                </div>
-                <div class="col-6">
-                  <small class="text-muted">👥 Places</small>
-                  <p class="mb-1 fw-semibold"><%= @vehicle.number_of_places %></p>
-                </div>
-                <div class="col-6">
-                  <small class="text-muted">🏷️ Catégorie</small>
-                  <p class="mb-1 fw-semibold"><%= @vehicle.category %></p>
-                </div>
-                <div class="col-6">
-                  <small class="text-muted">⛽ Carburant</small>
-                  <p class="mb-1 fw-semibold"><%= @vehicle.fuel_type %></p>
-                </div>
+            <% if @vehicle.photo.attached? %>
+              <%= image_tag @vehicle.photo, alt: @vehicle.brand + " " + @vehicle.model, class: "img-fluid vehicle-image w-100 mb-3" %>
+            <% else %>
+              <div class="vehicle-image-placeholder bg-light d-flex align-items-center justify-content-center mb-3" style="height: 200px; border-radius: 10px;">
+                <i class="fas fa-car fa-3x text-muted"></i>
               </div>
+            <% end %>
 
-              <div class="price-calculation">
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="fw-bold">💰 Prix par jour :</span>
-                  <span class="fw-bold text-success fs-5"><%= number_to_currency(@vehicle.daily_price, unit: "€") %></span>
-                </div>
-              </div>
+            <h5 class="fw-bold mb-2"><%= @vehicle.brand %> <%= @vehicle.model %></h5>
+            <p class="text-muted mb-2">📍 <%= @vehicle.address %></p>
+            <p class="text-success fw-bold fs-5 mb-3">💰 <%= number_to_currency(@vehicle.daily_price, unit: "€") %>/jour</p>
 
-              <% if @vehicle.description.present? %>
-                <div class="mt-3">
-                  <small class="text-muted">📝 Description</small>
-                  <p class="mb-0 small"><%= truncate(@vehicle.description, length: 150) %></p>
-                </div>
-              <% end %>
-            </div>
+            <% if @vehicle.description.present? %>
+              <hr class="my-3">
+              <small class="text-muted">📝 Description</small>
+              <p class="mb-0 small"><%= truncate(@vehicle.description, length: 150) %></p>
+            <% end %>
           </div>
 
-          <!-- Informations sur le propriétaire -->
-          <div class="card shadow-sm mb-4" style="border: 2px solid #f8f9fa;">
-            <div class="card-header bg-success text-white">
-              <h5 class="mb-0">👤 Propriétaire</h5>
-            </div>
-            <div class="card-body">
-              <h6 class="fw-bold mb-2"><%= @vehicle.user.first_name %> <%= @vehicle.user.last_name %></h6>
-              <p class="text-muted mb-2">📧 <%= @vehicle.user.email %></p>
-              <p class="text-muted mb-3">📍 <%= @vehicle.user.address %></p>
-              <%= link_to "Voir le profil complet", user_path(@vehicle.user), class: "btn btn-outline-success btn-sm" %>
-            </div>
-          </div>
-
-          <!-- Résumé de la réservation (calculé dynamiquement) -->
-          <div class="booking-summary" id="bookingSummary" style="display: none;">
+          <div class="booking-summary" id="bookingSummary" style="display: none;" data-rental-form-target="summary">
             <h5 class="fw-bold mb-3">📊 Résumé de votre réservation</h5>
 
             <div class="mb-3">
               <div class="d-flex justify-content-between mb-2">
                 <span>📅 Du :</span>
-                <span id="summaryStartDate" class="fw-semibold">-</span>
+                <span data-rental-form-target="summaryStartDate" class="fw-semibold">-</span>
               </div>
               <div class="d-flex justify-content-between mb-2">
                 <span>📅 Au :</span>
-                <span id="summaryEndDate" class="fw-semibold">-</span>
+                <span data-rental-form-target="summaryEndDate" class="fw-semibold">-</span>
               </div>
               <div class="d-flex justify-content-between mb-3">
                 <span>⏱️ Durée :</span>
-                <span id="summaryDuration" class="fw-semibold">-</span>
+                <span data-rental-form-target="summaryDuration" class="fw-semibold">-</span>
               </div>
             </div>
 
@@ -330,12 +141,12 @@
               </div>
               <div class="d-flex justify-content-between mb-2">
                 <span>📊 Nombre de jours :</span>
-                <span id="summaryDays">-</span>
+                <span data-rental-form-target="summaryDays">-</span>
               </div>
               <hr class="my-2">
               <div class="d-flex justify-content-between">
                 <span class="fw-bold fs-5">💳 Total :</span>
-                <span id="summaryTotal" class="fw-bold fs-4 text-success">-</span>
+                <span data-rental-form-target="summaryTotal" class="fw-bold fs-4 text-success">-</span>
               </div>
             </div>
 
@@ -349,155 +160,3 @@
     </div>
   </div>
 </div>
-
-<!-- JavaScript pour les animations et calculs -->
-<script>
-  function initializeRentalNewAnimations() {
-    const beeLogoOnCard = document.getElementById('smallBeeLogoOnCard');
-
-    // Animation générique pour tous les boutons avec des abeilles
-    function initButtonAnimation(buttonId, beeId) {
-      const button = document.getElementById(buttonId);
-      const bee = document.getElementById(beeId);
-
-      if (button && bee) {
-        bee.classList.remove('flying-bee-from-button');
-        let isHovering = false;
-        let hasFlown = false;
-
-        button.addEventListener('mouseenter', function() {
-          if (!isHovering) {
-            isHovering = true;
-            hasFlown = false;
-            // Arrêter l'animation de pulsation de l'abeille principale
-            if (beeLogoOnCard) beeLogoOnCard.classList.remove('bee-pulse');
-          }
-          if (!hasFlown) {
-            bee.classList.add('flying-bee-from-button');
-            hasFlown = true;
-          }
-        });
-
-        button.addEventListener('mouseleave', function() {
-          isHovering = false;
-          setTimeout(() => {
-            if (!isHovering) {
-              bee.classList.remove('flying-bee-from-button');
-              // Redémarrer l'animation de pulsation
-              if (beeLogoOnCard) beeLogoOnCard.classList.add('bee-pulse');
-              hasFlown = false;
-            }
-          }, 1000);
-        });
-      }
-    }
-
-    // Initialiser les animations pour tous les boutons
-    initButtonAnimation('cancelButton', 'beeOnCancel');
-    initButtonAnimation('submitButton', 'beeOnSubmit');
-  }
-
-  function initializeDateCalculations() {
-    const startDateInput = document.getElementById('rental_start_date');
-    const endDateInput = document.getElementById('rental_end_date');
-    const bookingSummary = document.getElementById('bookingSummary');
-    const dailyPrice = <%= @vehicle.daily_price %>;
-
-    function formatDate(dateString) {
-      if (!dateString) return '-';
-      const date = new Date(dateString);
-      return date.toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-    }
-
-    function calculateAndUpdateSummary() {
-      const startDate = startDateInput.value;
-      const endDate = endDateInput.value;
-
-      if (startDate && endDate) {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-
-        if (end > start) {
-          const timeDiff = end.getTime() - start.getTime();
-          const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-          const totalPrice = daysDiff * dailyPrice;
-
-          // Mettre à jour le résumé
-          document.getElementById('summaryStartDate').textContent = formatDate(startDate);
-          document.getElementById('summaryEndDate').textContent = formatDate(endDate);
-          document.getElementById('summaryDuration').textContent = daysDiff + ' jour' + (daysDiff > 1 ? 's' : '');
-          document.getElementById('summaryDays').textContent = daysDiff;
-          document.getElementById('summaryTotal').textContent = totalPrice.toLocaleString('fr-FR') + ' €';
-
-          // Afficher le résumé
-          bookingSummary.style.display = 'block';
-        } else {
-          bookingSummary.style.display = 'none';
-        }
-      } else {
-        bookingSummary.style.display = 'none';
-      }
-    }
-
-    // Écouter les changements sur les dates
-    if (startDateInput && endDateInput) {
-      startDateInput.addEventListener('change', calculateAndUpdateSummary);
-      endDateInput.addEventListener('change', calculateAndUpdateSummary);
-
-      // Mettre à jour la date minimum de fin quand la date de début change
-      startDateInput.addEventListener('change', function() {
-        if (this.value) {
-          const nextDay = new Date(this.value);
-          nextDay.setDate(nextDay.getDate() + 1);
-          endDateInput.min = nextDay.toISOString().split('T')[0];
-
-          // Si la date de fin est antérieure à la nouvelle date minimum, la réinitialiser
-          if (endDateInput.value && new Date(endDateInput.value) <= new Date(this.value)) {
-            endDateInput.value = '';
-          }
-        }
-      });
-
-      // Calcul initial si les dates sont déjà remplies
-      calculateAndUpdateSummary();
-    }
-  }
-
-  function initializeFormValidation() {
-    const form = document.querySelector('.needs-validation');
-    if (form) {
-      form.addEventListener('submit', function(event) {
-        const startDate = document.getElementById('rental_start_date').value;
-        const endDate = document.getElementById('rental_end_date').value;
-
-        if (!startDate || !endDate) {
-          event.preventDefault();
-          event.stopPropagation();
-
-          if (!startDate) {
-            document.getElementById('rental_start_date').classList.add('is-invalid');
-          }
-          if (!endDate) {
-            document.getElementById('rental_end_date').classList.add('is-invalid');
-          }
-        } else if (new Date(endDate) <= new Date(startDate)) {
-          event.preventDefault();
-          event.stopPropagation();
-          document.getElementById('rental_end_date').classList.add('is-invalid');
-        }
-
-        form.classList.add('was-validated');
-      });
-    }
-  }
-
-  document.addEventListener('turbo:load', function() {
-    initializeRentalNewAnimations();
-    initializeDateCalculations();
-    initializeFormValidation();
-  });
-</script>

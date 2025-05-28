@@ -1,0 +1,24 @@
+/* Styles spécifiques à la page d'accueil */
+body.home-page {
+  overflow: hidden;
+}
+
+/* Fix pour éviter les traces blanches */
+.header-custom {
+  position: relative;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.header-custom .container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Styles pour l'animation de texte tapé */
+.typed-text-container {
+  min-height: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 

@@ -3,7 +3,7 @@ class Rental < ApplicationRecord
   belongs_to :vehicle
   has_many :reviews, dependent: :destroy
 
-  VALID_STATUSES = %w[pending confirmed completed cancelled refused].freeze
+  VALID_STATUSES = %w[en_attente confirmée terminée annulée refusée].freeze
 
   validates :rental_start_date, presence: true
   validates :rental_end_date, presence: true

@@ -1,0 +1,15 @@
+/* Styles pour la vue mes véhicules */
+
+.vehicle-card-actions a {
+  margin-right: 5px;
+}
+
+.vehicle-card-actions form { /* Pour le bouton Delete */
+  display: inline;
+}
+
+.vehicle-image-list {
+  width: 100%;
+  height: 200px; /* Hauteur fixe pour les images dans la liste */
+  object-fit: cover; /* S'assure que l'image couvre la zone sans se déformer */
+} 

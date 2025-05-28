@@ -1,0 +1,151 @@
+/* COMPONENTS - Composants réutilisables */
+
+/* Card improvements */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  background-color: var(--pure-white);
+  box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+.card:hover {
+  box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+/* Button improvements */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-warning {
+  background-color: var(--primary-yellow);
+  border-color: var(--primary-yellow);
+  color: var(--primary-black);
+}
+
+.btn-warning:hover {
+  background-color: var(--yellow-hover);
+  border-color: var(--yellow-hover);
+  color: var(--primary-black);
+  transform: translateY(-1px);
+}
+
+.btn-outline-warning {
+  border-color: var(--primary-yellow);
+  color: var(--primary-yellow);
+  background-color: transparent;
+}
+
+.btn-outline-warning:hover {
+  background-color: var(--primary-yellow);
+  border-color: var(--primary-yellow);
+  color: var(--primary-black);
+}
+
+.btn-primary {
+  background-color: var(--primary-black);
+  border-color: var(--primary-black);
+  color: var(--pure-white);
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-gray);
+  border-color: var(--dark-gray);
+  color: var(--pure-white);
+  transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+  border-color: var(--primary-black);
+  color: var(--primary-black);
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-black);
+  border-color: var(--primary-black);
+  color: var(--pure-white);
+}
+
+/* Form improvements */
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 2px solid var(--light-gray);
+  transition: all 0.3s ease;
+  background-color: var(--pure-white);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-yellow);
+  box-shadow: 0 0 0 0.2rem var(--yellow-light);
+  background-color: var(--pure-white);
+}
+
+/* Alert improvements */
+.alert {
+  border-radius: 10px;
+  border: none;
+}
+
+.alert-info {
+  background-color: var(--yellow-light);
+  color: var(--primary-black);
+  border: 1px solid var(--yellow-border);
+}
+
+/* Badge improvements */
+.badge {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.badge.bg-warning {
+  background-color: var(--primary-yellow) !important;
+  color: var(--primary-black) !important;
+}
+
+.badge.bg-primary {
+  background-color: var(--primary-black) !important;
+  color: var(--pure-white) !important;
+}
+
+/* Status badges avec couleurs principales uniquement */
+.status-en_attente { 
+  background-color: var(--primary-yellow); 
+  color: var(--primary-black);
+  border: 1px solid var(--primary-black);
+  font-weight: 600;
+}
+
+.status-confirmée { 
+  background-color: var(--primary-black); 
+  color: var(--pure-white);
+  font-weight: 600;
+}
+
+.status-terminée { 
+  background-color: var(--primary-black); 
+  color: var(--primary-yellow);
+  border: 1px solid var(--primary-yellow);
+  font-weight: 600;
+}
+
+.status-annulée { 
+  background-color: var(--primary-white); 
+  color: var(--primary-black);
+  border: 2px solid var(--primary-black);
+  font-weight: 600;
+}
+
+.status-refusée { 
+  background-color: var(--primary-white); 
+  color: var(--primary-black);
+  border: 2px solid var(--primary-black);
+  font-weight: 600;
+  text-decoration: line-through;
+} 

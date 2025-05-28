@@ -10,7 +10,7 @@ class RentalsController < ApplicationController
   end
 
   def show
-    @review = @rental.reviews.build if @rental.status == 'completed' && @rental.user == current_user
+    @review = @rental.reviews.build if @rental.status == 'terminée' && @rental.user == current_user
   end
 
   def new
@@ -22,7 +22,7 @@ class RentalsController < ApplicationController
     @vehicle = Vehicle.find(params[:vehicle_id])
     @rental = current_user.rentals.build(rental_params)
     @rental.vehicle = @vehicle
-    @rental.status = 'pending'
+    @rental.status = 'en_attente'
 
     # Calculate total price
     if @rental.rental_start_date && @rental.rental_end_date
@@ -42,7 +42,7 @@ class RentalsController < ApplicationController
 
   def update
     if @rental.update(rental_params)
-      if params[:rental][:status] == 'cancelled'
+      if params[:rental][:status] == 'annulée'
         redirect_to vehicles_path, notice: 'Votre demande de location a été annulée.'
       else
         redirect_to @rental, notice: 'Rental was successfully updated.'
@@ -58,22 +58,22 @@ class RentalsController < ApplicationController
   end
 
   def confirm
-    @rental.update(status: 'confirmed')
+    @rental.update(status: 'confirmée')
     redirect_to rentals_path, notice: 'Rental was confirmed.'
   end
 
   def refuse
-    @rental.update(status: 'refused')
+    @rental.update(status: 'refusée')
     redirect_to rentals_path, notice: 'Rental was refused.'
   end
 
   def complete
-    @rental.update(status: 'completed')
+    @rental.update(status: 'terminée')
     redirect_to rentals_path, notice: 'Rental was marked as completed.'
   end
 
   def cancel
-    @rental.update(status: 'cancelled')
+    @rental.update(status: 'annulée')
     redirect_to vehicles_path, notice: 'Votre demande de location a été annulée.'
   end
 

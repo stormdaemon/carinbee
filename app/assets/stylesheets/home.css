@@ -1,0 +1,192 @@
+/* HOME PAGE STYLES */
+
+.header-custom {
+  background-color: var(--primary-yellow);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.brand-logo {
+  height: 120px;
+}
+
+.brand-name {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: var(--primary-black);
+  margin-left: 15px;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.home-btn {
+  background-color: var(--primary-yellow);
+  border-color: var(--primary-yellow);
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto 15px auto;
+  display: block;
+  color: var(--primary-black);
+  transition-duration: 0.3s;
+  text-align: center;
+}
+
+.home-btn:hover {
+  background-color: var(--yellow-hover);
+  border-color: var(--yellow-hover);
+  color: var(--primary-black);
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.main-content {
+  padding-top: 5px;
+  padding-bottom: 40px;
+}
+
+.intro-text p {
+  font-size: 1.1rem;
+  color: var(--dark-gray);
+}
+
+/* Phone mockup styles */
+.phone-mockup {
+  position: relative;
+  max-width: 180px;
+  margin: 0 auto;
+  border: 12px solid var(--primary-black);
+  border-radius: 40px;
+  box-shadow: 0 10px 30px var(--shadow-heavy);
+  background-color: var(--primary-black);
+  aspect-ratio: 9 / 19.5;
+  overflow: hidden;
+}
+
+.phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--pure-white);
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.phone-screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 20px;
+  background-color: var(--primary-black);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 10;
+}
+
+/* Typography */
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary-black);
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-black);
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--primary-black);
+}
+
+/* Legacy styles for compatibility */
+.small-paragraph {
+  font-size: 16px;
+}
+
+.home-banner {
+  background-color: var(--primary-yellow);
+  height: 32px;
+}
+
+.small-banner {
+  background-color: var(--primary-yellow);
+  height: 100%;
+  width: 100%;
+  padding: 2rem;
+}
+
+.search-bar {
+  border-radius: 8px;
+  border: 4px solid var(--primary-yellow);
+  color: var(--primary-black);
+  background-color: var(--pure-white);
+  margin: 4px;
+  padding: 4px 16px;
+}
+
+.grey-border-btn {
+  border-radius: 8px;
+  border: 4px solid var(--medium-gray);
+  color: var(--primary-black);
+  background-color: var(--pure-white);
+  margin: 8px 2px;
+  padding: 8px 48px;
+}
+
+.yellow-btn {
+  background-color: var(--primary-yellow);
+  border-radius: 8px;
+  border: 4px solid var(--primary-yellow);
+  margin: 8px 2px;
+  padding: 8px 48px;
+  color: var(--primary-black);
+}
+
+.img-zone {
+  min-height: 230px;
+}
+
+/* Responsive design */
+@media (max-width: 767.98px) {
+  .brand-name {
+    font-size: 2rem;
+  }
+  
+  .intro-text, .buttons-section, .phone-section {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .phone-mockup {
+    max-width: 250px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+} 
