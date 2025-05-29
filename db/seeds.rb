@@ -1,12 +1,14 @@
 require 'faker'
+require 'open-uri'
 
-puts "Cleaning database..."
+puts "🌱 Cleaning database..."
 Rental.destroy_all
 Review.destroy_all
 Vehicle.destroy_all
 User.destroy_all
+puts "✅ Database cleaned."
 
-puts "Creating users..."
+puts "\n👤 Creating users..."
 user_refs = [
   "Alex - du76", "Amandine - du38", "Morgane - Makeup", "Sylvain - Durif", "Bruno - JeanJacques",
   "Bob - L'éponge", "Hans - Varchar", "Variable - Undefined", "Sophie - Python", "Marc - CSS",
@@ -15,7 +17,7 @@ user_refs = [
 
 users = user_refs.map do |ref|
   first, last = ref.split(" - ")
-  User.create!(
+  user = User.create!(
     first_name: first,
     last_name: last,
     age: rand(20..60),
@@ -23,9 +25,12 @@ users = user_refs.map do |ref|
     email: Faker::Internet.unique.email,
     password: "password"
   )
+  puts "👤 Created user: #{user.first_name} #{user.last_name}"
+  user
 end
 
-puts "Creating vehicles..."
+puts "\n🚗 Creating vehicles..."
+
 vehicle_data = [
   ["Mercedes", "Vito", "Monospace", "Diesel", 80000, "Paris", 90, 8, "https://i.postimg.cc/pVjTkzw1/Monospace-Mercedes-Vito.jpg"],
   ["Chrysler", "Pacifica", "Monospace", "Essence", 60000, "Lyon", 85, 7, "https://i.postimg.cc/Hs2TP2B3/Monospace-Chrysler-Pacifica.png"],
@@ -62,8 +67,8 @@ descriptions = [
   "Zoé a remplacé l'autoradio par un interpréteur Ruby. Zen, non ?"
 ]
 
-vehicles = vehicle_data.each_with_index.map do |(brand, model, category, fuel, km, loc, price, seats, img), index|
-  Vehicle.create!(
+vehicles = vehicle_data.each_with_index.map do |(brand, model, category, fuel, km, loc, price, seats, img_url), i|
+  vehicle = Vehicle.new(
     brand: brand,
     model: model,
     category: category,
@@ -72,74 +77,21 @@ vehicles = vehicle_data.each_with_index.map do |(brand, model, category, fuel, k
     localization: loc,
     daily_price: price,
     number_of_places: seats,
-    image_url: img,
-    description: descriptions[index],
+    description: descriptions[i],
     available: true,
-    user: users[index]
-  )
-end
-
-puts "Creating rentals..."
-
-# Créer des locations avec des dates spécifiques pour éviter les conflits
-rental_periods = [
-  [Date.new(2024, 11, 1), Date.new(2024, 11, 5)],   # 4 jours
-  [Date.new(2024, 11, 10), Date.new(2024, 11, 12)], # 2 jours
-  [Date.new(2024, 11, 15), Date.new(2024, 11, 18)], # 3 jours
-  [Date.new(2024, 12, 1), Date.new(2024, 12, 4)],   # 3 jours
-  [Date.new(2024, 12, 10), Date.new(2024, 12, 13)], # 3 jours
-  [Date.new(2024, 12, 20), Date.new(2024, 12, 23)], # 3 jours
-  [Date.new(2025, 1, 5), Date.new(2025, 1, 8)],     # 3 jours
-  [Date.new(2025, 1, 15), Date.new(2025, 1, 17)],   # 2 jours
-  [Date.new(2025, 2, 1), Date.new(2025, 2, 5)],     # 4 jours
-  [Date.new(2025, 2, 10), Date.new(2025, 2, 12)],   # 2 jours
-  [Date.new(2025, 3, 1), Date.new(2025, 3, 4)],     # 3 jours
-  [Date.new(2025, 3, 10), Date.new(2025, 3, 13)],   # 3 jours
-  [Date.new(2025, 3, 20), Date.new(2025, 3, 22)],   # 2 jours
-  [Date.new(2025, 4, 1), Date.new(2025, 4, 3)],     # 2 jours
-  [Date.new(2025, 4, 10), Date.new(2025, 4, 14)],   # 4 jours
-  [Date.new(2025, 4, 20), Date.new(2025, 4, 23)],   # 3 jours
-  [Date.new(2025, 5, 1), Date.new(2025, 5, 4)],     # 3 jours
-  [Date.new(2025, 5, 10), Date.new(2025, 5, 12)],   # 2 jours
-  [Date.new(2025, 5, 20), Date.new(2025, 5, 24)],   # 4 jours
-  [Date.new(2025, 6, 1), Date.new(2025, 6, 3)]      # 2 jours
-]
-
-# Créer 20 locations avec des périodes définies
-20.times do |i|
-  # Choisir un utilisateur et un véhicule différents
-  user = users.sample
-  vehicle = vehicles.sample
-
-  # S'assurer que l'utilisateur ne loue pas son propre véhicule
-  while user == vehicle.user
-    user = users.sample
-  end
-
-  start_date, end_date = rental_periods[i]
-  total_price = vehicle.daily_price * (end_date - start_date).to_i
-
-  rental = Rental.create!(
-    user: user,
-    vehicle: vehicle,
-    rental_start_date: start_date,
-    rental_end_date: end_date,
-    total_price: total_price,
-    status: %w[completed confirmed cancelled].sample
+    user: users[i]
   )
 
-  # Créer un avis pour les locations terminées
-  if rental.status == "completed"
-    Review.create!(
-      rental: rental,
-      rating: rand(3..5),
-      content: "#{user.first_name} a trouvé ça #{%w[génial fabuleux cocasse impeccable magique].sample} !"
-    )
-  end
+  puts "📸 Attaching image to #{brand} #{model}..."
+  image_file = URI.open(img_url)
+  vehicle.photo.attach(io: image_file, filename: "#{brand}_#{model}.jpg", content_type: 'image/jpg')
+
+  vehicle.save!
+  puts "🚗 Created vehicle: #{brand} #{model} (ID: #{vehicle.id})"
+  vehicle
 end
 
-puts "Done seeding!"
-puts "Users: #{User.count}"
-puts "Vehicles: #{Vehicle.count}"
-puts "Rentals: #{Rental.count}"
-puts "Reviews: #{Review.count}"
+puts "\n✅ Done seeding!"
+puts "👤 Users: #{User.count}"
+puts "🚗 Vehicles: #{Vehicle.count}"
+puts "📝 Reviews: #{Review.count}"

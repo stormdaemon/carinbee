@@ -1,6 +1,8 @@
 class Vehicle < ApplicationRecord
   belongs_to :user
   has_many :rentals, dependent: :destroy
+  has_one_attached :photo
+  has_one_attached :logo
 
   # validates :brand, presence: true
   # validates :model, presence: true

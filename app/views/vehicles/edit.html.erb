@@ -18,8 +18,8 @@
       <% if @vehicle.errors.any? %>
         <div id="error_explanation" class="alert alert-danger">
           <h5 class="alert-heading">
-            <%= pluralize(@vehicle.errors.count, "erreur") %> 
-            <%= @vehicle.errors.count == 1 ? "a empêché" : "ont empêché" %> 
+            <%= pluralize(@vehicle.errors.count, "erreur") %>
+            <%= @vehicle.errors.count == 1 ? "a empêché" : "ont empêché" %>
             l'enregistrement de ce véhicule :
           </h5>
           <ul>
@@ -72,6 +72,10 @@
           <%= form.label :localization, "Localisation", class: "form-label fw-semibold" %>
           <%= form.text_field :localization, class: "form-control" %>
         </div>
+        <div class="mb-3">
+          <%= form.label :photo, "Ajoutez votre photo", class: "form-label fw-semibold" %>
+          <%= form.file_field :photo, as: :file, class: "form-control", placeholder: "https://exemple.com/votre-image-vehicule.jpg" %>
+        </div>
       </div>
 
       <div class="mb-3">
@@ -86,8 +90,8 @@
 
       <div class="text-center mt-4" data-controller="vehicle-edit">
         <div style="position: relative; display: inline-block;">
-          <%= form.submit "Modifier le véhicule", 
-              class: "btn btn-warning", 
+          <%= form.submit "Modifier le véhicule",
+              class: "btn btn-warning",
               data: {
                 vehicle_edit_target: "updateButton",
                 action: "mouseenter->vehicle-edit#mouseEnter mouseleave->vehicle-edit#mouseLeave"

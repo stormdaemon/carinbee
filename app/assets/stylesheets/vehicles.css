@@ -72,7 +72,9 @@
 }
 
 .vehicle-image {
-  height: 200px;
+  height: auto;
+  width: 100%;
+  max-height: fit-content;
   object-fit: cover;
   transition: transform 0.3s ease;
 }

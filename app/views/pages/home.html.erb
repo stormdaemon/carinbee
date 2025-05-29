@@ -74,7 +74,7 @@
       color: #1A1A1A;
       margin-bottom: 10px; /* Ajusté */
     }
-    
+
     /* Section du bouton "Rejoindre la Ruche" */
     .rejoindre-ruche-button-section {
         text-align: center;
@@ -190,7 +190,7 @@
     .vehicle-card-button:hover {
       background-color: #e0b800; /* Jaune plus foncé au survol */
     }
-    
+
 
     /* Ajustements responsives */
     @media (max-width: 1200px) {
@@ -215,7 +215,7 @@
       .header-custom .brand-name { font-size: 1.4rem; }
       .header-tagline { font-size: 0.9rem; }
       .header-custom .typed-text-container.header-typed-text p { font-size: 0.8rem; }
-      
+
       .vehicle-cards-section { padding: 10px 15px; }
       .vehicle-cards-container {
         grid-template-columns: 1fr;
@@ -287,8 +287,8 @@
           <%
             # Logique de sélection des véhicules pour les cards
             # ... (votre logique Ruby existante reste ici)
-            target_categories_ordered = ["Confort", "Monospace", "Eco"] 
-            vehicles_for_carousel_map = {} 
+            target_categories_ordered = ["Confort", "Monospace", "Eco"]
+            vehicles_for_carousel_map = {}
             processed_vehicle_ids = []
 
             if defined?(@featured_vehicles) && @featured_vehicles.present?
@@ -330,9 +330,15 @@
             <% vehicles_for_carousel.each do |vehicle| %>
               <div class="vehicle-card">
                 <div class="vehicle-card-image-wrapper">
-                  <img src="<%= vehicle.image_url.presence || 'https://via.placeholder.com/500x300/F0F0F0/777777?text=' + ERB::Util.url_encode("Image #{vehicle.brand}") %>" 
-                       class="vehicle-card-image" 
-                       alt="<%= "#{vehicle.brand} #{vehicle.model}" %>">
+                  <% if vehicle.respond_to?(:photo) && vehicle.photo.present? && vehicle.photo.key.present? %>
+                    <img src="<%= cl_image_path vehicle.photo.key, height: 300, crop: :fill %>"
+                         class="vehicle-card-image"
+                         alt="<%= "#{vehicle.brand} #{vehicle.model}" %>">
+                  <% else %>
+                    <img src="<%= vehicle.image_url %>"
+                         class="vehicle-card-image"
+                         alt="<%= "#{vehicle.brand} #{vehicle.model}" %>">
+                  <% end %>
                 </div>
                 <div class="vehicle-card-footer">
                   <h3 class="vehicle-card-category"><%= vehicle.category.presence || "Véhicule" %><span><img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="logo" width="40"></span></h3>
@@ -341,7 +347,7 @@
               </div>
             <% end %>
           <% else %>
-            <div class="text-center py-5 col-12"> {/* Ajout col-12 pour occuper la largeur */}
+            <div class="text-center py-5 col-12">
               <p>Aucun véhicule des catégories Confort, Monospace ou Eco à afficher pour le moment.</p>
             </div>
           <% end %>

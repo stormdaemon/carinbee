@@ -11,21 +11,16 @@
           <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="card h-100 shadow-sm vehicle-card">
               <div class="position-relative">
-                <% if vehicle.image_url.present? %>
-                  <img src="<%= vehicle.image_url %>" class="card-img-top vehicle-image" alt="<%= vehicle.brand %> <%= vehicle.model %>">
-                <% else %>
-                  <div class="card-img-top vehicle-image-placeholder d-flex align-items-center justify-content-center bg-light">
-                    <i class="fa-solid fa-car fa-3x text-muted"></i>
-                  </div>
-                <% end %>
+              <%= cl_image_tag vehicle.photo.key, height: 300, width: 400, crop: :fill, class: "card-img-top vehicle-image" %>
+                  
                 <div class="position-absolute top-0 end-0 m-2">
                   <span class="badge bg-warning text-dark"><%= vehicle.category.capitalize if vehicle.category %></span>
                 </div>
               </div>
-              
+
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title"><%= vehicle.brand %> <%= vehicle.model %></h5>
-                
+
                 <div class="vehicle-details mb-3">
                   <p class="card-text text-muted mb-1">
                     <i class="fa-solid fa-location-dot"></i> <%= vehicle.localization %>
@@ -40,11 +35,11 @@
                     <i class="fa-solid fa-road"></i> <%= number_with_delimiter(vehicle.kilometers) %> km
                   </p>
                 </div>
-                
+
                 <% if vehicle.description.present? %>
                   <p class="card-text flex-grow-1"><%= truncate(vehicle.description, length: 80) %></p>
                 <% end %>
-                
+
                 <div class="mt-auto">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="price">
@@ -72,4 +67,4 @@
       <% end %>
     </div>
   </div>
-</div> 
+</div>

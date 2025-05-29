@@ -10,12 +10,7 @@
 
       <%# Image du véhicule - Utilisation du champ image_url du schéma %>
       <div class="mb-4 vehicle-image-container shadow-sm rounded" style="max-height: 550px; overflow: hidden;">
-        <% if @vehicle.image_url.present? %>
-          <%= image_tag @vehicle.image_url, class: "img-fluid w-100", style: "object-fit: cover; max-height: 550px;", alt: "#{@vehicle.brand} #{@vehicle.model}", onerror: "this.src='https://placehold.co/800x500/E9ECEF/495057?text=#{CGI.escape(@vehicle.brand)}+#{CGI.escape(@vehicle.model)}'" %>
-        <% else %>
-          <%# Placeholder image avec marque et modèle %>
-          <img src="https://placehold.co/800x500/E9ECEF/495057?text=<%= CGI.escape(@vehicle.brand) %>+<%= CGI.escape(@vehicle.model) %>" class="img-fluid w-100" style="object-fit: cover; max-height: 550px;" alt="<%= @vehicle.brand %> <%= @vehicle.model %>">
-        <% end %>
+          <%= cl_image_tag @vehicle.photo.key, class: "img-fluid w-100", style: "object-fit: cover; max-height: 550px;", alt: "#{@vehicle.brand} #{@vehicle.model}", onerror: "this.src='https://placehold.co/800x500/E9ECEF/495057?text=#{CGI.escape(@vehicle.brand)}+#{CGI.escape(@vehicle.model)}'" %>
       </div>
 
       <%# Description %>

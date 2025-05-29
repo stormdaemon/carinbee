@@ -6,12 +6,12 @@
 
     <h3 class="fw-bold mb-4 pt-2">Enregistrer votre véhicule</h3>
 
-    <%= form_with(model: @vehicle, url: vehicles_path, method: :post, local: true) do |form| %>
+    <%= form_with(model: @vehicle, url: vehicles_path, method: :post, local: true, multipart: true) do |form| %>
       <% if @vehicle.errors.any? %>
         <div id="error_explanation" class="alert alert-danger">
           <h5 class="alert-heading">
-            <%= pluralize(@vehicle.errors.count, "erreur") %> 
-            <%= @vehicle.errors.count == 1 ? "a empêché" : "ont empêché" %> 
+            <%= pluralize(@vehicle.errors.count, "erreur") %>
+            <%= @vehicle.errors.count == 1 ? "a empêché" : "ont empêché" %>
             l'enregistrement de ce véhicule :
           </h5>
           <ul>
@@ -72,8 +72,8 @@
       </div>
 
       <div class="mb-3">
-        <%= form.label :image_url, "URL de l'image", class: "form-label fw-semibold" %>
-        <%= form.text_field :image_url, class: "form-control", placeholder: "https://exemple.com/votre-image-vehicule.jpg" %>
+        <%= form.label :photo, "Ajoutez votre photo", class: "form-label fw-semibold" %>
+        <%= form.file_field :photo, as: :file, class: "form-control", placeholder: "https://exemple.com/votre-image-vehicule.jpg" %>
       </div>
 
       <div class="mb-3 form-check">
@@ -83,8 +83,8 @@
 
       <div class="text-center mt-4" data-controller="vehicle-new">
         <div style="position: relative; display: inline-block;">
-          <%= form.submit "Créer le véhicule", 
-              class: "btn btn-warning", 
+          <%= form.submit "Créer le véhicule",
+              class: "btn btn-warning",
               data: {
                 vehicle_new_target: "createButton",
                 action: "mouseenter->vehicle-new#mouseEnter mouseleave->vehicle-new#mouseLeave"
@@ -101,4 +101,3 @@
 
   </div> <!-- End of card -->
 </div> <!-- End of container -->
-

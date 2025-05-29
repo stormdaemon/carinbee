@@ -29,9 +29,9 @@
 
               <div class="date-input-group" data-controller="flatpickr" data-action="flatpickr:datesChanged->rental-form#handleDatesChanged">
                 <div class="form-floating">
-                  <input type="text" 
-                         class="form-control" 
-                         id="date_range_picker" 
+                  <input type="text"
+                         class="form-control"
+                         id="date_range_picker"
                          placeholder="Sélectionnez vos dates de location"
                          data-flatpickr-target="dateRange">
                   <label for="date_range_picker" class="form-label">📅 Dates de location</label>
@@ -75,13 +75,7 @@
           <div class="card shadow-sm p-4 rounded-3" style="background-color: #FFFFFF;">
             <h4 class="fw-bold mb-4">🚗 Véhicule sélectionné</h4>
 
-            <% if @vehicle.image_url.present? %>
-              <%= image_tag @vehicle.image_url, alt: @vehicle.brand + " " + @vehicle.model, class: "img-fluid vehicle-image w-100 mb-3" %>
-            <% else %>
-              <div class="vehicle-image-placeholder bg-light d-flex align-items-center justify-content-center mb-3" style="height: 200px; border-radius: 10px;">
-                <i class="fas fa-car fa-3x text-muted"></i>
-              </div>
-            <% end %>
+              <%= cl_image_tag @vehicle.photo.key, alt: @vehicle.brand + " " + @vehicle.model, class: "img-fluid vehicle-image w-100 mb-3" %>
 
             <h5 class="fw-bold mb-2"><%= @vehicle.brand %> <%= @vehicle.model %></h5>
             <p class="text-muted mb-2">📍 <%= @vehicle.localization %></p>
