@@ -4,10 +4,24 @@ fr:
       not_saved:
         one: "1 erreur a empêché l'enregistrement de ce %{resource} :"
         other: "%{count} erreurs ont empêché l'enregistrement de ce %{resource} :"
+      blank: "ne peut pas être vide"
+      not_a_number: "n'est pas un nombre"
   
   activerecord:
     errors:
       models:
+        rental:
+          attributes:
+            rental_start_date:
+              blank: "La date de début ne peut pas être vide"
+            rental_end_date:
+              blank: "La date de fin ne peut pas être vide"
+            total_price:
+              blank: "Le prix total ne peut pas être vide"
+              not_a_number: "Le prix total doit être un nombre"
+            status:
+              blank: "Le statut ne peut pas être vide"
+              inclusion: "Le statut n'est pas valide"
         vehicle:
           attributes:
             brand:

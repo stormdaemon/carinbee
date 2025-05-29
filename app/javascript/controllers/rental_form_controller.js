@@ -1,44 +1,27 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["startDate", "endDate", "summary", "summaryStartDate", "summaryEndDate", "summaryDuration", "summaryDays", "summaryTotal", "form"]
+  static targets = ["summary", "summaryStartDate", "summaryEndDate", "summaryDuration", "summaryDays", "summaryTotal"]
   static values = { dailyPrice: Number }
 
   connect() {
-    this.initializeDateCalculations()
-    this.initializeFormValidation()
+    console.log("Rental form controller connected")
+    console.log("Daily price:", this.dailyPriceValue)
   }
 
-  initializeDateCalculations() {
-    if (this.hasStartDateTarget && this.hasEndDateTarget) {
-      this.startDateTarget.addEventListener('change', () => this.calculateAndUpdateSummary())
-      this.endDateTarget.addEventListener('change', () => this.calculateAndUpdateSummary())
-      this.startDateTarget.addEventListener('change', () => this.updateEndDateMin())
-      
-      // Calcul initial si les dates sont déjà remplies
-      this.calculateAndUpdateSummary()
+  // Écouter l'événement déclenché par Flatpickr
+  handleDatesChanged(event) {
+    console.log("Dates changed event received:", event.detail)
+    const { startDate, endDate } = event.detail
+    this.updateSummary(startDate, endDate)
+  }
+
+  // Mettre à jour le résumé
+  updateSummary(startDate, endDate) {
+    if (!this.hasSummaryTarget) {
+      console.log("Summary target not found")
+      return
     }
-  }
-
-  initializeFormValidation() {
-    if (this.hasFormTarget) {
-      this.formTarget.addEventListener('submit', (event) => this.validateForm(event))
-    }
-  }
-
-  formatDate(dateString) {
-    if (!dateString) return '-'
-    const date = new Date(dateString)
-    return date.toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    })
-  }
-
-  calculateAndUpdateSummary() {
-    const startDate = this.startDateTarget.value
-    const endDate = this.endDateTarget.value
 
     if (startDate && endDate) {
       const start = new Date(startDate)
@@ -49,12 +32,22 @@ export default class extends Controller {
         const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
         const totalPrice = daysDiff * this.dailyPriceValue
 
-        // Mettre à jour le résumé
-        this.summaryStartDateTarget.textContent = this.formatDate(startDate)
-        this.summaryEndDateTarget.textContent = this.formatDate(endDate)
-        this.summaryDurationTarget.textContent = daysDiff + ' jour' + (daysDiff > 1 ? 's' : '')
-        this.summaryDaysTarget.textContent = daysDiff
-        this.summaryTotalTarget.textContent = totalPrice.toLocaleString('fr-FR') + ' €'
+        // Mettre à jour les éléments du résumé
+        if (this.hasSummaryStartDateTarget) {
+          this.summaryStartDateTarget.textContent = this.formatDate(start)
+        }
+        if (this.hasSummaryEndDateTarget) {
+          this.summaryEndDateTarget.textContent = this.formatDate(end)
+        }
+        if (this.hasSummaryDurationTarget) {
+          this.summaryDurationTarget.textContent = daysDiff + ' jour' + (daysDiff > 1 ? 's' : '')
+        }
+        if (this.hasSummaryDaysTarget) {
+          this.summaryDaysTarget.textContent = daysDiff
+        }
+        if (this.hasSummaryTotalTarget) {
+          this.summaryTotalTarget.textContent = totalPrice.toLocaleString('fr-FR') + ' €'
+        }
 
         // Afficher le résumé
         this.summaryTarget.style.display = 'block'
@@ -66,39 +59,32 @@ export default class extends Controller {
     }
   }
 
-  updateEndDateMin() {
-    if (this.startDateTarget.value) {
-      const nextDay = new Date(this.startDateTarget.value)
-      nextDay.setDate(nextDay.getDate() + 1)
-      this.endDateTarget.min = nextDay.toISOString().split('T')[0]
-
-      // Si la date de fin est antérieure à la nouvelle date minimum, la réinitialiser
-      if (this.endDateTarget.value && new Date(this.endDateTarget.value) <= new Date(this.startDateTarget.value)) {
-        this.endDateTarget.value = ''
-      }
-    }
+  formatDate(date) {
+    return date.toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })
   }
 
+  // Validation du formulaire avant soumission
   validateForm(event) {
-    const startDate = this.startDateTarget.value
-    const endDate = this.endDateTarget.value
+    const form = event.currentTarget
+    const startDateField = form.querySelector('input[name="rental[rental_start_date]"]')
+    const endDateField = form.querySelector('input[name="rental[rental_end_date]"]')
 
-    if (!startDate || !endDate) {
+    if (!startDateField || !endDateField || !startDateField.value || !endDateField.value) {
       event.preventDefault()
-      event.stopPropagation()
-
-      if (!startDate) {
-        this.startDateTarget.classList.add('is-invalid')
-      }
-      if (!endDate) {
-        this.endDateTarget.classList.add('is-invalid')
-      }
-    } else if (new Date(endDate) <= new Date(startDate)) {
-      event.preventDefault()
-      event.stopPropagation()
-      this.endDateTarget.classList.add('is-invalid')
+      alert('Veuillez sélectionner les dates de location')
+      return false
     }
 
-    this.formTarget.classList.add('was-validated')
+    if (new Date(endDateField.value) <= new Date(startDateField.value)) {
+      event.preventDefault()
+      alert('La date de fin doit être après la date de début')
+      return false
+    }
+
+    return true
   }
 } 
