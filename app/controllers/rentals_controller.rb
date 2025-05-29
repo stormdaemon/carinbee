@@ -75,7 +75,11 @@ class RentalsController < ApplicationController
 
   def cancel
     @rental.update(status: 'annulée')
-    redirect_to vehicles_path, notice: 'Votre demande de location a été annulée.'
+    
+    respond_to do |format|
+      format.html { redirect_to @rental, notice: 'Votre demande de location a été annulée.' }
+      format.turbo_stream { flash.now[:notice] = 'Votre demande de location a été annulée.' }
+    end
   end
 
   private
