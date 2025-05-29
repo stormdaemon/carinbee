@@ -1,6 +1,6 @@
 /* VEHICLES PAGE STYLES */
 
-/* Search Section - Nouveau design moderne */
+/* SEARCH SECTION */
 .search-section {
   background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 50%, #ffeaa7 100%);
   border-radius: 20px;
@@ -10,10 +10,12 @@
   border: 1px solid rgba(255, 204, 1, 0.2);
 }
 
+/* SEARCH FORM */
 .search-form {
   position: relative;
 }
 
+/* SEARCH FIELDS */
 .search-field {
   position: relative;
 }
@@ -32,6 +34,7 @@
   font-size: 1rem;
 }
 
+/* SEARCH INPUTS */
 .search-input, .search-select {
   border: 2px solid var(--primary-black);
   border-radius: 12px;
@@ -53,7 +56,7 @@
   font-style: italic;
 }
 
-/* Vehicle Cards */
+/* VEHICLES CARD */
 .vehicle-card {
   transition: all 0.3s ease;
   border: none;
@@ -95,6 +98,13 @@
   margin-right: 0.5rem;
 }
 
+
+
+
+
+
+
+
 .price {
   font-weight: bold;
 }
@@ -104,7 +114,10 @@
   font-weight: 700;
 }
 
-/* Main Content Layout */
+
+
+/* MAIN CONTENT HERE*/
+
 .main-content-wrapper {
   display: flex;
   gap: 2rem;
@@ -122,6 +135,7 @@
   position: relative;
 }
 
+/* MAP STYLES */
 .map-container {
   z-index: 100;
   height: fit-content;
@@ -140,7 +154,7 @@
   z-index: 1;
 }
 
-/* Mapbox customization */
+/* MAPBOX STYLES */
 .mapboxgl-popup {
   max-width: 250px;
   z-index: 10000;
@@ -178,7 +192,9 @@
   box-shadow: 0 0 0 0.2rem rgba(255, 204, 1, 0.25) !important;
 }
 
-/* Responsive Design */
+
+
+/* RESPONSIVE DESIGN HERE */
 @media (max-width: 1199.98px) {
   .search-section {
     padding: 2rem 1.5rem;
@@ -189,13 +205,13 @@
   .main-content-wrapper {
     flex-direction: column;
   }
-  
+
   .map-section {
     flex: none;
     width: 100%;
     order: 2;
   }
-  
+
   .map-container {
     position: static !important;
     top: auto !important;
@@ -203,7 +219,7 @@
     overflow-y: visible !important;
     margin-top: 2rem;
   }
-  
+
   .map-wrapper {
     height: 400px;
   }
@@ -219,7 +235,7 @@
   .vehicle-image-placeholder {
     height: 180px;
   }
-  
+
   .vehicle-details p {
     font-size: 0.85rem;
   }
@@ -478,4 +494,3 @@
   transform: scale(1.1);
   background: #e6b800;
 }
-
