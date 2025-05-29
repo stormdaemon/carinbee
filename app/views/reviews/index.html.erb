@@ -1,1 +1,75 @@
-<h1>Reviews</h1> 
+<div class="container mt-4">
+  <h1>Reviews</h1>
+  <div class="row mt-3">
+
+    <%# MAIN CONTENT %>
+    <div class="col-lg-6">
+      <h2>Avis Donnés</h2>
+
+
+    <%# REVIEWS I GAVE %>
+      <%# REVIEW CARD COMPOSANT %>
+      <div class="review-card">
+        <% @reviews.each do |r| %>
+
+        <%# REVIEW HEADER %>
+        <div class="review-header">
+
+          <div class="review-vehicle">
+            <% if r.vehicle.image_url.present? %>
+              <img src="<%= r.vehicle.image_url %>" class="review-vehicle-image" alt="<%= r.rental.vehicle.brand %> <%= r.rental.vehicle.model %>">
+            <% else %>
+              <div class="review-vehicle-image-placeholder">
+                <i class="fa-solid fa-car fa-2x text-muted"></i>
+              </div>
+            <% end %>
+
+            <div class="review-vehicle-info">
+              <h5 class="review-vehicle-title"><%= r.rental.vehicle.brand %> <%= r.rental.vehicle.model %></h5>
+              <div class="review-vehicle-details">
+                <i class="fa-solid fa-location-dot text-muted"></i>
+                <span><%= review.rental.vehicle.localization %></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-user">
+            <div class="review-user-info">
+              <h6 class="review-user-name"><%= r.rental.user.first_name %> <%= r.rental.user.last_name %></h6>
+              <small class="text-muted"><%= r.created_at.strftime("%d/%m/%Y") %></small>
+            </div>
+          </div>
+
+        </div>
+
+        <%# REVIEW CONTENT %>
+        <div class="review-content">
+
+          <div class="review-rating">
+            <span class="text-warning fs-5">
+              <% r.rating.times do %>⭐<% end %>
+              <% (5 - r.rating).times do %>☆<% end %>
+            </span>
+            <span class="text-muted ms-2">(<%= r.rating %>/5)</span>
+          </div>
+          <p class="review-text"><%= r.content %></p>
+        </div>
+
+        <% end %>
+      </div>
+
+    </div>
+
+
+
+    <%# REVIEWS I GAVE %>
+    <div class="col-lg-6">
+      <h2>Avis Recus</h2>
+
+
+
+    </div>
+
+
+  </div>
+</div>

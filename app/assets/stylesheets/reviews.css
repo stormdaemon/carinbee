@@ -1,0 +1,106 @@
+/* REVIEWS STYLES */
+
+.review-card {
+  background: var(--pure-white);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px var(--shadow-light);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--light-gray);
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.review-vehicle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.review-vehicle-image,
+.review-vehicle-image-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.review-vehicle-image-placeholder {
+  background: linear-gradient(135deg, var(--primary-white) 0%, var(--light-gray) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.review-vehicle-title {
+  font-family: 'Goblin One', serif;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-black);
+}
+
+.review-vehicle-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+}
+
+.review-vehicle-details i {
+  color: var(--primary-yellow);
+}
+
+.review-user {
+  text-align: right;
+}
+
+.review-user-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--primary-black);
+}
+
+.review-content {
+  padding-top: 0.5rem;
+}
+
+.review-rating {
+  margin-bottom: 1rem;
+}
+
+.review-text {
+  color: var(--dark-gray);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Animation d'apparition des reviews */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.review-card {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
