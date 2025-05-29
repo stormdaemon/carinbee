@@ -335,7 +335,7 @@
                          class="vehicle-card-image"
                          alt="<%= "#{vehicle.brand} #{vehicle.model}" %>">
                   <% else %>
-                    <img src="<%= vehicle.image_url %>"
+                    <img src="<%= cl_image_path vehicle.photo.key %>"
                          class="vehicle-card-image"
                          alt="<%= "#{vehicle.brand} #{vehicle.model}" %>">
                   <% end %>

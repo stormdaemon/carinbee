@@ -5,7 +5,7 @@
     <% if @vehicle.try(:image_url).present? %>
       <div class="mb-3 text-center">
         <p class="fw-semibold">Image actuelle (non modifiable via ce formulaire) :</p>
-        <%= image_tag @vehicle.image_url, class: "vehicle-image-preview", alt: "Image actuelle de #{@vehicle.model}", style: "max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 0.25rem; margin-top: 10px; border: 1px solid #dee2e6;" %>
+        <%= cl_image_tag @vehicle.photo.key, class: "vehicle-image-preview", alt: "Image actuelle de #{@vehicle.model}", style: "max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 0.25rem; margin-top: 10px; border: 1px solid #dee2e6;" %>
       </div>
     <% elsif @vehicle.respond_to?(:image) && @vehicle.image.attached? %>
       <div class="mb-3 text-center">

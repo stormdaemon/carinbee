@@ -86,14 +86,8 @@
             <% @vehicle_rentals.each do |rental| %>
               <div class="rental-card">
                 <div class="rental-image-container">
-                  <% if rental.vehicle.image_url.present? %>
-                    <img src="<%= rental.vehicle.image_url %>" class="rental-image" alt="<%= rental.vehicle.brand %> <%= rental.vehicle.model %>">
-                  <% else %>
-                    <div class="rental-image-placeholder">
-                      <i class="fa-solid fa-car fa-2x text-muted"></i>
-                    </div>
-                  <% end %>
-                  <div class="rental-status-badge">
+                  <img src="<%= cl_image_path rental.vehicle.photo.key %>" class="rental-image" alt="<%= rental.vehicle.brand %> <%= rental.vehicle.model %>">
+                <div class="rental-status-badge">
                     <span class="badge status-<%= rental.status %>"><%= rental.status.capitalize %></span>
                   </div>
                 </div>

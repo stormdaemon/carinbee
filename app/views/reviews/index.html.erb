@@ -16,13 +16,7 @@
         <div class="review-header">
 
           <div class="review-vehicle">
-            <% if r.vehicle.image_url.present? %>
-              <img src="<%= r.vehicle.image_url %>" class="review-vehicle-image" alt="<%= r.rental.vehicle.brand %> <%= r.rental.vehicle.model %>">
-            <% else %>
-              <div class="review-vehicle-image-placeholder">
-                <i class="fa-solid fa-car fa-2x text-muted"></i>
-              </div>
-            <% end %>
+            <img src="<%= cl_image_path r.vehicle.photo.key %>" class="review-vehicle-image" alt="<%= r.rental.vehicle.brand %> <%= r.rental.vehicle.model %>">
 
             <div class="review-vehicle-info">
               <h5 class="review-vehicle-title"><%= r.rental.vehicle.brand %> <%= r.rental.vehicle.model %></h5>
