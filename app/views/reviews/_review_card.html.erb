@@ -1,0 +1,38 @@
+<%# Review Card Component %>
+<div class="review-card">
+  <div class="review-header">
+    <div class="review-vehicle">
+      <% if review.rental.vehicle.image_url.present? %>
+        <img src="<%= review.rental.vehicle.image_url %>" class="review-vehicle-image" alt="<%= review.rental.vehicle.brand %> <%= review.rental.vehicle.model %>">
+      <% else %>
+        <div class="review-vehicle-image-placeholder">
+          <i class="fa-solid fa-car fa-2x text-muted"></i>
+        </div>
+      <% end %>
+      <div class="review-vehicle-info">
+        <h5 class="review-vehicle-title"><%= review.rental.vehicle.brand %> <%= review.rental.vehicle.model %></h5>
+        <div class="review-vehicle-details">
+          <i class="fa-solid fa-location-dot text-muted"></i>
+          <span><%= review.rental.vehicle.localization %></span>
+        </div>
+      </div>
+    </div>
+    <div class="review-user">
+      <div class="review-user-info">
+        <h6 class="review-user-name"><%= review.rental.user.first_name %> <%= review.rental.user.last_name %></h6>
+        <small class="text-muted"><%= review.created_at.strftime("%d/%m/%Y") %></small>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-content">
+    <div class="review-rating">
+      <span class="text-warning fs-5">
+        <% review.rating.times do %>⭐<% end %>
+        <% (5 - review.rating).times do %>☆<% end %>
+      </span>
+      <span class="text-muted ms-2">(<%= review.rating %>/5)</span>
+    </div>
+    <p class="review-text"><%= review.content %></p>
+  </div>
+</div>

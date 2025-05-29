@@ -7,7 +7,7 @@
 
   <!-- Main Content -->
   <div class="row g-4">
-    
+
     <!-- Mes Locations (en tant que locataire) -->
     <div class="col-lg-6">
       <div class="rentals-section">
@@ -18,7 +18,7 @@
           </h2>
           <span class="badge bg-warning text-dark rounded-pill"><%= @my_rentals.count %></span>
         </div>
-        
+
         <div class="rentals-grid">
           <% if @my_rentals.any? %>
             <% @my_rentals.each do |rental| %>
@@ -35,10 +35,10 @@
                     <span class="badge status-<%= rental.status %>"><%= rental.status.capitalize %></span>
                   </div>
                 </div>
-                
+
                 <div class="rental-content">
                   <h5 class="rental-title"><%= rental.vehicle.brand %> <%= rental.vehicle.model %></h5>
-                  
+
                   <div class="rental-details">
                     <div class="detail-item">
                       <i class="fa-solid fa-location-dot text-muted"></i>
@@ -53,7 +53,7 @@
                       <span><%= rental.rental_start_date.strftime("%d/%m/%Y") %> - <%= rental.rental_end_date.strftime("%d/%m/%Y") %></span>
                     </div>
                   </div>
-                  
+
                   <div class="rental-footer">
                     <div class="rental-price">
                       <span class="price-amount"><%= rental.total_price %>€</span>
@@ -86,7 +86,7 @@
           </h2>
           <span class="badge bg-warning text-dark rounded-pill"><%= @vehicle_rentals.count %></span>
         </div>
-        
+
         <div class="rentals-grid">
           <% if @vehicle_rentals.any? %>
             <% @vehicle_rentals.each do |rental| %>
@@ -103,10 +103,10 @@
                     <span class="badge status-<%= rental.status %>"><%= rental.status.capitalize %></span>
                   </div>
                 </div>
-                
+
                 <div class="rental-content">
                   <h5 class="rental-title"><%= rental.vehicle.brand %> <%= rental.vehicle.model %></h5>
-                  
+
                   <div class="rental-details">
                     <div class="detail-item">
                       <i class="fa-solid fa-user text-muted"></i>
@@ -121,7 +121,7 @@
                       <span><%= rental.total_price %>€ total</span>
                     </div>
                   </div>
-                  
+
                   <div class="rental-footer">
                     <% if rental.status == 'en_attente' %>
                       <div class="action-buttons">

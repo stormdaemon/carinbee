@@ -13,7 +13,7 @@ class ReviewsController < ApplicationController
 
   def create
     @review = @rental.reviews.build(review_params)
-    
+
     if @review.save
       redirect_to @rental, notice: 'Review was successfully created.'
     else
@@ -63,4 +63,4 @@ class ReviewsController < ApplicationController
   def review_params
     params.require(:review).permit(:content, :rating)
   end
-end 
+end
