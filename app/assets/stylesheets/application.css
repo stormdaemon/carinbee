@@ -191,19 +191,14 @@ html {
 /* Form improvements */
 .form-control, .form-select {
   border-radius: 8px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--light-gray);
   transition: all 0.3s ease;
+  background-color: var(--pure-white);
 }
 
 .form-control:focus, .form-select:focus {
-  border-color: #FFCC01;
+  border-color: var(--primary-yellow);
   box-shadow: 0 0 0 0.2rem rgba(255, 204, 1, 0.25);
-}
-
-/* Alert improvements */
-.alert {
-  border-radius: 10px;
-  border: none;
 }
 
 /* Badge improvements */

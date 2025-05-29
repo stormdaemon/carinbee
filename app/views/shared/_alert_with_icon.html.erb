@@ -1,0 +1,51 @@
+<%# 
+  Partial pour afficher des alertes avec icônes
+  Usage: 
+  <%= render 'shared/alert_with_icon', 
+      type: 'success', 
+      message: 'Votre action a été réalisée avec succès !', 
+      icon: 'fa-check-circle',
+      dismissible: true 
+  %>
+%>
+
+<% 
+  alert_type = local_assigns[:type] || 'info'
+  message = local_assigns[:message]
+  icon = local_assigns[:icon]
+  dismissible = local_assigns[:dismissible] || false
+  heading = local_assigns[:heading]
+  
+  # Icônes par défaut selon le type
+  default_icons = {
+    'success' => 'fa-check-circle',
+    'danger' => 'fa-exclamation-triangle',
+    'error' => 'fa-exclamation-triangle',
+    'warning' => 'fa-exclamation-circle',
+    'info' => 'fa-info-circle',
+    'secondary' => 'fa-question-circle'
+  }
+  
+  icon ||= default_icons[alert_type] || 'fa-info-circle'
+%>
+
+<div class="alert alert-<%= alert_type %> <%= 'alert-dismissible fade show' if dismissible %>" role="alert">
+  <div class="d-flex align-items-center">
+    <% if icon %>
+      <div class="alert-icon">
+        <i class="fas <%= icon %>"></i>
+      </div>
+    <% end %>
+    
+    <div class="flex-grow-1">
+      <% if heading %>
+        <h5 class="alert-heading"><%= heading %></h5>
+      <% end %>
+      <%= message %>
+    </div>
+    
+    <% if dismissible %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <% end %>
+  </div>
+</div> 

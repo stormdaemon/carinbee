@@ -1,3 +1,6 @@
+<%# Mise à jour des flash messages %>
+<%= render 'shared/flash_messages_turbo_stream' %>
+
 <%= turbo_stream.replace "rental-container" do %>
   <div class="container mt-4 mb-4 rental-container" data-controller="rental-animations" id="rental-container">
     <div class="row justify-content-center">
@@ -6,14 +9,6 @@
           <h2 class="page-title">Détails de la location</h2>
           <%= link_to "← Retour", rentals_path, class: "btn btn-outline-secondary" %>
         </div>
-
-        <!-- Flash message -->
-        <% if flash[:notice] %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= flash[:notice] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% end %>
 
         <div class="card shadow-sm p-4 rounded-3 rental-card" style="background-color: #FFFFFF;">
 

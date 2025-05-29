@@ -5,7 +5,31 @@
         <div class="card-body" style="background-color: #F4F4F4;">
           <h2 class="card-title text-center mb-4" style="color: #1B1C1C;">Connexion</h2>
 
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <%= form_for(resource, 
+                       as: resource_name, 
+                       url: session_path(resource_name),
+                       local: true,
+                       data: { turbo: false }) do |f| %>
+            
+            <!-- Affichage des erreurs avec le système unifié -->
+            <% if resource.errors.any? %>
+              <div class="alert alert-danger" role="alert">
+                <div class="d-flex align-items-center">
+                  <div class="alert-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <h5 class="alert-heading">Erreur de connexion :</h5>
+                    <ul class="mb-0">
+                      <% resource.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            
             <div class="form-group mb-3">
               <%= f.label :email, "Email", class: "form-label" %><br />
               <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
@@ -24,7 +48,9 @@
             <% end %>
 
             <div class="text-center">
-              <%= f.submit "Se connecter", class: "btn btn-warning px-4" %>
+              <%= f.submit "Se connecter", 
+                           class: "btn btn-warning px-4", 
+                           data: { disable_with: "Connexion en cours..." } %>
             </div>
           <% end %>
 
