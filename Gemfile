@@ -35,10 +35,6 @@ gem "dotenv-rails"
 
 gem "bootstrap", "~> 5.3.3"
 
-# sassc gem
-
-gem "sassc-rails"
-
 #faker
 
 gem "faker"
