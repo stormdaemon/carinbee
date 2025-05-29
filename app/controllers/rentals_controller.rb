@@ -26,12 +26,13 @@ class RentalsController < ApplicationController
 
     # Calculate total price
     if @rental.rental_start_date && @rental.rental_end_date
+      # Calculer le nombre de jours (inclure le jour de début et de fin)
       days = (@rental.rental_end_date - @rental.rental_start_date).to_i + 1
       @rental.total_price = days * @vehicle.daily_price
     end
 
     if @rental.save
-      redirect_to @rental, notice: 'Rental request was successfully created.'
+      redirect_to @rental, notice: 'Votre demande de location a été créée avec succès.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -102,6 +103,6 @@ class RentalsController < ApplicationController
   end
 
   def rental_params
-    params.require(:rental).permit(:rental_start_date, :rental_end_date, :status)
+    params.require(:rental).permit(:rental_start_date, :rental_end_date, :status, :message)
   end
 end

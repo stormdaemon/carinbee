@@ -20,6 +20,7 @@
 @import url("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css");
 @import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Cal+Sans&family=Goblin+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Cal+Sans&family=Goblin+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Young+Serif&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
 
 /* 
  * CARINBEE DESIGN SYSTEM
@@ -982,5 +983,138 @@ h3 {
     flex-direction: column;
     gap: 1rem;
     align-items: stretch;
+  }
+}
+
+/* FLATPICKR CUSTOM STYLES */
+.flatpickr-calendar {
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  border: 1px solid #e9ecef;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+  background: #FFCC01;
+  border-color: #FFCC01;
+  color: #333;
+}
+
+.flatpickr-day.inRange {
+  background: rgba(255, 204, 1, 0.2);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.flatpickr-day.today {
+  border-color: #FFCC01;
+}
+
+.flatpickr-day:hover {
+  background: rgba(255, 204, 1, 0.1);
+  border-color: #FFCC01;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+  fill: #FFCC01;
+}
+
+/* Date input group styles */
+.date-input-group {
+  margin-bottom: 1.5rem;
+}
+
+.date-input-group .form-control {
+  background-color: #fff;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.date-input-group .form-control:focus {
+  border-color: #FFCC01;
+  box-shadow: 0 0 0 0.2rem rgba(255, 204, 1, 0.25);
+}
+
+/* Booking summary styles */
+.booking-summary {
+  background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border: 1px solid rgba(255, 204, 1, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 204, 1, 0.1);
+}
+
+.booking-summary h5 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.booking-summary .price-calculation {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.booking-summary hr {
+  border-color: rgba(255, 204, 1, 0.3);
+}
+
+.booking-summary .text-success {
+  color: #28a745 !important;
+}
+
+/* Form floating labels adjustments */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+  color: #FFCC01;
+}
+
+.form-floating > label {
+  padding: 1rem 0.75rem;
+}
+
+/* Rental form specific styles */
+.rental-container .form-floating {
+  margin-bottom: 1.5rem;
+}
+
+.rental-container .needs-validation {
+  margin-bottom: 0;
+}
+
+/* Animation for summary appearance */
+.booking-summary {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

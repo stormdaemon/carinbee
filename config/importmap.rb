@@ -8,6 +8,7 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin "bootstrap" # @5.3.6
 pin "@popperjs/core", to: "@popperjs--core.js" # @2.11.8
 pin "fontawesome" # @5.6.3
+pin "flatpickr", to: "https://ga.jspm.io/npm:flatpickr@4.6.13/dist/esm/index.js"
 pin "mapbox-gl", to: "https://ga.jspm.io/npm:mapbox-gl@3.1.2/dist/mapbox-gl.js"
 pin "process", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/process-production.js"
 pin "@mapbox/mapbox-gl-geocoder", to: "https://ga.jspm.io/npm:@mapbox/mapbox-gl-geocoder@5.0.0/lib/index.js"
@@ -26,3 +27,5 @@ pin "nanoid", to: "https://ga.jspm.io/npm:nanoid@3.3.11/index.browser.js"
 pin "subtag", to: "https://ga.jspm.io/npm:subtag@0.5.0/subtag.js"
 pin "suggestions", to: "https://ga.jspm.io/npm:suggestions@1.7.1/index.js"
 pin "xtend", to: "https://ga.jspm.io/npm:xtend@4.0.2/immutable.js"
+pin "flatpickr", to: "https://ga.jspm.io/npm:flatpickr@4.6.13/dist/flatpickr.js"
+
