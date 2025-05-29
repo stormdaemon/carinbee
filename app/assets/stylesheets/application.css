@@ -22,41 +22,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Cal+Sans&family=Goblin+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Young+Serif&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
 
-/* 
+/*
  * CARINBEE DESIGN SYSTEM
- * 
+ *
  * Structure des fichiers CSS :
  * - base.css : Variables, styles globaux, utilitaires
  * - components.css : Composants réutilisables (boutons, cartes, formulaires)
  * - home.css : Styles spécifiques à la page d'accueil
  * - vehicles.css : Styles spécifiques aux pages véhicules
  * - rentals.css : Styles spécifiques aux pages locations
- * 
- * Couleurs principales :
- * - Jaune : #FFCC01
- * - Noir : #333333  
- * - Blanc : #F4F4F4
  */
 
-/* Global Styles */
+
+/* Variables CSS globales */
+/*  STYLES GLOBAUX */
+
+/* AJOUTER VERT AUX COULEURS */
+:root {
+  --primary-yellow: #FFCC01;
+  --primary-black: #1B1C1C;
+  --primary-white: #F4F4F4;
+  --pure-white: #FFFFFF;
+  --light-gray: #e9ecef;
+
+  --shadow-small: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.12);
+  --shadow-large: rgba(0, 0, 0, 0.15);
+}
+
+/* TYPOGRAPHIE : TEXTE ET TITRES */
+  /* COULEURS, LINE HEIGHT, SIZE, WEIGHT ?? */
+
 body {
   background-color: #fafafa;
   font-family: 'Young Serif', serif;
   font-size: 16px;
+
   line-height: 1.6;
-  color: #333;
+  color: #1B1C1C;
   overflow-x: hidden; /* Prévenir le scroll horizontal global */
 }
 
 h1, h2, h3 {
-  font-family: 'Goblin One', serif;
-  font-weight: bold;
+  font-family: 'Goblin One', serif !important;
+  color: #1B1C1C;
 }
 
-.brand-text {
-  font-family: 'Goblin One', serif;
-  font-weight: bold;
+  h1 {
+    font-weight: bolder;
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-weight: bold;
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-weight: medium;
+    font-weight: 600;
+    font-size: 1.75rem;
+  }
+
+
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
 }
+
+::-webkit-scrollbar-track {
+  background: var(--primary-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-yellow);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e6b800;
+}
+
+/* Utilitaires */
+.text-warning {
+  color: var(--primary-yellow) !important;
+}
+
+.bg-warning {
+  background-color: var(--primary-yellow) !important;
+}
+
+.border-warning {
+  border-color: var(--primary-yellow) !important;
+}
+
+/* CONTAINERS */
+.container {
+  max-width: 1200px;
+  overflow-x: hidden;
+}
+
+/* SAFE ANIMATIONS (éviter le scroll horizontal) */
+.safe-animation {
+  overflow: hidden;
+  position: relative;
+}
+
+.safe-animation * {
+  max-width: 100%;
+}
+
+/* Styles de base pour les formulaires */
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 2px solid var(--light-gray);
+  transition: all 0.3s ease;
+  background-color: var(--pure-white);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-yellow);
+  box-shadow: 0 0 0 0.2rem rgba(255, 204, 1, 0.25);
+}
+
+/* Media Queries globales */
+@media (max-width: 767.98px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
 
 .mapboxgl-ctrl-geocoder {
   max-width: none;
@@ -207,16 +315,6 @@ html {
   font-weight: 500;
 }
 
-/* Animations sécurisées pour éviter le scroll horizontal */
-.safe-animation {
-  overflow: hidden;
-  position: relative;
-}
-
-.safe-animation * {
-  max-width: 100%;
-}
-
 /* HOME PAGE STYLES */
 .header-custom {
   background-color: #FFCC01;
@@ -314,24 +412,7 @@ html {
   z-index: 10;
 }
 
-/* Typography */
-h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #333;
-}
 
-h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
-}
-
-h3 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #333;
-}
 
 /* Legacy styles for compatibility */
 .small-paragraph {
@@ -380,29 +461,29 @@ h3 {
   min-height: 230px;
 }
 
-/* Responsive design */
+/* RESPONSIVE DESIGN / MEDIAS QUERYS */
 @media (max-width: 767.98px) {
   .brand-name {
     font-size: 2rem;
   }
-  
+
   .intro-text, .buttons-section, .phone-section {
     text-align: center;
     margin-bottom: 30px;
   }
-  
+
   .phone-mockup {
     max-width: 250px;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.75rem;
   }
-  
+
   h3 {
     font-size: 1.5rem;
   }
@@ -503,48 +584,6 @@ h3 {
   font-style: italic;
 }
 
-/* Vehicle Cards */
-.vehicle-card {
-  transition: all 0.3s ease;
-  border: none;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
-
-.vehicle-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-}
-
-.vehicle-image {
-  height: 200px;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.vehicle-card:hover .vehicle-image {
-  transform: scale(1.05);
-}
-
-.vehicle-image-placeholder {
-  height: 200px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.vehicle-details p {
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  color: #6c757d;
-}
-
-.vehicle-details i {
-  width: 16px;
-  color: #FFCC01;
-  margin-right: 0.5rem;
-}
-
 .price {
   font-weight: bold;
 }
@@ -559,11 +598,6 @@ h3 {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
-}
-
-.vehicles-section {
-  flex: 1;
-  min-width: 0;
 }
 
 .map-section {
@@ -606,13 +640,13 @@ h3 {
   .main-content-wrapper {
     flex-direction: column;
   }
-  
+
   .map-section {
     flex: none;
     width: 100%;
     order: 2;
   }
-  
+
   .map-container {
     position: static !important;
     top: auto !important;
@@ -620,7 +654,7 @@ h3 {
     overflow-y: visible !important;
     margin-top: 2rem;
   }
-  
+
   .map-wrapper {
     height: 400px;
   }
@@ -636,7 +670,7 @@ h3 {
   .vehicle-image-placeholder {
     height: 180px;
   }
-  
+
   .vehicle-details p {
     font-size: 0.85rem;
   }
@@ -808,35 +842,35 @@ h3 {
 }
 
 /* Status badges */
-.status-en_attente { 
-  background-color: var(--primary-yellow); 
+.status-en_attente {
+  background-color: var(--primary-yellow);
   color: var(--primary-black);
   border: 1px solid var(--primary-black);
   font-weight: 600;
 }
 
-.status-confirmée { 
-  background-color: var(--primary-black); 
+.status-confirmée {
+  background-color: var(--primary-black);
   color: var(--pure-white);
   font-weight: 600;
 }
 
-.status-terminée { 
-  background-color: var(--primary-black); 
+.status-terminée {
+  background-color: var(--primary-black);
   color: var(--primary-yellow);
   border: 1px solid var(--primary-yellow);
   font-weight: 600;
 }
 
-.status-annulée { 
-  background-color: var(--primary-white); 
+.status-annulée {
+  background-color: var(--primary-white);
   color: var(--primary-black);
   border: 2px solid var(--primary-black);
   font-weight: 600;
 }
 
-.status-refusée { 
-  background-color: var(--primary-white); 
+.status-refusée {
+  background-color: var(--primary-white);
   color: var(--primary-black);
   border: 2px solid var(--primary-black);
   font-weight: 600;
@@ -947,11 +981,11 @@ h3 {
   .rentals-section {
     margin-bottom: 2rem;
   }
-  
+
   .action-buttons {
     flex-direction: column;
   }
-  
+
   .action-buttons .btn {
     width: 100%;
   }
@@ -961,19 +995,19 @@ h3 {
   .page-title {
     font-size: 2rem;
   }
-  
+
   .section-title {
     font-size: 1.3rem;
   }
-  
+
   .rental-image-container {
     height: 150px;
   }
-  
+
   .rental-content {
     padding: 1rem;
   }
-  
+
   .rental-footer {
     flex-direction: column;
     gap: 1rem;

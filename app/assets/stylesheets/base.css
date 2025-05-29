@@ -1,10 +1,6 @@
 /* BASE STYLES - Variables et styles globaux */
 
 :root {
-  --primary-yellow: #FFCC01;
-  --primary-black: #333333;
-  --primary-white: #F4F4F4;
-  --pure-white: #FFFFFF;
   --light-gray: #f8f9fa;
   --medium-gray: #6c757d;
   --dark-gray: #495057;
@@ -16,26 +12,6 @@
   --yellow-border: rgba(255, 204, 1, 0.2);
 }
 
-/* Global Styles */
-body {
-  background-color: var(--primary-white);
-  font-family: 'Young Serif', serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--primary-black);
-  overflow-x: hidden;
-}
-
-h1, h2, h3 {
-  font-family: 'Goblin One', serif;
-  font-weight: bold;
-  color: var(--primary-black);
-}
-
-.brand-text {
-  font-family: 'Goblin One', serif;
-  font-weight: bold;
-}
 
 /* Smooth scrolling */
 html {
@@ -94,4 +70,4 @@ html {
 
 .border-primary {
   border-color: var(--primary-yellow) !important;
-} 
+}
