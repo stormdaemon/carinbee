@@ -1,4 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARinBee - Location de Véhicules</title>
+  <!-- Assurez-vous que Bootstrap 5 CSS est lié dans votre projet -->
+  <!-- Exemple: <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <style>
+    body.home-page {
+      font-family: 'Inter', Arial, sans-serif;
+      background-color: #F4F4F4; /* Fond général gris clair */
+      color: #1A1A1A;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* --- Header --- */
+    .header-custom {
+      padding: 20px 0;
+      background-color: #FFCC01; /* Fond du header JAUNE */
+      text-align: center;
+    }
+    .header-custom .brand-logo {
+      width: 50px;
+      height: auto;
+      vertical-align: middle;
+    }
+    .header-custom .brand-name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1A1A1A; /* Texte noir */
+      vertical-align: middle;
+      margin-left: 0.5rem;
+    }
+    .header-tagline {
+      font-size: 1.1rem;
+      color: #1A1A1A; /* Texte noir pour bon contraste sur fond jaune */
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .header-custom .typed-text-container.header-typed-text {
+      min-height: 1.5em;
+    }
+    .header-custom .typed-text-container.header-typed-text p {
+      font-size: 1rem;
+      color: #333333; /* Texte typed un peu plus sombre pour lisibilité */
+      margin-bottom: 0;
+    }
+
+
+    /* --- Contenu Principal (main-content) --- */
+    .main-content {
+      padding-top: 20px;
+      padding-bottom: 40px;
+    }
+
+    .intro-text-main p {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #1A1A1A;
+    }
+
+    /* Bouton "Rejoindre la Ruche" et autres boutons principaux */
+    .btn-custom-yellow {
+      display: inline-block;
+      background-color: #FFCC01; /* Fond JAUNE */
+      color: #1A1A1A; /* Texte NOIR */
+      padding: 14px 35px;
+      border-radius: 28px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: 1px solid #E0B800; /* Bordure légèrement plus foncée pour définition */
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn-custom-yellow:hover {
+      background-color: #E0B800; /* Jaune plus foncé au survol */
+      color: #1A1A1A; /* Texte NOIR */
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .btn-custom-yellow .bee-pulse {
+      width: 26px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+
+    /* --- Carte Carrousel --- */
+    .carousel-card {
+      background-color: #FFFFFF; /* Fond blanc pour la carte */
+      border-radius: 12px;
+      padding: 30px;
+      margin-top: 30px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    #vehicleCarousel .carousel-item {
+      transition: transform .6s ease-in-out;
+    }
+
+    .carousel-item-contenu {
+      display: flex;
+      align-items: center;
+      min-height: 400px;
+      padding: 20px 0;
+    }
+
+    .carousel-texte-colonne {
+      flex: 0 0 45%;
+      padding-right: 30px;
+    }
+
+    .carousel-image-colonne {
+      flex: 0 0 55%;
+      text-align: center;
+    }
+    .carousel-vehicule-image-produit {
+      max-width: 100%;
+      max-height: 350px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .carousel-vehicule-categorie-produit {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+    .carousel-vehicule-nom-produit {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 0.6rem;
+      line-height: 1.2;
+    }
+    .carousel-vehicule-prix-produit {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #1A1A1A;
+      margin-bottom: 1.5rem;
+    }
+    /* Bouton "LOUER" dans le carrousel */
+    .carousel-bouton-louer-produit {
+      display: inline-block;
+      background-color: #FFCC01; /* Fond JAUNE */
+      color: #1A1A1A; /* Texte NOIR */
+      padding: 10px 28px; /* Padding ajusté */
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 500; /* Moins gras que le bouton principal */
+      font-size: 0.95rem; /* Taille ajustée */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid #E0B800; /* Bordure légèrement plus foncée */
+      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .carousel-bouton-louer-produit:hover {
+      background-color: #E0B800; /* Jaune plus foncé au survol */
+      color: #1A1A1A; /* Texte NOIR */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* Style des contrôles Bootstrap (flèches) */
+    #vehicleCarousel .carousel-control-prev,
+    #vehicleCarousel .carousel-control-next {
+      width: auto; /* Permet au padding de l'icône de définir la largeur */
+      opacity: 0.85; /* Légère transparence pour intégration */
+    }
+     #vehicleCarousel .carousel-control-prev:hover,
+    #vehicleCarousel .carousel-control-next:hover {
+      opacity: 1;
+    }
+
+    #vehicleCarousel .carousel-control-prev-icon,
+    #vehicleCarousel .carousel-control-next-icon {
+      background-color: #FFCC01; /* Fond JAUNE pour le cercle de la flèche */
+      border-radius: 50%;
+      padding: 18px; /* Augmenter pour un cercle plus grand */
+      background-size: 55% 55%; /* Ajuster taille de la flèche SVG noire interne */
+      border: 1px solid #E0B800; /* Optionnel: bordure pour définition */
+    }
+    /* SVG pour flèche précédente (NOIRE sur fond jaune) */
+    #vehicleCarousel .carousel-control-prev-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%231A1A1A' viewBox='0 0 16 16'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+    }
+    /* SVG pour flèche suivante (NOIRE sur fond jaune) */
+    #vehicleCarousel .carousel-control-next-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%231A1A1A' viewBox='0 0 16 16'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    }
+
+    #vehicleCarousel .carousel-indicators button {
+      background-color: rgba(0, 0, 0, 0.2); /* Indicateurs grisés */
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      border: none;
+    }
+    #vehicleCarousel .carousel-indicators .active {
+      background-color: #FFCC01; /* Indicateur actif JAUNE */
+      border: 1px solid #E0B800; /* Optionnel: bordure pour définition */
+    }
+
+    /* Ajustements responsives */
+    @media (max-width: 991.98px) {
+      .carousel-item-contenu {
+        flex-direction: column;
+        text-align: center;
+        min-height: auto;
+      }
+      .carousel-texte-colonne {
+        flex-basis: auto;
+        padding-right: 0;
+        margin-bottom: 30px;
+        order: 2;
+      }
+      .carousel-image-colonne {
+        flex-basis: auto;
+        order: 1;
+      }
+      .carousel-vehicule-image-produit { max-height: 280px; }
+      .carousel-vehicule-nom-produit { font-size: 2rem; }
+    }
+    @media (max-width: 767.98px) {
+      .header-custom .brand-name { font-size: 1.6rem; }
+      .header-tagline { font-size: 1rem; }
+      .header-custom .typed-text-container.header-typed-text p { font-size: 0.9rem; }
+
+      .intro-text-main p { font-size: 1.4rem; }
+      .btn-custom-yellow { font-size: 1rem; padding: 12px 25px; }
+
+      .carousel-card { padding: 20px; }
+      .carousel-vehicule-nom-produit { font-size: 1.7rem; }
+      .carousel-vehicule-image-produit { max-height: 220px; }
+
+      /* Sur mobile, les flèches peuvent être plus petites */
+      #vehicleCarousel .carousel-control-prev-icon,
+      #vehicleCarousel .carousel-control-next-icon {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
 <body class="home-page">
+
   <header class="header-custom">
     <div class="container">
       <div class="row align-items-center justify-content-center">
@@ -6,7 +254,19 @@
           <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="CARinBee Logo" class="brand-logo" data-bee-animation-target="beeIcon">
         </div>
         <div class="col-auto">
-          <span class="brand-name">CARinBee</span>
+          <span class="brand-name" style="font-size: 3rem;">CARinBee</span>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <p class="header-tagline">La référence de la location de véhicules entre particuliers</p>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <div class="typed-text-container header-typed-text" data-controller="typed-text">
+                <p><span data-typed-text-target="output"></span></p>
+            </div>
         </div>
       </div>
     </div>
@@ -14,36 +274,135 @@
 
   <main class="main-content">
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0 intro-text">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center intro-text-main">
           <p>Rejoignez la Ruche : Des milliers de voitures prêtes à décoller !</p>
-          <div class="typed-text-container" data-controller="typed-text">
-            <p><span data-typed-text-target="output"></span></p>
-          </div>
         </div>
+      </div>
 
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0 buttons-section">
+      <div class="row justify-content-center mb-4">
+        <div class="col-auto">
           <%= link_to vehicles_path, class: "no-underline" do %>
-            <p class="home-btn">Rejoindre la Ruche
+            <p class="btn-custom-yellow d-flex align-items-center" style="height: 4rem; font-size: 3rem;">Rejoindre la Ruche
               <span>
-                <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="logo" width="30px" class="bee-pulse">
+                <img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="logo" style="width: 80px;" class="bee-pulse">
               </span>
             </p>
           <% end %>
         </div>
+      </div>
 
-        <div class="col-lg-5 col-md-6 phone-section">
-          <div class="phone-mockup">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <video autoplay loop muted playsinline>
-                <source src="https://res.cloudinary.com/dgjsq5fnl/video/upload/v1748342577/Generated_video_1_1_n5ee41.mp4" type="video/mp4">
-                Votre navigateur ne supporte pas la balise vidéo.
-              </video>
-            </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
+          <div class="carousel-card">
+            <%
+              # Logique de sélection des véhicules pour le carrousel
+              # Doit inclure UN Confort, UN Monospace, UN Eco, s'ils existent parmi les @featured_vehicles
+              target_categories_ordered = ["Confort", "Monospace", "Eco"] # Ordre souhaité
+              vehicles_for_carousel_map = {} # Pour stocker les véhicules trouvés par catégorie
+              processed_vehicle_ids = []
+
+              if defined?(@featured_vehicles) && @featured_vehicles.present?
+                # Première passe pour trouver les véhicules des catégories cibles
+                target_categories_ordered.each do |category_name|
+                  vehicle = @featured_vehicles.find do |v|
+                    # *********** DÉBUT DE LA CORRECTION ICI ***********
+                    # Rendre la comparaison plus robuste en utilisant .to_s.strip
+                    v.category.to_s.strip.downcase == category_name.downcase &&
+                    # *********** FIN DE LA CORRECTION ICI ***********
+                    !processed_vehicle_ids.include?(v.id)
+                  end
+                  if vehicle
+                    vehicles_for_carousel_map[category_name] = vehicle
+                    processed_vehicle_ids << vehicle.id
+                  end
+                end
+              end
+
+              # La logique pour garantir toujours 3 véhicules (réels ou placeholders) est robuste
+              final_vehicles_for_carousel = []
+              # Assurez-vous que OpenStruct et SecureRandom sont disponibles dans votre environnement Rails/Ruby
+              require 'ostruct' unless defined?(OpenStruct)
+              require 'securerandom' unless defined?(SecureRandom)
+
+              target_categories_ordered.each do |category_name|
+                if vehicles_for_carousel_map.key?(category_name)
+                  final_vehicles_for_carousel << vehicles_for_carousel_map[category_name]
+                else
+                  # Ajouter un placeholder pour la catégorie manquante
+                  placeholder_vehicle = OpenStruct.new(
+                    id: SecureRandom.uuid,
+                    category: category_name,
+                    brand: "{category_name}",
+                    model: "#{category_name[0]}-Modèle",
+                    image_url: "https://i.postimg.cc/pr3cs33y/Eco-Fiat-500.avif",
+                    price: "#{case category_name; when 'Confort'; '105'; when 'Monospace'; '125'; when 'Eco'; '85'; else '90'; end} €/jour"
+                  )
+                  final_vehicles_for_carousel << placeholder_vehicle
+                end
+              end
+
+              vehicles_for_carousel = final_vehicles_for_carousel.compact.uniq(&:id).first(3)
+            %>
+
+            <% if vehicles_for_carousel.any? %>
+              <div id="vehicleCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="7000">
+                <div class="carousel-indicators">
+                  <% vehicles_for_carousel.each_with_index do |vehicle, index| %>
+                    <button type="button" data-bs-target="#vehicleCarousel" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>" aria-current="<%= 'true' if index == 0 %>" aria-label="Diapositive <%= index + 1 %>"></button>
+                  <% end %>
+                </div>
+                <div class="carousel-inner">
+                  <% vehicles_for_carousel.each_with_index do |vehicle, index| %>
+                    <div class="carousel-item <%= 'active' if index == 0 %>">
+                      <div class="carousel-item-contenu">
+                        <div class="carousel-texte-colonne">
+                          <h3 class="carousel-vehicule-nom-produit"><%= vehicle.category.presence || "Véhicule" %></h3>
+                          <%= link_to "LOUER", vehicles_path(category: vehicle.category), class: "carousel-bouton-louer-produit" %>
+                        </div>
+                        <div class="carousel-image-colonne">
+                          <img src="<%= vehicle.image_url.presence || 'https://via.placeholder.com/500x300/F0F0F0/777777?text=' + ERB::Util.url_encode("Image #{vehicle.brand}") %>" class="carousel-vehicule-image-produit" alt="<%= "#{vehicle.brand} #{vehicle.model}" %>">
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+                <% if vehicles_for_carousel.length > 1 %>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Précédent</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Suivant</span>
+                  </button>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-5">
+                <p>Aucun véhicule des catégories Confort, Monospace ou Eco à afficher pour le moment.</p>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
+
     </div>
   </main>
+
+  <!-- Assurez-vous que Bootstrap 5 JS Bundle est lié dans votre projet -->
+  <!-- Exemple: <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var vehicleCarouselElement = document.getElementById('vehicleCarousel');
+    if (vehicleCarouselElement) {
+      // var carousel = new bootstrap.Carousel(vehicleCarouselElement, {
+      //   interval: 7000,
+      //   wrap: true
+      // });
+    }
+    // Scripts Stimulus pour typed-text et bee-animation s'initialiseront
+  });
+  </script>
 </body>
+</html>
