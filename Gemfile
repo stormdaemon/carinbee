@@ -33,7 +33,6 @@ gem "devise"
 # Bootstrap gem
 gem "dotenv-rails"
 
-gem "bootstrap", "~> 5.3.3"
 
 #faker
 
