@@ -12,9 +12,9 @@
 
         <div class="card shadow-sm p-4 rounded-3 rental-card" style="background-color: #FFFFFF;">
 
-          <img data-rental-animations-target="beeCard" 
-               src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" 
-               alt="Small Bee Logo on Card" 
+          <img data-rental-animations-target="beeCard"
+               src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
+               alt="Small Bee Logo on Card"
                class="bee-card bee-pulse">
 
           <!-- En-tête avec statut -->
@@ -69,13 +69,7 @@
             <div class="card-body">
               <div class="row align-items-center">
                 <div class="col-md-4">
-                  <% if @rental.vehicle.image_url.present? %>
-                    <%= image_tag @rental.vehicle.image_url, alt: "#{@rental.vehicle.brand} #{@rental.vehicle.model}", class: "img-fluid vehicle-image" %>
-                  <% else %>
-                    <div class="bg-light d-flex align-items-center justify-content-center vehicle-image" style="height: 200px;">
-                      <span class="text-muted">🚗 Pas d'image</span>
-                    </div>
-                  <% end %>
+                  <%= cl_image_tag @rental.vehicle.photo.key, alt: "#{@rental.vehicle.brand} #{@rental.vehicle.model}", class: "img-fluid vehicle-image" %>
                 </div>
                 <div class="col-md-8">
                   <h4 class="fw-bold mb-3"><%= @rental.vehicle.brand %> <%= @rental.vehicle.model %></h4>
@@ -169,12 +163,12 @@
                     <div class="position-relative">
                       <%= link_to "Confirmer la location", confirm_rental_path(@rental),
                           class: "btn btn-success action-button",
-                          data: { 
+                          data: {
                             confirm: "Êtes-vous sûr de vouloir confirmer cette location ?",
                             turbo_method: :patch
                           },
                           id: "confirmButton" %>
-                      <img class="small-bee-on-button" 
+                      <img class="small-bee-on-button"
                            data-rental-animations-target="beeButton"
                            data-button-id="confirmButton"
                            src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -183,12 +177,12 @@
                     <div class="position-relative">
                       <%= link_to "Refuser la location", refuse_rental_path(@rental),
                           class: "btn btn-danger action-button",
-                          data: { 
+                          data: {
                             confirm: "Êtes-vous sûr de vouloir refuser cette location ?",
                             turbo_method: :patch
                           },
                           id: "refuseButton" %>
-                      <img class="small-bee-on-button" 
+                      <img class="small-bee-on-button"
                            data-rental-animations-target="beeButton"
                            data-button-id="refuseButton"
                            src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -200,12 +194,12 @@
                     <div class="position-relative">
                       <%= link_to "Marquer comme terminée", complete_rental_path(@rental),
                           class: "btn btn-warning action-button",
-                          data: { 
+                          data: {
                             confirm: "Êtes-vous sûr que cette location est terminée ?",
                             turbo_method: :patch
                           },
                           id: "completeButton" %>
-                      <img class="small-bee-on-button" 
+                      <img class="small-bee-on-button"
                            data-rental-animations-target="beeButton"
                            data-button-id="completeButton"
                            src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -220,12 +214,12 @@
                     <div class="position-relative">
                       <%= link_to "Annuler la demande", cancel_rental_path(@rental),
                           class: "btn btn-warning action-button",
-                          data: { 
+                          data: {
                             turbo_confirm: "Êtes-vous sûr de vouloir annuler cette demande ?",
                             turbo_method: :patch
                           },
                           id: "cancelButton" %>
-                      <img class="small-bee-on-button" 
+                      <img class="small-bee-on-button"
                            data-rental-animations-target="beeButton"
                            data-button-id="cancelButton"
                            src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -238,7 +232,7 @@
                       <%= link_to "Laisser un avis", new_rental_review_path(@rental),
                           class: "btn btn-warning action-button",
                           id: "reviewButton" %>
-                      <img class="small-bee-on-button" 
+                      <img class="small-bee-on-button"
                            data-rental-animations-target="beeButton"
                            data-button-id="reviewButton"
                            src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png"
@@ -281,4 +275,4 @@
       </div>
     </div>
   </div>
-<% end %> 
+<% end %>
