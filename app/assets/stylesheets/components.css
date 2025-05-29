@@ -88,14 +88,218 @@
 
 /* Alert improvements */
 .alert {
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px var(--shadow-light);
+  transition: all 0.3s ease;
 }
 
-.alert-info {
-  background-color: var(--yellow-light);
+.alert::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: currentColor;
+}
+
+/* Success alerts */
+.alert-success {
+  background: linear-gradient(135deg, var(--primary-yellow), var(--yellow-hover));
   color: var(--primary-black);
-  border: 1px solid var(--yellow-border);
+  border-left: 5px solid var(--primary-black);
+}
+
+.alert-success .alert-heading {
+  color: var(--primary-black);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Danger alerts */
+.alert-danger {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: var(--pure-white);
+  border-left: 5px solid #d63031;
+}
+
+.alert-danger .alert-heading {
+  color: var(--pure-white);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Info alerts */
+.alert-info {
+  background: linear-gradient(135deg, var(--yellow-light), rgba(255, 204, 1, 0.2));
+  color: var(--primary-black);
+  border: 2px solid var(--yellow-border);
+  border-left: 5px solid var(--primary-yellow);
+}
+
+.alert-info .alert-heading {
+  color: var(--primary-black);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Warning alerts */
+.alert-warning {
+  background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+  color: var(--primary-black);
+  border-left: 5px solid #e17055;
+}
+
+.alert-warning .alert-heading {
+  color: var(--primary-black);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Secondary alerts */
+.alert-secondary {
+  background: linear-gradient(135deg, var(--light-gray), var(--primary-white));
+  color: var(--primary-black);
+  border: 2px solid var(--medium-gray);
+  border-left: 5px solid var(--dark-gray);
+}
+
+.alert-secondary .alert-heading {
+  color: var(--primary-black);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Alert dismissible improvements */
+.alert-dismissible {
+  padding-right: 50px;
+}
+
+.alert-dismissible .btn-close {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alert-dismissible .btn-close:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.alert-success .btn-close {
+  color: var(--primary-black);
+}
+
+.alert-danger .btn-close {
+  color: var(--pure-white);
+}
+
+.alert-info .btn-close,
+.alert-warning .btn-close,
+.alert-secondary .btn-close {
+  color: var(--primary-black);
+}
+
+/* Fixed position alerts (notifications) */
+.alert.position-fixed {
+  top: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  max-width: 400px;
+  min-width: 300px;
+  z-index: 1055;
+  animation: slideInRight 0.4s ease-out;
+}
+
+/* Animation for notifications */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive design for alerts */
+@media (max-width: 768px) {
+  .alert.position-fixed {
+    top: 10px !important;
+    right: 10px !important;
+    left: 10px !important;
+    max-width: none;
+    min-width: auto;
+  }
+  
+  .alert {
+    padding: 12px 16px;
+  }
+  
+  .alert-dismissible {
+    padding-right: 40px;
+  }
+  
+  .alert-dismissible .btn-close {
+    right: 12px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Alert icons */
+.alert-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.alert-success .alert-icon {
+  background-color: var(--primary-black);
+  color: var(--primary-yellow);
+}
+
+.alert-danger .alert-icon {
+  background-color: var(--pure-white);
+  color: #d63031;
+}
+
+.alert-info .alert-icon {
+  background-color: var(--primary-yellow);
+  color: var(--primary-black);
+}
+
+.alert-warning .alert-icon {
+  background-color: #e17055;
+  color: var(--pure-white);
+}
+
+.alert-secondary .alert-icon {
+  background-color: var(--dark-gray);
+  color: var(--pure-white);
 }
 
 /* Badge improvements */
@@ -148,4 +352,80 @@
   border: 2px solid var(--primary-black);
   font-weight: 600;
   text-decoration: line-through;
-} 
+}
+
+/* Flash Messages Container - Positionnement uniforme */
+.flash-messages-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1060;
+  width: 400px;
+  max-width: calc(100vw - 40px);
+  pointer-events: none;
+}
+
+.flash-message {
+  margin-bottom: 15px;
+  pointer-events: auto;
+  max-width: 100%;
+  box-shadow: 0 8px 25px var(--shadow-medium);
+  border: none;
+  font-weight: 500;
+}
+
+/* Améliorations pour les flash messages */
+.flash-message:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px var(--shadow-heavy);
+}
+
+/* Responsive pour flash messages */
+@media (max-width: 768px) {
+  .flash-messages-container {
+    top: 10px !important;
+    right: 10px !important;
+    left: 10px !important;
+    width: auto;
+    max-width: none;
+  }
+  
+  .flash-message {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .flash-message .alert-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .flash-message .btn-close {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Animation pour empiler les messages */
+.flash-message + .flash-message {
+  animation-delay: 0.1s;
+}
+
+/* Animation d'apparition progressive */
+@keyframes flashSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.flash-message {
+  animation: flashSlideIn 0.4s ease-out;
+}
+
+/* Status badges avec couleurs principales uniquement */ 

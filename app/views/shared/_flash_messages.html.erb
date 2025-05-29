@@ -1,0 +1,83 @@
+<%# 
+  Partial unifié pour tous les flash messages
+  Assure un affichage cohérent dans toute l'application
+%>
+
+<!-- Flash messages avec positionnement uniforme -->
+<div id="flash-messages-container" class="flash-messages-container">
+  <% if notice %>
+    <div class="alert alert-success alert-dismissible fade show flash-message" 
+         role="alert" 
+         data-controller="flash-message" 
+         data-flash-message-auto-dismiss-value="true"
+         data-flash-message-delay-value="5000"
+         data-action="mouseenter->flash-message#pauseAutoDismiss mouseleave->flash-message#resumeAutoDismiss">
+      <div class="d-flex align-items-center">
+        <div class="alert-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="flex-grow-1">
+          <%= notice %>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  <% end %>
+  
+  <% if alert %>
+    <div class="alert alert-danger alert-dismissible fade show flash-message" 
+         role="alert" 
+         data-controller="flash-message" 
+         data-flash-message-auto-dismiss-value="true"
+         data-flash-message-delay-value="7000"
+         data-action="mouseenter->flash-message#pauseAutoDismiss mouseleave->flash-message#resumeAutoDismiss">
+      <div class="d-flex align-items-center">
+        <div class="alert-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="flex-grow-1">
+          <%= alert %>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  <% end %>
+  
+  <% flash.each do |type, message| %>
+    <% unless %w[notice alert].include?(type) %>
+      <% 
+        alert_class = case type.to_s
+        when 'success' then 'alert-success'
+        when 'error', 'danger' then 'alert-danger'
+        when 'warning' then 'alert-warning'
+        when 'info' then 'alert-info'
+        else 'alert-info'
+        end
+        
+        icon_class = case type.to_s
+        when 'success' then 'fa-check-circle'
+        when 'error', 'danger' then 'fa-exclamation-triangle'
+        when 'warning' then 'fa-exclamation-circle'
+        when 'info' then 'fa-info-circle'
+        else 'fa-info-circle'
+        end
+      %>
+      <div class="alert <%= alert_class %> alert-dismissible fade show flash-message" 
+           role="alert" 
+           data-controller="flash-message" 
+           data-flash-message-auto-dismiss-value="true"
+           data-flash-message-delay-value="6000"
+           data-action="mouseenter->flash-message#pauseAutoDismiss mouseleave->flash-message#resumeAutoDismiss">
+        <div class="d-flex align-items-center">
+          <div class="alert-icon">
+            <i class="fas <%= icon_class %>"></i>
+          </div>
+          <div class="flex-grow-1">
+            <%= message %>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div> 

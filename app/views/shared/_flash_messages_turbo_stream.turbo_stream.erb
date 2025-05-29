@@ -1,0 +1,8 @@
+<%# 
+  Partial pour les turbo_streams afin d'afficher les flash messages
+  Utilisé dans les actions qui retournent des turbo_streams
+%>
+
+<%= turbo_stream.replace "flash-messages-container" do %>
+  <%= render 'shared/flash_messages' %>
+<% end %> 
