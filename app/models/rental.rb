@@ -19,14 +19,14 @@ class Rental < ApplicationRecord
   def end_date_after_start_date
     return if rental_end_date.blank? || rental_start_date.blank?
     if rental_end_date < rental_start_date
-      errors.add(:rental_end_date, "must be after the start date")
+      errors.add(:rental_end_date, "Doit être après la date de début")
     end
   end
 
   def vehicle_must_be_available
     return if vehicle.blank?
     unless vehicle.available?
-      errors.add(:vehicle, "is not available for rent")
+      errors.add(:vehicle, "N'est pas disponible pour la location")
     end
   end
 
@@ -40,7 +40,7 @@ class Rental < ApplicationRecord
                           rental_start_date, rental_end_date
                         )
     if overlapping.exists?
-      errors.add(:base, "Vehicle is already booked for the selected dates")
+      errors.add(:base, "Ce véhicule n'est pas disponible pour les dates sélectionnées")
     end
   end
 end
