@@ -90,7 +90,7 @@ class RentalsController < ApplicationController
 
   def ensure_owner_or_renter
     unless @rental.user == current_user || @rental.vehicle.user == current_user
-      redirect_to rentals_path, alert: 'Vous ne pouvez accéder qu'à vos propres locations.'
+      redirect_to rentals_path, alert: 'Vous ne pouvez accéder qu\'à vos propres locations.'
     end
   end
 
