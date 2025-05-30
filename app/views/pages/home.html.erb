@@ -54,57 +54,17 @@
 
       <div class="vehicle-cards-section">
         <div class="vehicle-cards-container">
-          <%
-            target_categories_ordered = ["Confort", "Monospace", "Eco"]
-            vehicles_for_carousel_map = {}
-            processed_vehicle_ids = []
-
-            if defined?(@featured_vehicles) && @featured_vehicles.present?
-              target_categories_ordered.each do |category_name|
-                vehicle = @featured_vehicles.find do |v|
-                  v.category.to_s.strip.downcase == category_name.downcase &&
-                  !processed_vehicle_ids.include?(v.id)
-                end
-                if vehicle
-                  vehicles_for_carousel_map[category_name] = vehicle
-                  processed_vehicle_ids << vehicle.id
-                end
-              end
-            end
-
-            final_vehicles_for_carousel = []
-            require 'ostruct' unless defined?(OpenStruct)
-            require 'securerandom' unless defined?(SecureRandom)
-
-            target_categories_ordered.each do |category_name|
-              if vehicles_for_carousel_map.key?(category_name)
-                final_vehicles_for_carousel << vehicles_for_carousel_map[category_name]
-              else
-                placeholder_vehicle = OpenStruct.new(
-                  id: SecureRandom.uuid,
-                  category: category_name,
-                  brand: "{category_name}",
-                  model: "#{category_name[0]}-Modèle",
-                  image_url: "https://i.postimg.cc/pr3cs33y/Eco-Fiat-500.avif", # Placeholder image
-                  price: "#{case category_name; when 'Confort'; '105'; when 'Monospace'; '125'; when 'Eco'; '85'; else '90'; end} €/jour"
-                )
-                final_vehicles_for_carousel << placeholder_vehicle
-              end
-            end
-            vehicles_for_carousel = final_vehicles_for_carousel.compact.uniq(&:id).first(3)
-          %>
-
-          <% if vehicles_for_carousel.any? %>
-            <% vehicles_for_carousel.each do |vehicle| %>
+          <% if @vehicles_group_by.any? %>
+            <% @vehicles_group_by.each do |category, vehicles| %>
               <div class="vehicle-card">
                 <div class="vehicle-card-image-wrapper">
-                    <img src="<%= cl_image_path vehicle.photo.key, height: 300, crop: :fill %>"
+                    <img src="<%= cl_image_path vehicles.first.photo.key, height: 300, crop: :fill %>"
                          class="vehicle-card-image"
-                         alt="<%= "#{vehicle.brand} #{vehicle.model}" %>">
+                         alt="<%= "#{vehicles.first.brand} #{vehicles.first.model}" %>">
                 </div>
                 <div class="vehicle-card-footer">
-                  <h3 class="vehicle-card-category"><%= vehicle.category.presence || "Véhicule" %><span><img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="logo" width="40"></span></h3>
-                  <%= link_to "Explorer la catégorie", vehicles_path(category: vehicle.category), class: "vehicle-card-button" %>
+                  <h3 class="vehicle-card-category"><%= category.presence || "Véhicule" %><span><img src="https://i.postimg.cc/1Xf6vLRL/image-1-removebg-preview-1.png" alt="logo" width="40"></span></h3>
+                  <%= link_to "Explorer la catégorie", vehicles_path(category: category), class: "vehicle-card-button" %>
                 </div>
               </div>
             <% end %>
