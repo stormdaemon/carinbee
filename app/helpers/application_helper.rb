@@ -54,6 +54,31 @@ module ApplicationHelper
     flash[:info] = message
   end
 
+  # Helper for displaying star ratings consistently
+  def display_star_rating(rating, options = {})
+    rating = rating || 0
+    show_text = options.fetch(:show_text, true)
+    
+    html = content_tag(:span, class: "text-warning fs-5") do
+      if rating > 0
+        ("⭐" * rating) + ("☆" * (5 - rating))
+      else
+        content_tag(:span, "☆☆☆☆☆", class: "text-muted")
+      end
+    end
+    
+    if show_text
+      text = if rating > 0
+        "(#{rating}/5)"
+      else
+        "(Pas de note)"
+      end
+      html += content_tag(:span, text, class: "text-muted ms-2")
+    end
+    
+    html.html_safe
+  end
+
   private
 
   def default_icon_for_alert_type(type)

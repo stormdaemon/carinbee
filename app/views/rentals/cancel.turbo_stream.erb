@@ -254,16 +254,35 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                       <div>
+                        <% rating = review.rating || 0 %>
                         <span class="text-warning fs-5">
-                          <% review.rating.times do %>⭐<% end %>
-                          <% (5 - review.rating).times do %>☆<% end %>
+                          <% if rating > 0 %>
+                            <% rating.times do %>⭐<% end %>
+                            <% (5 - rating).times do %>☆<% end %>
+                          <% else %>
+                            <span class="text-muted">☆☆☆☆☆</span>
+                          <% end %>
                         </span>
-                        <span class="text-muted ms-2">(<%= review.rating %>/5)</span>
+                        <span class="text-muted ms-2">
+                          <% if rating > 0 %>
+                            (<%= rating %>/5)
+                          <% else %>
+                            (Pas de note)
+                          <% end %>
+                        </span>
                       </div>
-                      <small class="text-muted"><%= review.created_at.strftime("%d/%m/%Y") %></small>
+                      <small class="text-muted">
+                        <% if review.created_at %>
+                          <%= review.created_at.strftime("%d/%m/%Y") %>
+                        <% else %>
+                          Date inconnue
+                        <% end %>
+                      </small>
                     </div>
                     <% if review.content.present? %>
                       <p class="mb-0"><%= review.content %></p>
+                    <% else %>
+                      <p class="mb-0 text-muted fst-italic">Aucun commentaire ajouté.</p>
                     <% end %>
                   </div>
                 </div>

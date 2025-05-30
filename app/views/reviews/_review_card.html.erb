@@ -14,19 +14,42 @@
     <div class="review-user">
       <div class="review-user-info">
         <h6 class="review-user-name"><%= review.rental.user.first_name %> <%= review.rental.user.last_name %></h6>
-        <small class="text-muted"><%= review.created_at.strftime("%d/%m/%Y") %></small>
+        <small class="text-muted">
+          <% if review.created_at %>
+            <%= review.created_at.strftime("%d/%m/%Y") %>
+          <% else %>
+            Date inconnue
+          <% end %>
+        </small>
       </div>
     </div>
   </div>
 
   <div class="review-content">
     <div class="review-rating">
+      <% rating = review.rating || 0 %>
       <span class="text-warning fs-5">
-        <% review.rating.times do %>⭐<% end %>
-        <% (5 - review.rating).times do %>☆<% end %>
+        <% if rating > 0 %>
+          <% rating.times do %>⭐<% end %>
+          <% (5 - rating).times do %>☆<% end %>
+        <% else %>
+          <span class="text-muted">☆☆☆☆☆</span>
+        <% end %>
       </span>
-      <span class="text-muted ms-2">(<%= review.rating %>/5)</span>
+      <span class="text-muted ms-2">
+        <% if rating > 0 %>
+          (<%= rating %>/5)
+        <% else %>
+          (Pas de note)
+        <% end %>
+      </span>
     </div>
-    <p class="review-text"><%= review.content %></p>
+    <p class="review-text">
+      <% if review.content.present? %>
+        <%= review.content %>
+      <% else %>
+        <span class="text-muted fst-italic">Aucun commentaire ajouté.</span>
+      <% end %>
+    </p>
   </div>
 </div>
