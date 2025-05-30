@@ -78,7 +78,9 @@ export default class extends Controller {
     if (this.isAnimating) return
     this.isAnimating = true
 
-    document.body.classList.add('page-zoom')
+    // Suppression de l'effet de zoom
+    // document.body.classList.add('page-zoom')
+    
     this.playBeeSound()
     this.beeIconTarget.classList.add('bee-flutter')
     this.createGlitterEffect(this.beeIconTarget.parentElement, 1000)
@@ -108,7 +110,8 @@ export default class extends Controller {
 
     setTimeout(() => {
       this.beeIconTarget.classList.remove('bee-flying', 'bee-flutter')
-      document.body.classList.remove('page-zoom')
+      // Suppression également de la ligne qui retire la classe page-zoom
+      // document.body.classList.remove('page-zoom')
       this.isAnimating = false
     }, 4500)
   }

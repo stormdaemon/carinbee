@@ -4,236 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CARinBee - Location de Véhicules</title>
-  <!-- Assurez-vous que Bootstrap 5 CSS est lié dans votre projet -->
-  <!-- Exemple: <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-  <style>
-    body.home-page {
-      font-family: 'Inter', Arial, sans-serif;
-      background-color: #F4F4F4; /* Fond général gris clair */
-      color: #1A1A1A;
-      margin: 0; /* Important pour enlever le scroll */
-      padding: 0;
-      display: flex; /* Ajout pour gestion hauteur */
-      flex-direction: column; /* Ajout pour gestion hauteur */
-      height: 100vh; /* Ajout pour gestion hauteur */
-    }
-
-    /* --- Header --- */
-    .header-custom {
-      padding: 15px 0; /* Réduit */
-      background-color: #FFCC01; /* Fond du header JAUNE */
-      text-align: center;
-      flex-shrink: 0; /* Important pour gestion hauteur */
-    }
-    .header-custom .brand-logo {
-      width: 45px; /* Réduit */
-      height: auto;
-      vertical-align: middle;
-    }
-    .header-custom .brand-name {
-      font-size: 1.6rem; /* Réduit */
-      font-weight: bold;
-      color: #1A1A1A; /* Texte noir */
-      vertical-align: middle;
-      margin-left: 0.5rem;
-    }
-    .header-tagline {
-      font-size: 1rem; /* Réduit */
-      color: #1A1A1A;
-      margin-top: 5px; /* Réduit */
-      margin-bottom: 5px; /* Réduit */
-    }
-    .header-custom .typed-text-container.header-typed-text {
-      min-height: 1.3em; /* Réduit */
-    }
-    .header-custom .typed-text-container.header-typed-text p {
-      font-size: 0.9rem; /* Réduit */
-      color: #333333;
-      margin-bottom: 0;
-    }
-
-
-    /* --- Contenu Principal (main-content) --- */
-    .main-content {
-      flex: 1; /* Prend l'espace restant */
-      display: flex;
-      flex-direction: column;
-      overflow: hidden; /* Empêche le scroll du main-content lui-même */
-      padding: 0;
-    }
-
-    .intro-text-main {
-      padding: 15px 0 10px 0; /* Ajusté */
-      text-align: center;
-      flex-shrink: 0; /* Important pour gestion hauteur */
-    }
-
-    .intro-text-main p {
-      font-size: 1.3rem; /* Réduit */
-      font-weight: 500;
-      color: #1A1A1A;
-      margin-bottom: 10px; /* Ajusté */
-    }
-
-    /* Section du bouton "Rejoindre la Ruche" */
-    .rejoindre-ruche-button-section {
-        text-align: center;
-        margin-bottom: 15px; /* Ajusté */
-        flex-shrink: 0; /* Important pour gestion hauteur */
-    }
-
-    /* Bouton "Rejoindre la Ruche" et autres boutons principaux */
-    .btn-custom-yellow {
-      display: inline-block;
-      background-color: #FFCC01;
-      color: #1A1A1A;
-      padding: 10px 20px; /* Réduit */
-      border-radius: 25px; /* Adouci */
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1rem; /* Réduit */
-      border: 1px solid #E0B800;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .btn-custom-yellow:hover {
-      background-color: #E0B800;
-      color: #1A1A1A;
-      transform: translateY(-1px);
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-    }
-    .btn-custom-yellow .bee-pulse {
-      width: 22px; /* Réduit */
-      margin-left: 8px; /* Réduit */
-      vertical-align: middle;
-    }
-
-
-    /* --- Section des Cartes Véhicules --- */
-    .vehicle-cards-section {
-      flex: 1; /* Prend l'espace restant dans main-content */
-      display: flex;
-      align-items: center; /* Centre verticalement le container des cartes si moins d'espace */
-      justify-content: center; /* Centre horizontalement */
-      padding: 10px 20px; /* Padding minimal */
-      overflow-y: auto; /* Scroll UNIQUEMENT ici si nécessaire */
-    }
-
-    .vehicle-cards-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px; /* Espace entre les cartes */
-      width: 100%;
-      max-width: 1200px; /* Largeur max du conteneur de cartes */
-      margin: 0 auto; /* Centrage */
-    }
-
-    .vehicle-card {
-      background-color: #FFFFFF;
-      border-radius: 12px; /* Coins adoucis */
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Ombre subtile */
-      display: flex;
-      flex-direction: column;
-      aspect-ratio: 4/3.2; /* Ratio pour contrôler la hauteur relative à la largeur */
-      min-height: 280px; /* Hauteur minimale pour petits écrans ou cas limites */
-    }
-
-    .vehicle-card-image-wrapper {
-      flex: 1; /* L'image prend l'espace disponible en hauteur */
-      background-color: #f0f0f0; /* Fond si image transparente */
-      overflow: hidden;
-      position: relative;
-    }
-
-    .vehicle-card-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* Assure que l'image couvre bien sans déformer */
-    }
-
-    .vehicle-card-footer {
-      padding: 12px 15px;
-      background-color: #ffffff;
-      border-top: 1px solid #eeeeee;
-      display: flex;
-      flex-direction: column; /* Nom de catégorie au-dessus du bouton */
-      align-items: flex-start; /* Aligne le contenu à gauche */
-      gap: 8px; /* Espace entre catégorie et bouton */
-      flex-shrink: 0; /* Empêche le footer de rétrécir */
-    }
-
-    .vehicle-card-category {
-      font-size: 1.1rem; /* Taille ajustée */
-      font-weight: 600;
-      color: #1A1A1A;
-      margin: 0;
-    }
-    .vehicle-card-category .bee-icon {
-      font-size: 0.9em;
-      margin-left: 4px;
-      color: #FFCC01;
-    }
-
-    .vehicle-card-button {
-      background-color: #FFCC01;
-      color: #1A1A1A;
-      padding: 7px 14px; /* Padding ajusté */
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 0.85rem; /* Taille ajustée */
-      text-decoration: none;
-      transition: background-color 0.2s ease;
-      border: none;
-    }
-
-    .vehicle-card-button:hover {
-      background-color: #e0b800; /* Jaune plus foncé au survol */
-    }
-
-
-    /* Ajustements responsives */
-    @media (max-width: 1200px) {
-      .vehicle-cards-container {
-        max-width: 960px;
-        gap: 15px;
-      }
-      .vehicle-card {
-        aspect-ratio: 4/3.5; /* Un peu plus hautes sur écrans moyens */
-      }
-    }
-
-    @media (max-width: 991.98px) { /* Tablettes */
-      .vehicle-cards-container {
-        grid-template-columns: repeat(2, 1fr);
-      }
-       .intro-text-main p { font-size: 1.2rem; }
-       .btn-custom-yellow { font-size: 0.95rem; padding: 9px 18px;}
-    }
-
-    @media (max-width: 767.98px) { /* Mobiles larges */
-      .header-custom .brand-name { font-size: 1.4rem; }
-      .header-tagline { font-size: 0.9rem; }
-      .header-custom .typed-text-container.header-typed-text p { font-size: 0.8rem; }
-
-      .vehicle-cards-section { padding: 10px 15px; }
-      .vehicle-cards-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-      .vehicle-card {
-        aspect-ratio: 16/10; /* Adapté pour une seule colonne */
-        min-height: 260px;
-      }
-      .vehicle-card-category { font-size: 1rem; }
-      .vehicle-card-button { font-size: 0.8rem; padding: 6px 12px; }
-    }
-     @media (max-width: 480px) { /* Petits Mobiles */
-        .intro-text-main p { font-size: 1.1rem; }
-        .btn-custom-yellow { font-size: 0.9rem; padding: 8px 15px;}
-        .btn-custom-yellow .bee-pulse { width: 20px; margin-left: 6px; }
-     }
-  </style>
 </head>
 <body class="home-page">
 
@@ -263,7 +33,7 @@
   </header>
 
   <main class="main-content">
-    <div class="container">
+    <div>
       <div class="row justify-content-center">
         <div class="col-12 text-center intro-text-main">
           <p>Rejoignez la Ruche : Des milliers de voitures prêtes à décoller !</p>
@@ -285,8 +55,6 @@
       <div class="vehicle-cards-section">
         <div class="vehicle-cards-container">
           <%
-            # Logique de sélection des véhicules pour les cards
-            # ... (votre logique Ruby existante reste ici)
             target_categories_ordered = ["Confort", "Monospace", "Eco"]
             vehicles_for_carousel_map = {}
             processed_vehicle_ids = []
@@ -350,12 +118,5 @@
 
     </div>
   </main>
-
-  <!-- Scripts JS ... -->
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Scripts Stimulus pour typed-text et bee-animation s'initialiseront
-  });
-  </script>
 </body>
 </html>
