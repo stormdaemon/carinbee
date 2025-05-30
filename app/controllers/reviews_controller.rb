@@ -50,13 +50,13 @@ class ReviewsController < ApplicationController
 
   def ensure_rental_completed
     unless @rental.status == 'completed' && @rental.user == current_user
-      redirect_to @rental, alert: 'You can only review completed rentals.'
+      redirect_to @rental, alert: 'Vous ne pouvez que reviewer les locations terminées.'
     end
   end
 
   def ensure_review_owner
     unless @review.rental.user == current_user
-      redirect_to @review.rental, alert: 'You can only manage your own reviews.'
+      redirect_to @review.rental, alert: 'Vous ne pouvez que gérer vos propres reviews.'
     end
   end
 

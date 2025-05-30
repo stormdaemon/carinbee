@@ -70,7 +70,7 @@ class VehiclesController < ApplicationController
   end
 
   def ensure_owner
-    redirect_to vehicles_path, alert: 'You can only manage your own vehicles.' unless @vehicle.user == current_user
+    redirect_to vehicles_path, alert: 'Vous ne pouvez que gérer vos propres véhicules.' unless @vehicle.user == current_user
   end
 
   def vehicle_params
