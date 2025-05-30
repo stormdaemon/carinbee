@@ -140,7 +140,7 @@ body.home-page {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px; /* Espace entre les cartes */
   width: 100%;
-  max-width: 1200px; /* Largeur max du conteneur de cartes */
+  max-width: 1250px; /* Largeur max du conteneur de cartes */
   margin: 0 auto; /* Centrage */
 }
 
@@ -223,28 +223,28 @@ body.home-page {
   .vehicle-cards-container {
     grid-template-columns: repeat(2, 1fr);
   }
-  .intro-text-main p { 
-    font-size: 1.2rem; 
+  .intro-text-main p {
+    font-size: 1.2rem;
   }
-  .btn-custom-yellow { 
-    font-size: 0.95rem; 
+  .btn-custom-yellow {
+    font-size: 0.95rem;
     padding: 9px 18px;
   }
 }
 
 @media (max-width: 767.98px) { /* Mobiles larges */
-  .header-custom .brand-name { 
-    font-size: 1.4rem; 
+  .header-custom .brand-name {
+    font-size: 1.4rem;
   }
-  .header-tagline { 
-    font-size: 0.9rem; 
+  .header-tagline {
+    font-size: 0.9rem;
   }
-  .header-custom .typed-text-container.header-typed-text p { 
-    font-size: 0.8rem; 
+  .header-custom .typed-text-container.header-typed-text p {
+    font-size: 0.8rem;
   }
 
-  .vehicle-cards-section { 
-    padding: 10px 0px; 
+  .vehicle-cards-section {
+    padding: 10px 0px;
     width: 100%;
     max-width: 100%;
   }
@@ -259,26 +259,26 @@ body.home-page {
     min-height: 240px;
     width: 100%;
   }
-  .vehicle-card-category { 
-    font-size: 1rem; 
+  .vehicle-card-category {
+    font-size: 1rem;
   }
-  .vehicle-card-button { 
-    font-size: 0.8rem; 
-    padding: 6px 12px; 
+  .vehicle-card-button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
   }
 }
- 
+
 @media (max-width: 480px) { /* Petits Mobiles */
-  .intro-text-main p { 
-    font-size: 1.1rem; 
+  .intro-text-main p {
+    font-size: 1.1rem;
   }
-  .btn-custom-yellow { 
-    font-size: 0.9rem; 
+  .btn-custom-yellow {
+    font-size: 0.9rem;
     padding: 8px 15px;
   }
-  .btn-custom-yellow .bee-pulse { 
-    width: 20px; 
-    margin-left: 6px; 
+  .btn-custom-yellow .bee-pulse {
+    width: 20px;
+    margin-left: 6px;
   }
   .vehicle-cards-container {
     width: 100%;
