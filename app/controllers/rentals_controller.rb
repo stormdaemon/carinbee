@@ -46,7 +46,7 @@ class RentalsController < ApplicationController
       if params[:rental][:status] == 'annulée'
         redirect_to vehicles_path, notice: 'Votre demande de location a été annulée.'
       else
-        redirect_to @rental, notice: 'Rental was successfully updated.'
+        redirect_to @rental, notice: 'Votre demande de location a été mise à jour.'
       end
     else
       render :edit, status: :unprocessable_entity
@@ -90,13 +90,13 @@ class RentalsController < ApplicationController
 
   def ensure_owner_or_renter
     unless @rental.user == current_user || @rental.vehicle.user == current_user
-      redirect_to rentals_path, alert: 'You can only access your own rentals.'
+      redirect_to rentals_path, alert: 'Vous ne pouvez accéder qu'à vos propres locations.'
     end
   end
 
   def ensure_vehicle_owner
     unless @rental.vehicle.user == current_user
-      redirect_to rentals_path, alert: 'You can only manage rentals for your own vehicles.'
+      redirect_to rentals_path, alert: 'Vous ne pouvez gérer que vos propres locations.'
     end
   end
 

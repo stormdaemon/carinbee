@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def ensure_current_user
     unless @user == current_user
-      redirect_to root_path, alert: 'You can only edit your own profile.'
+      redirect_to root_path, alert: 'Vous ne pouvez que modifier votre propre profile.'
     end
   end
 
