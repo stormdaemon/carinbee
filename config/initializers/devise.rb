@@ -190,6 +190,11 @@ Devise.setup do |config|
   # time the user will be asked for credentials again. Default is 30 minutes.
   # config.timeout_in = 30.minutes
 
+  # Add custom parameters for sign up
+  config.omniauth_configs[:user].tap do |config|
+    config[:extra_params] = [:first_name, :last_name, :age, :address, :avatar_url]
+  end if config.omniauth_configs.key?(:user)
+
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
   # :failed_attempts = Locks an account after a number of failed attempts to sign in.
