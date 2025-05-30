@@ -56,6 +56,8 @@
   font-style: italic;
 }
 
+
+
 /* VEHICLES CARD */
 .vehicle-card {
   transition: all 0.3s ease;
@@ -64,6 +66,9 @@
   overflow: hidden;
   background: var(--pure-white);
   box-shadow: 0 4px 20px var(--shadow-light);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .vehicle-card:hover {
@@ -72,10 +77,9 @@
 }
 
 .vehicle-image {
-  height: auto;
+  height: 120px;
   width: 100%;
-  max-height: fit-content;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s ease;
 }
 
@@ -88,27 +92,34 @@
   background: linear-gradient(135deg, var(--primary-white) 0%, var(--light-gray) 100%);
 }
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+}
+
+.vehicle-details {
+  padding: 0.5rem 0;
+}
+
 .vehicle-details p {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
   color: var(--medium-gray);
+  display: flex;
+  align-items: center;
 }
 
 .vehicle-details i {
-  width: 16px;
+  width: 20px;
   color: var(--primary-yellow);
   margin-right: 0.5rem;
 }
 
-
-
-
-
-
-
-
 .price {
   font-weight: bold;
+  margin-top: auto;
 }
 
 .price .h5 {
@@ -116,7 +127,9 @@
   font-weight: 700;
 }
 
-
+.mt-auto {
+  margin-top: auto !important;
+}
 
 /* MAIN CONTENT HERE*/
 
@@ -176,7 +189,7 @@
   border-top-color: var(--pure-white);
 }
 
-/* Style pour le geocoder Mapbox - simplifiés */
+/* MAPBOX - GEOCODER */
 .mapboxgl-ctrl-geocoder {
   width: 100% !important;
   max-width: none !important;
@@ -196,7 +209,7 @@
 
 
 
-/* RESPONSIVE DESIGN HERE */
+/* RESPONSIVE DESIGN MAP BOX */
 @media (max-width: 1199.98px) {
   .search-section {
     padding: 2rem 1.5rem;
@@ -233,8 +246,7 @@
 }
 
 @media (max-width: 767.98px) {
-  .vehicle-image,
-  .vehicle-image-placeholder {
+  .vehicle-image {
     height: 180px;
   }
 
@@ -263,9 +275,13 @@
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
   }
+
+  .vehicle-image {
+    height: 160px;
+  }
 }
 
-/* Vehicle animations */
+/* VEHICLE ANIMATIONS */
 .flying-bee-create-vehicle {
   transform: translate(120px, -120px) rotate(360deg) scale(1.3);
   opacity: 0;
