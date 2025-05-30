@@ -9,7 +9,7 @@
       <% if @vehicles.any? %>
         <% @vehicles.each do |vehicle| %>
           <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="card h-100 shadow-sm vehicle-card">
+            <div class="vehicle-card">
               <div class="position-relative">
                 <%= cl_image_tag vehicle.photo.key, height: 120, width: 400, class: "card-img-top vehicle-image" %>
                 <div class="position-absolute top-0 end-0 m-2">
