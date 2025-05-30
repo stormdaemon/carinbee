@@ -4,50 +4,50 @@
     <div class="row justify-content-center">
       <div class="col-lg-10 col-xl-8">
         <h2 class="text-center mb-4">Trouvez votre véhicule idéal</h2>
-        
-        <%= form_with url: vehicles_path, method: :get, local: true, 
+
+        <%= form_with url: vehicles_path, method: :get, local: true,
             class: "search-form",
-            data: { 
+            data: {
               controller: "search",
               turbo_frame: "vehicles_results",
               turbo_action: "advance"
             } do |form| %>
-          
+
           <div class="row g-3">
             <div class="col-md-6 col-lg-3">
               <div class="search-field">
                 <label for="search" class="form-label">
                   <i class="fa-solid fa-magnifying-glass me-2"></i>Recherche
                 </label>
-                <%= form.text_field :search, 
-                    placeholder: "Marque ou modèle...", 
-                    value: params[:search], 
+                <%= form.text_field :search,
+                    placeholder: "Marque ou modèle...",
+                    value: params[:search],
                     class: "form-control search-input",
-                    data: { 
+                    data: {
                       action: "input->search#submit",
                       search_target: "field"
                     } %>
               </div>
             </div>
-            
+
             <div class="col-md-6 col-lg-3">
               <div class="search-field">
                 <label for="city" class="form-label">
                   <i class="fa-solid fa-map-marker-alt me-2"></i>Ville
                 </label>
-                <%= form.text_field :city, 
-                    placeholder: "Paris, Lyon, Marseille...", 
-                    value: params[:city], 
-                    class: "form-control search-input", 
-                    name: "city", 
+                <%= form.text_field :city,
+                    placeholder: "Paris, Lyon, Marseille...",
+                    value: params[:city],
+                    class: "form-control search-input",
+                    name: "city",
                     id: "city-filter",
-                    data: { 
+                    data: {
                       action: "input->search#submit",
                       search_target: "field"
                     } %>
               </div>
             </div>
-            
+
             <div class="col-md-6 col-lg-3">
               <div class="search-field">
                 <label for="category" class="form-label">
@@ -58,27 +58,27 @@
                   ['Monospace', 'Monospace'],
                   ['Confort', 'Confort'],
                   ['Eco', 'Eco']
-                ], params[:category]), {}, { 
+                ], params[:category]), {}, {
                   class: "form-select search-select",
-                  data: { 
+                  data: {
                     action: "change->search#submit",
                     search_target: "field"
                   }
                 } %>
               </div>
             </div>
-            
+
             <div class="col-md-6 col-lg-3">
               <div class="search-field">
                 <label for="max_price" class="form-label">
                   <i class="fa-solid fa-euro-sign me-2"></i>Prix max/jour
                 </label>
-                <%= form.number_field :max_price, 
-                    placeholder: "Prix maximum", 
-                    value: params[:max_price], 
-                    class: "form-control search-input", 
+                <%= form.number_field :max_price,
+                    placeholder: "Prix maximum",
+                    value: params[:max_price],
+                    class: "form-control search-input",
                     min: 0,
-                    data: { 
+                    data: {
                       action: "input->search#submit",
                       search_target: "field"
                     } %>

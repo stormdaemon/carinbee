@@ -47,7 +47,7 @@
 }
 
 .review-vehicle-title {
-  font-family: 'Goblin One', serif;
+  font-family: 'roboto';
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   color: var(--primary-black);
