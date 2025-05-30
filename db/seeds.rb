@@ -91,7 +91,20 @@ vehicles = vehicle_data.each_with_index.map do |(brand, model, category, fuel, k
   vehicle
 end
 
+puts "Adding avatars to databse"
+
+Avatar.create!([
+  { url: "https://res.cloudinary.com/dmxqi2wpl/image/upload/v1748594512/femme_abeille_manga_pbk3kk.png" },
+  { url: "https://res.cloudinary.com/dmxqi2wpl/image/upload/v1748594478/femme_abeille_brune_manga_yyu7n9.png" },
+  { url: "https://res.cloudinary.com/dmxqi2wpl/image/upload/v1748594507/homme_abeille_manga_eyzjp4.png" },
+  { url: "https://res.cloudinary.com/dmxqi2wpl/image/upload/v1748594491/homme_abeille_brun_manga.png_ggvgxo.png" }
+])
+
+puts "Avatar online"
+
+
+
 puts "\n✅ Done seeding!"
 puts "👤 Users: #{User.count}"
 puts "🚗 Vehicles: #{Vehicle.count}"
-puts "📝 Reviews: #{Review.count}"
+puts "📝 Avatars: #{Avatar.count}"
