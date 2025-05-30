@@ -55,22 +55,22 @@ class RentalsController < ApplicationController
 
   def destroy
     @rental.destroy
-    redirect_to vehicles_path, notice: 'Rental was successfully cancelled.'
+    redirect_to vehicles_path, notice: 'Votre location a bien été annulé.'
   end
 
   def confirm
     @rental.update(status: 'confirmée')
-    redirect_to rentals_path, notice: 'Rental was confirmed.'
+    redirect_to rentals_path, notice: 'Votre location a été confirmé.'
   end
 
   def refuse
     @rental.update(status: 'refusée')
-    redirect_to rentals_path, notice: 'Rental was refused.'
+    redirect_to rentals_path, notice: 'Votre location a été refusé.'
   end
 
   def complete
     @rental.update(status: 'terminée')
-    redirect_to rentals_path, notice: 'Rental was marked as completed.'
+    redirect_to rentals_path, notice: 'Votre location est terminé.'
   end
 
   def cancel
@@ -102,7 +102,7 @@ class RentalsController < ApplicationController
 
   def ensure_renter
     unless @rental.user == current_user
-      redirect_to rentals_path, alert: 'You can only cancel your own rental requests.'
+      redirect_to rentals_path, alert: 'Vous pouvez seulement annuler vos propres demandes de location.'
     end
   end
 
