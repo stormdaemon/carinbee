@@ -6,12 +6,13 @@
 .brand-text {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #333;
+  color: #1B1C1C;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  font-family: 'HoneycombHappiness';
 }
 
 .nav-link {
-  color: #333 !important;
+  color: #1B1C1C !important;
   font-weight: 500;
   transition: color 0.3s ease;
   position: relative;
@@ -80,7 +81,7 @@
   .navbar-nav .dropdown {
     position: relative;
   }
-  
+
   .dropdown-menu {
     position: absolute !important;
     right: 0 !important;
@@ -93,11 +94,11 @@
   .navbar-nav {
     text-align: center;
   }
-  
+
   .nav-item {
     margin: 0.25rem 0;
   }
-  
+
   .dropdown-menu {
     position: static !important;
     float: none;
@@ -107,9 +108,9 @@
     border: 0;
     box-shadow: none;
   }
-  
+
   .dropdown-item {
     color: #333;
     text-align: center;
   }
-} 
+}
