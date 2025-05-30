@@ -4,8 +4,7 @@
     <h3 class="fw-bold mb-4 pt-2">Modification de votre profil</h3>
 
     <div class="mb-3">
-      <label class="form-label fw-semibold">Email (ne peut pas être modifié ici) :</label>
-      <p class="form-control-plaintext"><%= @user.email %></p>
+      <label class="form-label fw-semibold">Email : <%= @user.email %> (Non Modifiable)exi</label>
     </div>
 
     <%= form_with(model: @user, url: user_path(@user), method: :patch, local: true) do |form| %>
@@ -45,6 +44,13 @@
         <div class="col-md-6 mb-3">
           <%= form.label :address, "Adresse", class: "form-label fw-semibold" %>
           <%= form.text_field :address, class: "form-control" %>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <% Avatar.all.each do |avatar| %>
+            <%= form.radio_button :avatar_url, avatar.url  %>
+            <img src="<%= avatar.url %>" alt="Option Image" style="width: 50px; height: 50px;">
+          <% end %>
         </div>
       </div>
 

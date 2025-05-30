@@ -50,6 +50,14 @@
                   <%= f.label :email, "Email", class: "form-label" %><br />
                   <%= f.email_field :email, autocomplete: "email", class: "form-control" %>
                 </div>
+
+                  <div class="form-group mb-3">
+                  <% Avatar.all.each do |avatar| %>
+                    <%= f.radio_button :avatar_url, avatar.url  %>
+                    <img src="<%= avatar.url %>" alt="Option Image" style="width: 50px; height: 50px;">
+                  <% end %>
+                </div>
+
               </div>
 
               <div class="col-md-6">

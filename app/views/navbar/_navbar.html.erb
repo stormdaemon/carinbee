@@ -30,17 +30,10 @@
       <!-- Right side navigation -->
       <ul class="navbar-nav">
         <% if user_signed_in? %>
-          <!-- Add vehicle button -->
-          <li class="nav-item me-3">
-            <%= link_to new_vehicle_path, class: "btn btn-success btn-sm" do %>
-              <i class="fas fa-plus me-1"></i>Ajouter un véhicule
-            <% end %>
-          </li>
-
           <!-- User dropdown -->
           <li class="nav-item dropdown position-relative" data-navbar-target="dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-navbar-target="dropdownToggle">
-              <i class="fas fa-user-circle me-2" style="font-size: 1.5rem;"></i>
+              <span><img src="<%= current_user.avatar_url %>" width= "40px" class="mx-2 rounded-circle"/></span>
               <span class="d-none d-md-inline">
                 <% if current_user.first_name.present? %>
                   <%= current_user.first_name.capitalize %>
