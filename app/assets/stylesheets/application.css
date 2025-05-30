@@ -683,7 +683,7 @@ html {
 }
 
 @media (max-width: 767.98px) {
-  .vehicle-image,
+  .image,
   .vehicle-image-placeholder {
     height: 180px;
   }

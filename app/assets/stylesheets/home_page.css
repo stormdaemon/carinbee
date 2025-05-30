@@ -141,7 +141,7 @@ body.home-page {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px; /* Espace entre les cartes */
   width: 100%;
-  max-width: 1200px; /* Largeur max du conteneur de cartes */
+  max-width: 1250px; /* Largeur max du conteneur de cartes */
   margin: 0 auto; /* Centrage */
 }
 
