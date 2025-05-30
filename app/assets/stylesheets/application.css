@@ -55,7 +55,7 @@
 
 body {
   background-color: #fafafa;
-  font-family: 'Young Serif', serif;
+  font-family: 'roboto', sans-serif;
   font-size: 16px;
 
   line-height: 1.6;
@@ -64,7 +64,7 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: 'Goblin One', serif !important;
+  font-family: 'roboto', sans-serif !important;
   color: #1B1C1C;
 }
 
@@ -83,6 +83,9 @@ h1, h2, h3 {
     font-weight: 600;
     font-size: 1.75rem;
   }
+
+
+
 
 
 
@@ -118,10 +121,13 @@ h1, h2, h3 {
 }
 
 /* CONTAINERS */
+
 .container {
   max-width: 1200px;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Prévenir le scroll horizontal dans les containers */
 }
+
+
 
 /* SAFE ANIMATIONS (éviter le scroll horizontal) */
 .safe-animation {
@@ -133,7 +139,7 @@ h1, h2, h3 {
   max-width: 100%;
 }
 
-/* Styles de base pour les formulaires */
+/* FORMULAIRES */
 .form-control, .form-select {
   border-radius: 8px;
   border: 2px solid var(--light-gray);
@@ -146,7 +152,7 @@ h1, h2, h3 {
   box-shadow: 0 0 0 0.2rem rgba(255, 204, 1, 0.25);
 }
 
-/* Media Queries globales */
+/* MEDIAS QUEYRIES DE BASE */
 @media (max-width: 767.98px) {
   body {
     font-size: 14px;
@@ -198,25 +204,26 @@ html {
   background: #e6b800;
 }
 
-/* Container improvements */
-.container {
-  max-width: 1200px;
-  overflow-x: hidden; /* Prévenir le scroll horizontal dans les containers */
-}
 
-/* Card improvements */
+
+/* CARD IMPROVEMENTS */
 .card {
   border: none;
   border-radius: 12px;
   transition: all 0.3s ease;
-  overflow: hidden; /* Prévenir le débordement dans les cartes */
+  overflow: hidden;
+  background-color: var(--pure-white);
+  box-shadow: 0 4px 15px var(--shadow-small);
 }
 
 .card:hover {
   box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
 }
 
-/* Button improvements */
+
+
+/* BUTTON IMPROVEMENTS */
 .btn {
   border-radius: 8px;
   font-weight: 500;
@@ -225,51 +232,52 @@ html {
 }
 
 .btn-warning {
-  background-color: #FFCC01;
-  border-color: #FFCC01;
-  color: #333;
+  background-color: var(--primary-yellow);
+  border-color: var(--primary-yellow);
+  color: var(--primary-black);
 }
 
 .btn-warning:hover {
   background-color: #e6b800;
   border-color: #e6b800;
-  color: #333;
+  color: var(--primary-black);
   transform: translateY(-1px);
 }
 
 .btn-outline-warning {
-  border-color: #FFCC01;
-  color: #FFCC01;
+  border-color: var(--primary-yellow);
+  color: var(--primary-yellow);
 }
 
 .btn-outline-warning:hover {
-  background-color: #FFCC01;
-  border-color: #FFCC01;
-  color: #333;
+  background-color: var(--primary-yellow);
+  border-color: var(--primary-yellow);
+  color: var(--primary-black);
 }
 
 .btn-primary {
-  background-color: #333333;
-  border-color: #333333;
-  color: #FFFFFF;
+  background-color: var(--primary-black);
+  border-color: var(--primary-black);
+  color: var(--pure-white);
 }
 
 .btn-primary:hover {
-  background-color: #222222;
-  border-color: #222222;
-  color: #FFFFFF;
+  background-color: var(--dark-gray);
+  border-color: var(--dark-gray);
+  color: var(--pure-white);
   transform: translateY(-1px);
 }
 
 .btn-outline-primary {
-  border-color: #333333;
-  color: #333333;
+  border-color: var(--primary-black);
+  color: var(--primary-black);
+  background-color: transparent;
 }
 
 .btn-outline-primary:hover {
-  background-color: #333333;
-  border-color: #333333;
-  color: #FFFFFF;
+  background-color: var(--primary-black);
+  border-color: var(--primary-black);
+  color: var(--pure-white);
 }
 
 .btn-success {
@@ -888,7 +896,7 @@ html {
   overflow: hidden;
 }
 
-/* Animation pour le logo abeille sur la carte */
+/* ANMIATOIN LOGO ABEULLE SUR CARD */
 .bee-card {
   transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease-in-out;
   pointer-events: none;
@@ -970,12 +978,7 @@ html {
   letter-spacing: 0.5px;
 }
 
-/* Style pour l'image du véhicule */
-.vehicle-image {
-  border-radius: 10px;
-  object-fit: cover;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+
 
 /* Responsive pour les rentals */
 @media (max-width: 991.98px) {
